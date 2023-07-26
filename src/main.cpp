@@ -1,11 +1,22 @@
 #include <SFML/Graphics.hpp>
+#include <cmath>
+
+#include "Constants.hpp"
+#include "PlayerShip.hpp"
 
 int main() {
 
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "Game");
+    // Initialise
+
+    sf::RenderWindow window(sf::VideoMode(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT)), "Game");
+    sf::Clock clock;
+
+    PlayerShip playerShip;
 
     while (window.isOpen()) {
 
+        // Event handling
+        
         sf::Event event;
         while (window.pollEvent(event)) {
 
@@ -14,9 +25,19 @@ int main() {
 
         }
 
-        window.clear();
-        
+        // Logic
 
+        float deltaTime = clock.restart().asSeconds();
+
+        sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
+        playerShip.update(deltaTime, mousePosition);
+
+        // Render
+
+        window.clear();
+
+        playerShip.draw(window);
 
         window.display();
 
