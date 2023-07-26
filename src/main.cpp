@@ -8,7 +8,7 @@ int main() {
 
     // Initialise
 
-    sf::RenderWindow window(sf::VideoMode(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT)), "Game");
+    sf::RenderWindow window(sf::VideoMode(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT)), WINDOW_TITLE);
     sf::Clock clock;
 
     PlayerShip playerShip;
