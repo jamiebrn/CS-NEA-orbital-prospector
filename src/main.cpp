@@ -5,13 +5,15 @@
 #include "Constants.hpp"
 #include "PlayerShip.hpp"
 #include "TextureManager.hpp"
+#include "Camera.hpp"
+#include "PlanetRenderer.hpp"
 
 int main()
 {
 
     // Initialise
 
-    sf::RenderWindow window(sf::VideoMode(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT)), WINDOW_TITLE, sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT)), WINDOW_TITLE, sf::Style::Titlebar | sf::Style::Close);
 
     sf::Image icon;
     if (!icon.loadFromFile(ICON_PATH))
@@ -28,6 +30,10 @@ int main()
         std::cout << "ERROR: Textures have not been loaded correctly" << std::endl;
         return -1;
     }
+
+    PlanetRenderer mainPlanetRenderer(PlanetType::Earth);
+    mainPlanetRenderer.setPosition(sf::Vector2f(1000, 1000));
+    mainPlanetRenderer.setScale(6);
 
     PlayerShip playerShip;
 
@@ -58,6 +64,10 @@ int main()
         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 
         playerShip.update(deltaTime, mousePosition);
+        
+        Camera::update(playerShip.getPosition(), deltaTime);
+
+        mainPlanetRenderer.update(deltaTime);
 
         window.setTitle(WINDOW_TITLE + std::string(" - ") + std::to_string(static_cast<int>(1 / deltaTime)) + " FPS");
 
@@ -65,7 +75,12 @@ int main()
 
         window.clear();
 
-        TextureManager::drawSubTexture(window, TextureType::EarthBackground, sf::Vector2f(0, 0), 1, sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(1280, 720)));
+        sf::Vector2f drawOffset = Camera::getDrawOffset();
+
+        TextureDrawData backgroundData = {TextureType::EarthBackground, sf::Vector2f(drawOffset.x / 2, drawOffset.y / 2), sf::degrees(0), 1, false};
+        TextureManager::drawSubTexture(window, backgroundData, sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(WORLD_WIDTH, WORLD_HEIGHT)));
+
+        mainPlanetRenderer.draw(window);
 
         playerShip.draw(window);
 

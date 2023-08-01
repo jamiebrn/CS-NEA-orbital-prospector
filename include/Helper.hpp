@@ -4,8 +4,8 @@
 // Contains helper functions that have a wide variety of applications
 //
 
-#ifndef MISC_FUNCTIONS_HPP
-#define MISC_FUNCTIONS_HPP
+#ifndef HELPER_FUNCTIONS_HPP
+#define HELPER_FUNCTIONS_HPP
 
 #include <cmath>
 #include <algorithm>

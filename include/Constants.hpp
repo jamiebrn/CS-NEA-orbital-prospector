@@ -7,6 +7,9 @@
 
 #define ICON_PATH "Icon/icon.png"
 
+#define WORLD_WIDTH 3000.0f
+#define WORLD_HEIGHT 3000.0f
+
 #define PI 3.14159
 
 #endif

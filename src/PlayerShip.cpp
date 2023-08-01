@@ -8,13 +8,20 @@ PlayerShip::PlayerShip()
     velocity = sf::Vector2f(0, 0);
     direction = 0;
 
+    engineAnimationIndex = 0;
+    engineAnimTick = 0;
+    engineActive = false;
+
 }
 
 // Update player ship object position and rotation based on inputs
 void PlayerShip::update(float deltaTime, sf::Vector2i mouse_position)
 {
 
-    sf::Angle destination_direction = sf::radians(std::atan2(mouse_position.y - position.y, mouse_position.x - position.x) + PI / 2);
+    sf::Vector2f drawOffset = Camera::getDrawOffset();
+
+    float toMouseAngle = std::atan2(mouse_position.y - position.y - drawOffset.y, mouse_position.x - position.x - drawOffset.x);
+    sf::Angle destination_direction = sf::radians(toMouseAngle + PI / 2);
     sf::Angle current_direction = Helper::lerpAngle(sf::radians(direction), destination_direction, ROTATION_LERP_WEIGHT * deltaTime);
     direction = current_direction.asRadians();
 
@@ -25,14 +32,28 @@ void PlayerShip::update(float deltaTime, sf::Vector2i mouse_position)
 
         velocity.x = Helper::lerp(velocity.x, directionVector.x * MAX_VELOCITY, ACCELERATION * deltaTime);
         velocity.y = Helper::lerp(velocity.y, directionVector.y * MAX_VELOCITY, ACCELERATION * deltaTime);
+
+        engineActive = true;
     }
     else
     {
         velocity.x = Helper::lerp(velocity.x, 0, DECELERATION * deltaTime);
         velocity.y = Helper::lerp(velocity.y, 0, DECELERATION * deltaTime);
+
+        engineActive = false;
     }
 
     position += velocity * deltaTime;
+
+    if (engineActive)
+    {
+        engineAnimTick += deltaTime;
+        if (engineAnimTick >= ENGINE_ANIM_TICK_MAX)
+        {
+            engineAnimTick = 0;
+            engineAnimationIndex = (engineAnimationIndex + 1) % 10;
+        }
+    }
 
 }
 
@@ -40,7 +61,30 @@ void PlayerShip::update(float deltaTime, sf::Vector2i mouse_position)
 void PlayerShip::draw(sf::RenderWindow& window)
 {
 
-    TextureManager::drawTexture(window, TextureType::PlayerShip, position, sf::radians(direction), 4);
+    sf::Vector2f drawOffset = Camera::getDrawOffset();
+
+    if (engineActive)
+    {
+        TextureDrawData engineDrawData = {
+            TextureType::PlayerShipEngine,
+            position + drawOffset,
+            sf::radians(direction),
+            4
+        };
+
+        sf::IntRect engineSubRect = sf::IntRect(sf::Vector2i(64 * engineAnimationIndex, 0), sf::Vector2i(64, 64));
+
+        TextureManager::drawSubTexture(window, engineDrawData, engineSubRect);
+    }
+
+    TextureDrawData shipDrawData = {
+        TextureType::PlayerShip,
+        position + drawOffset,
+        sf::radians(direction),
+        4
+    };
+
+    TextureManager::drawTexture(window, shipDrawData);
 
 }
 

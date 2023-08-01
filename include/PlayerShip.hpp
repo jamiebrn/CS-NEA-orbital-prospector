@@ -15,6 +15,7 @@
 #include "TextureManager.hpp"
 #include "DrawableObject.hpp"
 #include "Helper.hpp"
+#include "Camera.hpp"
 
 // PlayerShip class declaration
 class PlayerShip : public DrawableObject
@@ -26,7 +27,7 @@ public:
 
     void update(float deltaTime, sf::Vector2i mouse_position);
 
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window) override;
 
     void setPosition(sf::Vector2f new_position);
     sf::Vector2f getPosition();
@@ -35,12 +36,18 @@ public:
 private:
     const float MAX_VELOCITY = 200;
     const float ACCELERATION = 11;
-    const float DECELERATION = 20;
+    const float DECELERATION = 16;
 
     const float ROTATION_LERP_WEIGHT = 5;
 
     sf::Vector2f position, velocity;
     float direction;
+
+    const float ENGINE_ANIM_TICK_MAX = 0.06;
+
+    int engineAnimationIndex;
+    float engineAnimTick;
+    bool engineActive;
 
 };
 
