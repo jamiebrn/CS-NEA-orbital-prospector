@@ -16,7 +16,7 @@ int main()
 
     if (!TextureManager::loadTextures())
     {
-        std::cout << "ERROR: Textures cannot be loaded correctly" << std::endl;
+        std::cout << "ERROR: Textures have not been loaded correctly" << std::endl;
         return -1;
     }
 

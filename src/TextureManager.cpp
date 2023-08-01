@@ -1,5 +1,6 @@
 #include "TextureManager.hpp"
 
+// Loads all textures from paths specified into texture map
 bool TextureManager::loadTextures()
 {
     if (loadedTextures)
@@ -30,6 +31,7 @@ bool TextureManager::loadTextures()
     return true;
 }
 
+// Draw texture with specified data
 void TextureManager::drawTexture(sf::RenderWindow& window, TextureType textureType, sf::Vector2f position, sf::Angle rotation, float scale)
 {
 
@@ -52,6 +54,7 @@ void TextureManager::drawTexture(sf::RenderWindow& window, TextureType textureTy
 
 }
 
+// Draw texture using a subrectangle, useful for spritesheets and tiling textures (subrectangle bigger than texture, texture repeats)
 void TextureManager::drawSubTexture(sf::RenderWindow& window, TextureType textureType, sf::Vector2f position, float scale, sf::IntRect boundRect)
 {
 
