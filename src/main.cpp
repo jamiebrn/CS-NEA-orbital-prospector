@@ -11,7 +11,16 @@ int main()
 
     // Initialise
 
-    sf::RenderWindow window(sf::VideoMode(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT)), WINDOW_TITLE, sf::Style::Titlebar | sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT)), WINDOW_TITLE, sf::Style::Close);
+
+    sf::Image icon;
+    if (!icon.loadFromFile(ICON_PATH))
+    {
+        std::cout << "ERROR: Cannot load window icon" << std::endl;
+        return -1;
+    }
+    window.setIcon(icon.getSize(), icon.getPixelsPtr());
+
     sf::Clock clock;
 
     if (!TextureManager::loadTextures())
@@ -33,6 +42,12 @@ int main()
 
             if (event.type == sf::Event::Closed)
                 window.close();
+            
+            if (event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::Escape)
+                    window.close();
+            }
 
         }
 

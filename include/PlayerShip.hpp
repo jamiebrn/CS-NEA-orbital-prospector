@@ -14,6 +14,7 @@
 #include "Constants.hpp"
 #include "TextureManager.hpp"
 #include "DrawableObject.hpp"
+#include "Helper.hpp"
 
 // PlayerShip class declaration
 class PlayerShip : public DrawableObject
@@ -32,7 +33,11 @@ public:
 
 // Private member variables
 private:
-    const float SPEED = 200;
+    const float MAX_VELOCITY = 200;
+    const float ACCELERATION = 11;
+    const float DECELERATION = 20;
+
+    const float ROTATION_LERP_WEIGHT = 5;
 
     sf::Vector2f position, velocity;
     float direction;

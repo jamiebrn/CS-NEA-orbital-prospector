@@ -1,7 +1,7 @@
 //
-// Misc.hpp
+// Helper.hpp
 // 
-// Contains miscellaneous functions that have a wide variety of applications
+// Contains helper functions that have a wide variety of applications
 //
 
 #ifndef MISC_FUNCTIONS_HPP
@@ -9,21 +9,32 @@
 
 #include <cmath>
 #include <algorithm>
+#include <SFML/Graphics.hpp>
 
-namespace Misc {
+namespace Helper {
 
 // Linearly interpolates value from start to destination, with specified weight 0-1.
-inline float lerp(float start, float dest, float weight) {
+inline float lerp(float start, float dest, float weight)
+{
     return start + weight * (dest - start);
 }
 
 // Similar to lerp, but contains extra steps to work correctly with angles in degrees
-inline float lerpAngle(float start, float dest, float weight) {
+inline sf::Angle lerpAngle(sf::Angle startAngle, sf::Angle destAngle, float weight)
+{
+
+    float start = startAngle.asDegrees();
+    float dest = destAngle.asDegrees();
+
     float dt = std::clamp(dest - start - std::floor((dest - start) / 360) * 360, 0.0f, 360.0f);
     if (dt > 180) {
         dt -= 360;
     }
-    return lerp(start, start + dt, weight);
+
+    float lerpedAngle = lerp(start, start + dt, weight);
+
+    return sf::degrees(lerpedAngle);
+    
 }
 
 }

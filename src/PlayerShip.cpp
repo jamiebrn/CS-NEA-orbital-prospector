@@ -14,16 +14,25 @@ PlayerShip::PlayerShip()
 void PlayerShip::update(float deltaTime, sf::Vector2i mouse_position)
 {
 
-    direction = std::atan2(mouse_position.y - position.y, mouse_position.x - position.x) + PI / 2;
+    sf::Angle destination_direction = sf::radians(std::atan2(mouse_position.y - position.y, mouse_position.x - position.x) + PI / 2);
+    sf::Angle current_direction = Helper::lerpAngle(sf::radians(direction), destination_direction, ROTATION_LERP_WEIGHT * deltaTime);
+    direction = current_direction.asRadians();
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
-        sf::Vector2f toMouseVector = sf::Vector2f(mouse_position.x - position.x, mouse_position.y - position.y);
-        if (toMouseVector.lengthSq() > 1)
-            toMouseVector = toMouseVector.normalized();
+        sf::Vector2f directionVector = sf::Vector2f(0, -1);
+        directionVector = directionVector.rotatedBy(sf::radians(direction));
 
-        position += toMouseVector * SPEED * deltaTime;
+        velocity.x = Helper::lerp(velocity.x, directionVector.x * MAX_VELOCITY, ACCELERATION * deltaTime);
+        velocity.y = Helper::lerp(velocity.y, directionVector.y * MAX_VELOCITY, ACCELERATION * deltaTime);
     }
+    else
+    {
+        velocity.x = Helper::lerp(velocity.x, 0, DECELERATION * deltaTime);
+        velocity.y = Helper::lerp(velocity.y, 0, DECELERATION * deltaTime);
+    }
+
+    position += velocity * deltaTime;
 
 }
 
