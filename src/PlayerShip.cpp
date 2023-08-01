@@ -37,7 +37,7 @@ void PlayerShip::update(float deltaTime, sf::Vector2i mouse_position)
 void PlayerShip::draw(sf::RenderWindow& window)
 {
 
-    window.draw(rect);
+    TextureManager::drawTexture(window, TextureType::PlayerShip, position, sf::radians(direction), 4);
 
 }
 

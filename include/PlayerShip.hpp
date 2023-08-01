@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Constants.hpp"
+#include "TextureManager.hpp"
 
 class PlayerShip
 {
