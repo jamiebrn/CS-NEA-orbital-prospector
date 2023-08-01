@@ -23,7 +23,8 @@ void PlayerShip::update(float deltaTime, sf::Vector2i mouse_position)
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
         sf::Vector2f toMouseVector = sf::Vector2f(mouse_position.x - position.x, mouse_position.y - position.y);
-        toMouseVector = toMouseVector.normalized();
+        if (toMouseVector.lengthSq() != 0)
+            toMouseVector = toMouseVector.normalized();
 
         position += toMouseVector * SPEED * deltaTime;
     }

@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
+#include <iostream>
 
 #include "Constants.hpp"
 #include "PlayerShip.hpp"
