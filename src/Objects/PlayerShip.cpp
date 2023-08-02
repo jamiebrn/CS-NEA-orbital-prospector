@@ -1,4 +1,4 @@
-#include "PlayerShip.hpp"
+#include "Objects/PlayerShip.hpp"
 
 // Initialise player ship object
 PlayerShip::PlayerShip(sf::Vector2f position)

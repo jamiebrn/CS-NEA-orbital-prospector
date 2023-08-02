@@ -1,4 +1,4 @@
-#include "TextureManager.hpp"
+#include "Manager/TextureManager.hpp"
 
 // Loads all textures from paths specified into texture map
 bool TextureManager::loadTextures()

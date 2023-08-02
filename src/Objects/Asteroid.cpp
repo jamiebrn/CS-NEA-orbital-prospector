@@ -1,4 +1,4 @@
-#include "Asteroid.hpp"
+#include "Objects/Asteroid.hpp"
 
 Asteroid::Asteroid(sf::Vector2f position)
 {

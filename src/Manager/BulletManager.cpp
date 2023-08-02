@@ -1,4 +1,4 @@
-#include "BulletManager.hpp"
+#include "Manager/BulletManager.hpp"
 
 std::vector<Bullet> BulletManager::bullets;
 

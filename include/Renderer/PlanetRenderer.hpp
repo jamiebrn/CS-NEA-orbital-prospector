@@ -5,7 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "TextureManager.hpp"
+#include "Manager/TextureManager.hpp"
 #include "Camera.hpp"
 
 enum class PlanetType

@@ -3,9 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "TextureManager.hpp"
+#include "Manager/TextureManager.hpp"
 #include "Camera.hpp"
-#include "DrawableObject.hpp"
+#include "Objects/DrawableObject.hpp"
 
 class Asteroid : public DrawableObject
 {

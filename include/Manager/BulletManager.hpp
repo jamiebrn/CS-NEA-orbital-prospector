@@ -5,7 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Bullet.hpp"
+#include "Objects/Bullet.hpp"
 
 class BulletManager
 {

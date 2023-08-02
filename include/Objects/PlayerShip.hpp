@@ -13,11 +13,11 @@
 #include <SFML/Graphics.hpp>
 
 #include "Constants.hpp"
-#include "TextureManager.hpp"
-#include "DrawableObject.hpp"
+#include "Manager/TextureManager.hpp"
+#include "Objects/DrawableObject.hpp"
 #include "Helper.hpp"
 #include "Camera.hpp"
-#include "BulletManager.hpp"
+#include "Manager/BulletManager.hpp"
 
 // PlayerShip class declaration
 class PlayerShip : public DrawableObject

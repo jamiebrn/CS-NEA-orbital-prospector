@@ -5,7 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Asteroid.hpp"
+#include "Objects/Asteroid.hpp"
 
 class AsteroidManager
 {

@@ -1,4 +1,4 @@
-#include "TextRenderer.hpp"
+#include "Renderer/TextRenderer.hpp"
 
 sf::Font TextRenderer::font;
 sf::Text TextRenderer::text;

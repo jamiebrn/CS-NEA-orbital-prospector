@@ -6,13 +6,13 @@
 #include <iostream>
 
 #include "Constants.hpp"
-#include "PlayerShip.hpp"
-#include "TextureManager.hpp"
+#include "Objects/PlayerShip.hpp"
+#include "Manager/TextureManager.hpp"
 #include "Camera.hpp"
-#include "PlanetRenderer.hpp"
-#include "TextRenderer.hpp"
-#include "BulletManager.hpp"
-#include "AsteroidManager.hpp"
+#include "Renderer/PlanetRenderer.hpp"
+#include "Renderer/TextRenderer.hpp"
+#include "Manager/BulletManager.hpp"
+#include "Manager/AsteroidManager.hpp"
 
 class Game
 {

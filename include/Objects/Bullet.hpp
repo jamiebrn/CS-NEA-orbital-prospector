@@ -4,9 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-#include "TextureManager.hpp"
+#include "Manager/TextureManager.hpp"
 #include "Camera.hpp"
-#include "DrawableObject.hpp"
+#include "Objects/DrawableObject.hpp"
 
 class Bullet : public DrawableObject
 {

@@ -1,4 +1,4 @@
-#include "AsteroidManager.hpp"
+#include "Manager/AsteroidManager.hpp"
 
 std::vector<Asteroid> AsteroidManager::asteroids;
 

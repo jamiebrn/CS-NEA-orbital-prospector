@@ -1,4 +1,4 @@
-#include "Bullet.hpp"
+#include "Objects/Bullet.hpp"
 
 Bullet::Bullet(sf::Vector2f initPosition, sf::Angle initRotation)
 {

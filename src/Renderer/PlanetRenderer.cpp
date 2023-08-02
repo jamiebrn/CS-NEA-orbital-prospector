@@ -1,4 +1,4 @@
-#include "PlanetRenderer.hpp"
+#include "Renderer/PlanetRenderer.hpp"
 
 PlanetRenderer::PlanetRenderer(PlanetType type)
 {
