@@ -6,6 +6,7 @@
 #define WINDOW_TITLE "Orbital Prospector"
 
 #define ICON_PATH "Icon/icon.png"
+#define FONT_PATH "Font/ThaleahFat.ttf"
 
 #define WORLD_WIDTH 3000.0f
 #define WORLD_HEIGHT 3000.0f

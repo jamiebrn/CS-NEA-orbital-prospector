@@ -1,14 +1,16 @@
 #include "Bullet.hpp"
 
-Bullet::Bullet(sf::Vector2f position, sf::Angle rotation)
+Bullet::Bullet(sf::Vector2f initPosition, sf::Angle initRotation)
 {
-    this->position = position;
-    this->rotation = rotation;
+    position = initPosition;
+    rotation = initRotation;
 
     velocity = sf::Vector2f(0, -1).rotatedBy(rotation) * SPEED;
 
     animTick = 0;
-    animIndex = 0;
+    animIndex = rand() % MAX_ANIM_FRAMES;
+
+    timeAlive = 0;
 }
 
 void Bullet::update(float deltaTime)
@@ -21,6 +23,13 @@ void Bullet::update(float deltaTime)
         animTick = 0;
         animIndex = (animIndex + 1) % MAX_ANIM_FRAMES;
     }
+
+    timeAlive += deltaTime;
+}
+
+bool Bullet::isAlive()
+{
+    return (timeAlive < LIFETIME);
 }
 
 void Bullet::draw(sf::RenderWindow& window)

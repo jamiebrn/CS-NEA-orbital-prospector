@@ -62,8 +62,22 @@ void PlayerShip::update(float deltaTime, sf::Vector2i mouse_position)
     if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && shootCooldown >= SHOOT_COOLDOWN)
     {
         shootCooldown = 0;
-        BulletManager::createBullet(position, sf::radians(direction));
+        shootBullets();
     }
+
+}
+
+void PlayerShip::shootBullets()
+{
+
+    for (sf::Vector2f spawnPos : bulletSpawnPos)
+    {
+        sf::Vector2f globalPosition = position;
+        globalPosition += spawnPos.rotatedBy(sf::radians(direction)) * 4.0f;
+
+        BulletManager::createBullet(globalPosition, sf::radians(direction));
+    }
+
 
 }
 

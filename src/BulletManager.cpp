@@ -15,6 +15,18 @@ void BulletManager::updateBullets(float deltaTime)
     {
         bullet.update(deltaTime);
     }
+
+    for (auto bulletIter = bullets.begin(); bulletIter != bullets.end();)
+    {
+        if (!bulletIter->isAlive())
+        {
+            bulletIter = bullets.erase(bulletIter);
+        }
+        else
+        {
+            bulletIter++;
+        }
+    }
 }
 
 void BulletManager::drawBullets(sf::RenderWindow& window)
@@ -23,4 +35,9 @@ void BulletManager::drawBullets(sf::RenderWindow& window)
     {
         bullet.draw(window);
     }
+}
+
+int BulletManager::getBulletCount()
+{
+    return bullets.size();
 }

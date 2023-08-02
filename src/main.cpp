@@ -7,9 +7,12 @@
 #include "TextureManager.hpp"
 #include "Camera.hpp"
 #include "PlanetRenderer.hpp"
+#include "TextRenderer.hpp"
 
 int main()
 {
+
+    srand((unsigned)time(0));
 
     // Initialise
 
@@ -23,13 +26,19 @@ int main()
     }
     window.setIcon(icon.getSize(), icon.getPixelsPtr());
 
-    sf::Clock clock;
-
     if (!TextureManager::loadTextures())
     {
         std::cout << "ERROR: Textures have not been loaded correctly" << std::endl;
         return -1;
     }
+
+    if (!TextRenderer::loadFont(FONT_PATH))
+    {
+        std::cout << "ERROR: Font has not been loaded correctly" << std::endl;
+        return -1;
+    }
+
+    sf::Clock clock;
 
     PlanetRenderer mainPlanetRenderer(PlanetType::Earth);
     mainPlanetRenderer.setPosition(sf::Vector2f(1000, 1000));
@@ -71,22 +80,28 @@ int main()
 
         mainPlanetRenderer.update(deltaTime);
 
-        window.setTitle(WINDOW_TITLE + std::string(" - ") + std::to_string(static_cast<int>(1 / deltaTime)) + " FPS");
-
         // Render
 
         window.clear();
 
         sf::Vector2f drawOffset = Camera::getDrawOffset();
 
-        TextureDrawData backgroundData = {TextureType::EarthBackground, sf::Vector2f(drawOffset.x / 2, drawOffset.y / 2), sf::degrees(0), 1, false};
+        TextureDrawData backgroundData = {TextureType::EarthBackground, sf::Vector2f(drawOffset.x / 2, drawOffset.y / 2), sf::degrees(0), 3, false};
         TextureManager::drawSubTexture(window, backgroundData, sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(WORLD_WIDTH, WORLD_HEIGHT)));
 
         mainPlanetRenderer.draw(window);
 
+        BulletManager::drawBullets(window);
+
         playerShip.draw(window);
 
-        BulletManager::drawBullets(window);
+        // UI
+
+        std::string fpsText = std::to_string(static_cast<int>(1 / deltaTime)) + " FPS";
+        TextRenderer::drawText(window, {fpsText, sf::Vector2f(20, 10), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+
+        std::string bulletText = std::to_string(BulletManager::getBulletCount()) + " Bullets";
+        TextRenderer::drawText(window, {bulletText, sf::Vector2f(20, 70), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
 
         window.display();
 

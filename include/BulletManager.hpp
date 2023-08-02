@@ -20,6 +20,8 @@ public:
 
     static void drawBullets(sf::RenderWindow& window);
 
+    static int getBulletCount();
+
 private:
     static std::vector<Bullet> bullets;
 
