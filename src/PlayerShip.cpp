@@ -8,6 +8,8 @@ PlayerShip::PlayerShip()
     velocity = sf::Vector2f(0, 0);
     direction = 0;
 
+    shootCooldown = 0;
+
     engineAnimationIndex = 0;
     engineAnimTick = 0;
     engineActive = false;
@@ -53,6 +55,14 @@ void PlayerShip::update(float deltaTime, sf::Vector2i mouse_position)
             engineAnimTick = 0;
             engineAnimationIndex = (engineAnimationIndex + 1) % 10;
         }
+    }
+
+    shootCooldown += deltaTime;
+
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && shootCooldown >= SHOOT_COOLDOWN)
+    {
+        shootCooldown = 0;
+        BulletManager::createBullet(position, sf::radians(direction));
     }
 
 }

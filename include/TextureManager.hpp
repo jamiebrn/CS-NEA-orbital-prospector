@@ -16,6 +16,7 @@ enum class TextureType
 {
     PlayerShip,
     PlayerShipEngine,
+    Bullet,
     Earth,
     EarthBackground
 };
@@ -64,6 +65,7 @@ private:
     inline static const std::unordered_map<TextureType, std::string> texturePaths = {
         {TextureType::PlayerShip, "Space Ship Pack/Base/PNGs/Kla'ed - Fighter - Base.png"},
         {TextureType::PlayerShipEngine, "Space Ship Pack/Engine/PNGs/Kla'ed - Fighter - Engine.png"},
+        {TextureType::Bullet, "Space Ship Pack/Projectiles/PNGs/Kla'ed - Bullet.png"},
         {TextureType::Earth, "Planets/Earth.png"},
         {TextureType::EarthBackground, "Backgrounds/Earth Background.png"}
     };

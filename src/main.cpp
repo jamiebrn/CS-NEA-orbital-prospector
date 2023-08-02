@@ -64,6 +64,8 @@ int main()
         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 
         playerShip.update(deltaTime, mousePosition);
+
+        BulletManager::updateBullets(deltaTime);
         
         Camera::update(playerShip.getPosition(), deltaTime);
 
@@ -83,6 +85,8 @@ int main()
         mainPlanetRenderer.draw(window);
 
         playerShip.draw(window);
+
+        BulletManager::drawBullets(window);
 
         window.display();
 

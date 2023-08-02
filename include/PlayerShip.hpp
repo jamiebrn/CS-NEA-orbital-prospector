@@ -16,6 +16,7 @@
 #include "DrawableObject.hpp"
 #include "Helper.hpp"
 #include "Camera.hpp"
+#include "BulletManager.hpp"
 
 // PlayerShip class declaration
 class PlayerShip : public DrawableObject
@@ -38,10 +39,14 @@ private:
     const float ACCELERATION = 11;
     const float DECELERATION = 16;
 
+    const float SHOOT_COOLDOWN = 0.3;
+
     const float ROTATION_LERP_WEIGHT = 5;
 
     sf::Vector2f position, velocity;
     float direction;
+
+    float shootCooldown;
 
     const float ENGINE_ANIM_TICK_MAX = 0.06;
 
