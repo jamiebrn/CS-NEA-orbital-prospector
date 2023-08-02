@@ -17,6 +17,11 @@ enum class TextureType
     PlayerShip,
     PlayerShipEngine,
     Bullet,
+
+    AsteroidCrack,
+    AsteroidExplode,
+    AsteroidFlash,
+
     Earth,
     EarthBackground
 };
@@ -66,6 +71,11 @@ private:
         {TextureType::PlayerShip, "Space Ship Pack/Base/PNGs/Kla'ed - Fighter - Base.png"},
         {TextureType::PlayerShipEngine, "Space Ship Pack/Engine/PNGs/Kla'ed - Fighter - Engine.png"},
         {TextureType::Bullet, "Space Ship Pack/Projectiles/PNGs/Kla'ed - Bullet.png"},
+        
+        {TextureType::AsteroidCrack, "Environment/Asteroids/PNGs/Asteroid 01 - Crack.png"},
+        {TextureType::AsteroidExplode, "Environment/Asteroids/PNGs/Asteroid 01 - Explode.png"},
+        {TextureType::AsteroidFlash, "Environment/Asteroids/PNGs/Asteroid 01 - Flash.png"},
+
         {TextureType::Earth, "Planets/Earth.png"},
         {TextureType::EarthBackground, "Backgrounds/Earth Background.png"}
     };

@@ -1,7 +1,8 @@
 #include "Game.hpp"
 
 Game::Game()
-    : mainPlanetRenderer(PlanetType::Earth)
+    : playerShip(sf::Vector2f(0, 0)),
+    mainPlanetRenderer(PlanetType::Earth)
 {}
 
 bool Game::initialise()
@@ -10,6 +11,8 @@ bool Game::initialise()
     srand((unsigned)time(0));
 
     window.create(sf::VideoMode(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT)), WINDOW_TITLE, sf::Style::Titlebar | sf::Style::Close);
+
+    window.setFramerateLimit(200);
 
     if (!iconImage.loadFromFile(ICON_PATH))
     {
@@ -30,7 +33,7 @@ bool Game::initialise()
         return false;
     }
 
-    mainPlanetRenderer.setPosition(sf::Vector2f(1000, 1000));
+    mainPlanetRenderer.setPosition(sf::Vector2f(1700, 1700));
     mainPlanetRenderer.setScale(6);
 
     return true;
@@ -39,6 +42,13 @@ bool Game::initialise()
 
 void Game::mainLoop()
 {
+
+    Camera::setOffset(sf::Vector2f(900, 900));
+
+    playerShip.setPosition(sf::Vector2f(1500, 1500));
+
+    AsteroidManager::createAsteroid(sf::Vector2f(1800, 1900));
+    AsteroidManager::createAsteroid(sf::Vector2f(1600, 1700));
 
     while (window.isOpen())
     {
@@ -69,10 +79,12 @@ void Game::mainLoop()
         playerShip.update(deltaTime, mousePosition);
 
         BulletManager::updateBullets(deltaTime);
-        
-        Camera::update(playerShip.getPosition(), deltaTime);
+
+        AsteroidManager::updateAsteroids(deltaTime);
 
         mainPlanetRenderer.update(deltaTime);
+
+        Camera::update(playerShip.getPosition(), deltaTime);
 
         // Render
 
@@ -84,6 +96,8 @@ void Game::mainLoop()
         TextureManager::drawSubTexture(window, backgroundData, sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(WORLD_WIDTH, WORLD_HEIGHT)));
 
         mainPlanetRenderer.draw(window);
+
+        AsteroidManager::drawAsteroids(window);
 
         BulletManager::drawBullets(window);
 

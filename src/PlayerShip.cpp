@@ -1,10 +1,10 @@
 #include "PlayerShip.hpp"
 
 // Initialise player ship object
-PlayerShip::PlayerShip()
+PlayerShip::PlayerShip(sf::Vector2f position)
 {
 
-    position = sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+    this->position = position;
     velocity = sf::Vector2f(0, 0);
     direction = 0;
 

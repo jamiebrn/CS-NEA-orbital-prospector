@@ -25,7 +25,7 @@ class PlayerShip : public DrawableObject
 
 // Public functions
 public:
-    PlayerShip();
+    PlayerShip(sf::Vector2f position);
 
     void update(float deltaTime, sf::Vector2i mouse_position);
 

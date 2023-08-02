@@ -6,8 +6,9 @@
 
 #include "TextureManager.hpp"
 #include "Camera.hpp"
+#include "DrawableObject.hpp"
 
-class Bullet
+class Bullet : public DrawableObject
 {
 
 public:
@@ -15,7 +16,7 @@ public:
 
     void update(float deltaTime);
 
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window) override;
 
     bool isAlive();
 

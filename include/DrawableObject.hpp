@@ -5,7 +5,7 @@
 //
 
 #ifndef DRAWABLE_OBJECT_HPP
-#define DRAW_OBJECT_HPP
+#define DRAWABLE_OBJECT_HPP
 
 #include <SFML/Graphics.hpp>
 

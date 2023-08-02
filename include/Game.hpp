@@ -11,6 +11,8 @@
 #include "Camera.hpp"
 #include "PlanetRenderer.hpp"
 #include "TextRenderer.hpp"
+#include "BulletManager.hpp"
+#include "AsteroidManager.hpp"
 
 class Game
 {
