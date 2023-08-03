@@ -85,4 +85,6 @@ void TextureManager::applyTextureData(TextureDrawData drawData)
     sprite.setPosition(drawData.position);
     sprite.setRotation(drawData.rotation);
 
+    sprite.setColor(drawData.colour);
+
 }

@@ -20,6 +20,8 @@ public:
 
     static void drawAsteroids(sf::RenderWindow& window);
 
+    static std::vector<Asteroid>& getAsteroids();
+
 private:
     static std::vector<Asteroid> asteroids;
 

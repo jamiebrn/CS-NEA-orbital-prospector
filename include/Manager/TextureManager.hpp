@@ -34,6 +34,7 @@ struct TextureDrawData
     sf::Angle rotation;
     float scale;
     bool centered = true;
+    sf::Color colour = sf::Color(255, 255, 255);
 };
 
 // Declaration of TextureManager class

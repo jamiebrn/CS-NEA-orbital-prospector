@@ -25,6 +25,22 @@ void Bullet::update(float deltaTime)
     }
 
     timeAlive += deltaTime;
+
+    checkCollisions();
+
+}
+
+void Bullet::checkCollisions()
+{
+
+    for (Asteroid& asteroid : AsteroidManager::getAsteroids())
+    {
+        if (asteroid.isColliding(position))
+        {
+            timeAlive = LIFETIME;
+        }
+    }
+
 }
 
 bool Bullet::isAlive()

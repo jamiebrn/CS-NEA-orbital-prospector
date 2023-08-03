@@ -47,8 +47,11 @@ void Game::mainLoop()
 
     playerShip.setPosition(sf::Vector2f(1500, 1500));
 
-    AsteroidManager::createAsteroid(sf::Vector2f(1800, 1900));
-    AsteroidManager::createAsteroid(sf::Vector2f(1600, 1700));
+    for (int i = 0; i < 50; i++)
+    {
+        sf::Vector2f position(rand() % 3000, rand() % 3000);
+        AsteroidManager::createAsteroid(position);
+    }
 
     while (window.isOpen())
     {
@@ -105,11 +108,14 @@ void Game::mainLoop()
 
         // UI
 
-        std::string fpsText = std::to_string(static_cast<int>(1 / deltaTime)) + " FPS";
-        TextRenderer::drawText(window, {fpsText, sf::Vector2f(20, 10), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+        std::string text = std::to_string(static_cast<int>(1 / deltaTime)) + " FPS";
+        TextRenderer::drawText(window, {text, sf::Vector2f(20, 10), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
 
-        std::string bulletText = std::to_string(BulletManager::getBulletCount()) + " Bullets";
-        TextRenderer::drawText(window, {bulletText, sf::Vector2f(20, 70), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+        text = std::to_string(BulletManager::getBulletCount()) + " Bullets";
+        TextRenderer::drawText(window, {text, sf::Vector2f(20, 70), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+
+        text = std::to_string(AsteroidManager::getAsteroids().size()) + " Asteroids";
+        TextRenderer::drawText(window, {text, sf::Vector2f(20, 130), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
 
         window.display();
 

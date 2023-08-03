@@ -7,6 +7,8 @@
 #include "Manager/TextureManager.hpp"
 #include "Camera.hpp"
 #include "Objects/DrawableObject.hpp"
+#include "Objects/Asteroid.hpp"
+#include "Manager/AsteroidManager.hpp"
 
 class Bullet : public DrawableObject
 {
@@ -19,6 +21,9 @@ public:
     void draw(sf::RenderWindow& window) override;
 
     bool isAlive();
+
+private:
+    void checkCollisions();
 
 private:
     static constexpr float MAX_ANIM_TICK = 0.04;

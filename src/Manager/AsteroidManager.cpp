@@ -15,6 +15,18 @@ void AsteroidManager::updateAsteroids(float deltaTime)
     {
         asteroid.update(deltaTime);
     }
+
+    for (auto asteroidIter = asteroids.begin(); asteroidIter != asteroids.end();)
+    {
+        if (!asteroidIter->isAlive())
+        {
+            asteroidIter = asteroids.erase(asteroidIter);
+        }
+        else
+        {
+            asteroidIter++;
+        }
+    }
 }
 
 void AsteroidManager::drawAsteroids(sf::RenderWindow& window)
@@ -23,4 +35,9 @@ void AsteroidManager::drawAsteroids(sf::RenderWindow& window)
     {
         asteroid.draw(window);
     }
+}
+
+std::vector<Asteroid>& AsteroidManager::getAsteroids()
+{
+    return asteroids;
 }
