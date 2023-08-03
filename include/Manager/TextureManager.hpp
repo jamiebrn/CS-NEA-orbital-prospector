@@ -23,7 +23,9 @@ enum class TextureType
     AsteroidFlash,
 
     Earth,
-    EarthBackground
+    EarthBackground,
+
+    PickupRock
 };
 
 // Struct containing data required to draw texture
@@ -78,7 +80,9 @@ private:
         {TextureType::AsteroidFlash, "Environment/Asteroids/PNGs/Asteroid 01 - Flash.png"},
 
         {TextureType::Earth, "Planets/Earth.png"},
-        {TextureType::EarthBackground, "Backgrounds/Earth Background.png"}
+        {TextureType::EarthBackground, "Backgrounds/Earth Background.png"},
+
+        {TextureType::PickupRock, "Pickups/Rock.png"}
     };
 
 };

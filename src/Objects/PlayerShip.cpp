@@ -9,6 +9,7 @@ PlayerShip::PlayerShip(sf::Vector2f position)
     direction = 0;
 
     shootCooldown = 0;
+    currentGunIndex = 0;
 
     engineAnimationIndex = 0;
     engineAnimTick = 0;
@@ -19,6 +20,8 @@ PlayerShip::PlayerShip(sf::Vector2f position)
 // Update player ship object position and rotation based on inputs
 void PlayerShip::update(float deltaTime, sf::Vector2i mouse_position)
 {
+
+    // Movement
 
     sf::Vector2f drawOffset = Camera::getDrawOffset();
 
@@ -57,27 +60,33 @@ void PlayerShip::update(float deltaTime, sf::Vector2i mouse_position)
         }
     }
 
+    // Shooting
+
     shootCooldown += deltaTime;
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && shootCooldown >= SHOOT_COOLDOWN)
     {
         shootCooldown = 0;
         shootBullets();
+
+        currentGunIndex = (currentGunIndex + 1) % bulletSpawnPos.size();
     }
+
+    // Item pickups
+
+    ItemPickupManager::testCollectedPickups(position, ITEM_PICKUP_RADIUS);
 
 }
 
 void PlayerShip::shootBullets()
 {
 
-    for (sf::Vector2f spawnPos : bulletSpawnPos)
-    {
-        sf::Vector2f globalPosition = position;
-        globalPosition += spawnPos.rotatedBy(sf::radians(direction)) * 4.0f;
+    sf::Vector2f localSpawnPos = bulletSpawnPos[currentGunIndex];
 
-        BulletManager::createBullet(globalPosition, sf::radians(direction));
-    }
+    sf::Vector2f globalPosition = position;
+    globalPosition += localSpawnPos.rotatedBy(sf::radians(direction)) * 4.0f;
 
+    BulletManager::createBullet(globalPosition, sf::radians(direction));
 
 }
 

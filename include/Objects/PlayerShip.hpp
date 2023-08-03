@@ -18,6 +18,7 @@
 #include "Helper.hpp"
 #include "Camera.hpp"
 #include "Manager/BulletManager.hpp"
+#include "Manager/ItemPickupManager.hpp"
 
 // PlayerShip class declaration
 class PlayerShip : public DrawableObject
@@ -44,7 +45,9 @@ private:
     const float ACCELERATION = 11;
     const float DECELERATION = 16;
 
-    const float SHOOT_COOLDOWN = 0.2;
+    const float SHOOT_COOLDOWN = 0.1;
+
+    const float ITEM_PICKUP_RADIUS = 50;
 
     const std::array<sf::Vector2f, 2> bulletSpawnPos = {
         sf::Vector2f(-10.0f, -6.0f), sf::Vector2f(10.0f, -6.0f)
@@ -58,6 +61,7 @@ private:
     float direction;
 
     float shootCooldown;
+    int currentGunIndex;
 
     int engineAnimationIndex;
     float engineAnimTick;

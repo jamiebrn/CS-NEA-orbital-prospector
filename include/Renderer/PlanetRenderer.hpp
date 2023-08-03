@@ -30,7 +30,7 @@ public:
 private:
     static const int ANIMATION_X_FRAMES = 60;
     static const int ANIMATION_Y_FRAMES = 10;
-    static constexpr float ANIMATION_TICK_MAX = 0.06;
+    static constexpr float ANIMATION_TICK_MAX = 0.09;
 
     PlanetType type;
 

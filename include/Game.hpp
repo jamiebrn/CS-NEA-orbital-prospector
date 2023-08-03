@@ -13,6 +13,7 @@
 #include "Renderer/TextRenderer.hpp"
 #include "Manager/BulletManager.hpp"
 #include "Manager/AsteroidManager.hpp"
+#include "Manager/ItemPickupManager.hpp"
 
 class Game
 {

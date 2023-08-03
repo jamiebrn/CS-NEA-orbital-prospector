@@ -73,6 +73,8 @@ void Game::mainLoop()
 
         }
 
+        
+
         // Logic
 
         float deltaTime = clock.restart().asSeconds();
@@ -89,6 +91,8 @@ void Game::mainLoop()
 
         Camera::update(playerShip.getPosition(), deltaTime);
 
+
+
         // Render
 
         window.clear();
@@ -100,11 +104,15 @@ void Game::mainLoop()
 
         mainPlanetRenderer.draw(window);
 
+        ItemPickupManager::drawPickups(window);
+
         AsteroidManager::drawAsteroids(window);
 
         BulletManager::drawBullets(window);
 
         playerShip.draw(window);
+
+
 
         // UI
 
@@ -116,6 +124,8 @@ void Game::mainLoop()
 
         text = std::to_string(AsteroidManager::getAsteroids().size()) + " Asteroids";
         TextRenderer::drawText(window, {text, sf::Vector2f(20, 130), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+
+
 
         window.display();
 

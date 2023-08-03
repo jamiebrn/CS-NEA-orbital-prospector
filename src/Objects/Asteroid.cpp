@@ -32,10 +32,27 @@ void Asteroid::update(float deltaTime)
         explosionFrame++;
         if (explosionFrame >= EXPLOSION_FRAMES)
         {
+            spawnPickups();
             alive = false;
         }
     }
 
+}
+
+void Asteroid::spawnPickups()
+{
+    int pickupCount = rand() % 3;
+    for (int i = 0; i <= pickupCount; i++)
+    {
+        int radius = 18 * scale;
+        float projection = rand() % radius;
+        sf::Angle rotation = sf::degrees(rand() % 360);
+
+        sf::Vector2f spawnPos = sf::Vector2f(0, -1).rotatedBy(rotation) * projection;
+        spawnPos += position;
+
+        ItemPickupManager::addItem(ItemPickupType::Rock, spawnPos);
+    }
 }
 
 bool Asteroid::isColliding(sf::Vector2f bulletTip)
@@ -46,7 +63,9 @@ bool Asteroid::isColliding(sf::Vector2f bulletTip)
 
     float distanceSq = (position - bulletTip).lengthSq();
 
-    if (distanceSq < 18 * scale * 18 * scale)
+    float radius = 18 * scale;
+
+    if (distanceSq < radius * radius)
     {
         damage(1);
 
