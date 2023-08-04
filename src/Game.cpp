@@ -211,6 +211,19 @@ void Game::inStationLoop()
     std::string text = "Space Station";
     TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 80), sf::Color(255, 255, 255), 80, sf::Color(0, 0, 0), 3, true});
 
+    TextureDrawData drawData = {
+        TextureType::PickupRock,
+        sf::Vector2f(300, 400),
+        sf::degrees(0),
+        5,
+        false
+    };
+
+    TextureManager::drawTexture(window, drawData);
+
+    text = std::to_string(InventoryManager::getItemCount(ItemPickupType::Rock));
+    TextRenderer::drawText(window, {text, sf::Vector2f(370, 410), sf::Color(255, 255, 255), 50, sf::Color(0, 0, 0), 3});
+
     text = "Exit (ESC)";
     TextRenderer::drawText(window, {text, sf::Vector2f(20, 600), sf::Color(255, 255, 255), 50, sf::Color(0, 0, 0), 3});
 

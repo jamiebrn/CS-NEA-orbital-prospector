@@ -74,7 +74,11 @@ void PlayerShip::update(float deltaTime, sf::Vector2i mouse_position)
 
     // Item pickups
 
-    ItemPickupManager::testCollectedPickups(position, ITEM_PICKUP_RADIUS);
+    std::vector<ItemPickupType> pickedUp = ItemPickupManager::testCollectedPickups(position, ITEM_PICKUP_RADIUS);
+    for (ItemPickupType item : pickedUp)
+    {
+        InventoryManager::addItem(item, 1);
+    }
 
 }
 

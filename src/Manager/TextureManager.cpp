@@ -75,6 +75,7 @@ void TextureManager::applyTextureData(TextureDrawData drawData)
 
     sprite.setScale(sf::Vector2f(drawData.scale, drawData.scale));
 
+    sprite.setOrigin(sf::Vector2f(0, 0));
     if (drawData.centered)
     {
         sf::FloatRect sizeRect = sprite.getLocalBounds();

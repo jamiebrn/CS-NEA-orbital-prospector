@@ -19,6 +19,7 @@
 #include "Camera.hpp"
 #include "Manager/BulletManager.hpp"
 #include "Manager/ItemPickupManager.hpp"
+#include "Manager/InventoryManager.hpp"
 
 // PlayerShip class declaration
 class PlayerShip : public DrawableObject

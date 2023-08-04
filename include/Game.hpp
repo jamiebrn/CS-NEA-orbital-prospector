@@ -15,6 +15,7 @@
 #include "Manager/BulletManager.hpp"
 #include "Manager/AsteroidManager.hpp"
 #include "Manager/ItemPickupManager.hpp"
+#include "Manager/InventoryManager.hpp"
 
 enum class GameState
 {
