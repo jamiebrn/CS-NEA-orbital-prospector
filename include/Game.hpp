@@ -16,6 +16,7 @@
 #include "Manager/AsteroidManager.hpp"
 #include "Manager/ItemPickupManager.hpp"
 #include "Manager/InventoryManager.hpp"
+#include "Manager/UIRingManager.hpp"
 
 enum class GameState
 {
@@ -52,6 +53,8 @@ private:
 
     const float STATION_MAX_RANGE = 320;
     bool inStationRange;
+
+    bool showUIRing;
 
 };
 

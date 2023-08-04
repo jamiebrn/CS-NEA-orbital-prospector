@@ -41,6 +41,8 @@ bool Game::initialise()
 
     inStationRange = false;
 
+    showUIRing = true;
+
     return true;
 
 }
@@ -102,6 +104,9 @@ void Game::inSpaceLoop()
                     gameState = GameState::InStation;
             }
 
+            if (event.key.code == sf::Keyboard::H)
+                showUIRing = !showUIRing;
+
         }
 
     }
@@ -138,6 +143,11 @@ void Game::inSpaceLoop()
     }
 
     mainPlanetRenderer.update(deltaTime);
+
+    unprojectMult = Helper::unprojectDepthMultipier(SPACE_STATION_DEPTH_DIVIDE, 1);
+    sf::Vector2f spaceStationPos = spaceStation.getPosition() + drawOffset * unprojectMult;
+
+    UIRingManager::update(spaceStationPos);
 
     Camera::update(playerShip.getPosition(), deltaTime);
 
@@ -180,6 +190,9 @@ void Game::inSpaceLoop()
         text = "Enter Station (E)";
         TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 * 3), sf::Color(255, 255, 255), 50, sf::Color(0, 0, 0), 3, true});
     }
+
+    if (showUIRing)
+        UIRingManager::draw(window);
 
 
     window.display();

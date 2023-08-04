@@ -22,12 +22,14 @@ enum class TextureType
     AsteroidExplode,
     AsteroidFlash,
 
+    SpaceStation,
+
     Earth,
     EarthBackground,
 
-    SpaceStation,
+    PickupRock,
 
-    PickupRock
+    SymbolSpaceStation
 };
 
 // Struct containing data required to draw texture
@@ -81,12 +83,14 @@ private:
         {TextureType::AsteroidExplode, "Environment/Asteroids/PNGs/Asteroid 01 - Explode.png"},
         {TextureType::AsteroidFlash, "Environment/Asteroids/PNGs/Asteroid 01 - Flash.png"},
 
+        {TextureType::SpaceStation, "Space Ship Pack/Base/PNGs/Space Station.png"},
+
         {TextureType::Earth, "Planets/Earth.png"},
         {TextureType::EarthBackground, "Backgrounds/Earth Background.png"},
 
-        {TextureType::SpaceStation, "Space Ship Pack/Base/PNGs/Space Station.png"},
+        {TextureType::PickupRock, "Pickups/Rock.png"},
 
-        {TextureType::PickupRock, "Pickups/Rock.png"}
+        {TextureType::SymbolSpaceStation, "UI/SpaceStationSymbol.png"}
     };
 
 };
