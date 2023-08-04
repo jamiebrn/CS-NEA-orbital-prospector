@@ -50,11 +50,11 @@ void Game::mainLoop()
 
     Camera::setOffset(sf::Vector2f(900, 900));
 
-    playerShip.setPosition(sf::Vector2f(1500, 1500));
+    playerShip.setPosition(sf::Vector2f(5000, 5000));
 
-    for (int i = 0; i < 50; i++)
+    for (int i = 0; i < 1000; i++)
     {
-        sf::Vector2f position(rand() % 3000, rand() % 3000);
+        sf::Vector2f position(rand() % static_cast<int>(WORLD_WIDTH), rand() % static_cast<int>(WORLD_HEIGHT));
         AsteroidManager::createAsteroid(position);
     }
 

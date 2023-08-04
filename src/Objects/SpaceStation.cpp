@@ -51,7 +51,7 @@ void SpaceStation::draw(sf::RenderWindow& window)
 
     TextureDrawData drawData = {
         TextureType::SpaceStation,
-        position + drawOffset / 1.1f,
+        position + drawOffset / SPACE_STATION_DEPTH_DIVIDE,
         rotation,
         6
     };
