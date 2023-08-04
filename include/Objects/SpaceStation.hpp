@@ -16,6 +16,8 @@ public:
     SpaceStation(sf::Vector2f position, sf::Angle rotation);
 
     void setPosition(sf::Vector2f position);
+    sf::Vector2f getPosition();
+
     void setRotation(sf::Angle rotation);
 
     void orbitBody(sf::Vector2f centre, float radius, float speed, float deltaTime);

@@ -34,8 +34,12 @@ bool Game::initialise()
         return false;
     }
 
+    gameState = GameState::InSpace;
+
     mainPlanetRenderer.setPosition(sf::Vector2f(1700, 1700));
     mainPlanetRenderer.setScale(6);
+
+    inStationRange = false;
 
     return true;
 
@@ -57,91 +61,174 @@ void Game::mainLoop()
     while (window.isOpen())
     {
 
-        // Event handling
-        
-        sf::Event event;
-        while (window.pollEvent(event))
+        switch (gameState)
         {
+        
+        case GameState::InSpace:
 
-            if (event.type == sf::Event::Closed)
+            inSpaceLoop();
+            break;
+        
+        case GameState::InStation:
+            inStationLoop();
+            break;
+        
+        }
+
+    }
+
+}
+
+void Game::inSpaceLoop()
+{
+
+    // Event handling
+        
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+
+        if (event.type == sf::Event::Closed)
+            window.close();
+        
+        if (event.type == sf::Event::KeyPressed)
+        {
+            if (event.key.code == sf::Keyboard::Escape)
                 window.close();
-            
-            if (event.type == sf::Event::KeyPressed)
+
+            if (event.key.code == sf::Keyboard::E)
             {
-                if (event.key.code == sf::Keyboard::Escape)
-                    window.close();
+                if (inStationRange)
+                    gameState = GameState::InStation;
             }
 
         }
 
+    }
+
+    
+
+    // Logic
+
+    float deltaTime = clock.restart().asSeconds();
+
+    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
+    sf::Vector2f drawOffset = Camera::getDrawOffset();
+
+    playerShip.update(deltaTime, mousePosition);
+
+    BulletManager::updateBullets(deltaTime);
+
+    AsteroidManager::updateAsteroids(deltaTime);
+
+    float unprojectMult = Helper::unprojectDepthMultipier(PLANET_DEPTH_DIVIDE, SPACE_STATION_DEPTH_DIVIDE);
+    sf::Vector2f planetCentre = mainPlanetRenderer.getPosition();
+    planetCentre += drawOffset * unprojectMult;
+
+    spaceStation.orbitBody(planetCentre, 1400, 1, deltaTime);
+
+    if (distanceSqToStation() <= STATION_MAX_RANGE * STATION_MAX_RANGE)
+    {
+        inStationRange = true;
+    }
+    else
+    {
+        inStationRange = false;
+    }
+
+    mainPlanetRenderer.update(deltaTime);
+
+    Camera::update(playerShip.getPosition(), deltaTime);
+
+
+
+    // Render
+
+    window.clear();
+
+    TextureDrawData backgroundData = {TextureType::EarthBackground, drawOffset / BACKGROUND_DEPTH_DIVIDE, sf::degrees(0), 3, false};
+    TextureManager::drawSubTexture(window, backgroundData, sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(WORLD_WIDTH, WORLD_HEIGHT)));
+
+    mainPlanetRenderer.draw(window);
+
+    spaceStation.draw(window);
+
+    ItemPickupManager::drawPickups(window);
+
+    AsteroidManager::drawAsteroids(window);
+
+    BulletManager::drawBullets(window);
+
+    playerShip.draw(window);
+
+
+
+    // UI
+
+    std::string text = std::to_string(static_cast<int>(1 / deltaTime)) + " FPS";
+    TextRenderer::drawText(window, {text, sf::Vector2f(20, 10), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+
+    text = std::to_string(BulletManager::getBulletCount()) + " Bullets";
+    TextRenderer::drawText(window, {text, sf::Vector2f(20, 70), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+
+    text = std::to_string(AsteroidManager::getAsteroids().size()) + " Asteroids";
+    TextRenderer::drawText(window, {text, sf::Vector2f(20, 130), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+
+    if (inStationRange)
+    {
+        text = "Enter Station (E)";
+        TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 * 3), sf::Color(255, 255, 255), 50, sf::Color(0, 0, 0), 3, true});
+    }
+
+
+    window.display();
+
+}
+
+void Game::inStationLoop()
+{
+
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+
+        if (event.type == sf::Event::Closed)
+            window.close();
         
-
-        // Logic
-
-        float deltaTime = clock.restart().asSeconds();
-
-        sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-
-        sf::Vector2f drawOffset = Camera::getDrawOffset();
-
-        playerShip.update(deltaTime, mousePosition);
-
-        BulletManager::updateBullets(deltaTime);
-
-        AsteroidManager::updateAsteroids(deltaTime);
-
-        float unprojectMult = Helper::unprojectDepthMultipier(PLANET_DEPTH_DIVIDE, SPACE_STATION_DEPTH_DIVIDE);
-        sf::Vector2f planetCentre = mainPlanetRenderer.getPosition();
-        planetCentre += drawOffset * unprojectMult;
-
-        spaceStation.orbitBody(planetCentre, 1400, 1, deltaTime);
-
-        mainPlanetRenderer.update(deltaTime);
-
-        Camera::update(playerShip.getPosition(), deltaTime);
-
-
-
-        // Render
-
-        window.clear();
-
-        TextureDrawData backgroundData = {TextureType::EarthBackground, drawOffset / BACKGROUND_DEPTH_DIVIDE, sf::degrees(0), 3, false};
-        TextureManager::drawSubTexture(window, backgroundData, sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(WORLD_WIDTH, WORLD_HEIGHT)));
-
-        mainPlanetRenderer.draw(window);
-
-        spaceStation.draw(window);
-
-        ItemPickupManager::drawPickups(window);
-
-        AsteroidManager::drawAsteroids(window);
-
-        BulletManager::drawBullets(window);
-
-        playerShip.draw(window);
-
-        sf::CircleShape c(3);
-        c.setPosition(mainPlanetRenderer.getPosition() + drawOffset / 1.2f);
-        window.draw(c);
-
-
-
-        // UI
-
-        std::string text = std::to_string(static_cast<int>(1 / deltaTime)) + " FPS";
-        TextRenderer::drawText(window, {text, sf::Vector2f(20, 10), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
-
-        text = std::to_string(BulletManager::getBulletCount()) + " Bullets";
-        TextRenderer::drawText(window, {text, sf::Vector2f(20, 70), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
-
-        text = std::to_string(AsteroidManager::getAsteroids().size()) + " Asteroids";
-        TextRenderer::drawText(window, {text, sf::Vector2f(20, 130), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
-
-
-
-        window.display();
+        if (event.type == sf::Event::KeyPressed)
+        {
+            if (event.key.code == sf::Keyboard::Escape)
+                gameState = GameState::InSpace;
+        }
 
     }
+
+    float deltaTime = clock.restart().asSeconds();
+
+    window.clear(sf::Color(40, 40, 220));
+
+    std::string text = "Space Station";
+    TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 80), sf::Color(255, 255, 255), 80, sf::Color(0, 0, 0), 3, true});
+
+    text = "Exit (ESC)";
+    TextRenderer::drawText(window, {text, sf::Vector2f(20, 600), sf::Color(255, 255, 255), 50, sf::Color(0, 0, 0), 3});
+
+    window.display();
+
+}
+
+float Game::distanceSqToStation()
+{
+
+    sf::Vector2f drawOffset = Camera::getDrawOffset();
+    float unprojStation = Helper::unprojectDepthMultipier(SPACE_STATION_DEPTH_DIVIDE, 1);
+
+    sf::Vector2f stationPos = spaceStation.getPosition();
+    stationPos += drawOffset * unprojStation;
+
+    float distanceSq = (playerShip.getPosition() - stationPos).lengthSq();
+
+    return distanceSq;
 
 }

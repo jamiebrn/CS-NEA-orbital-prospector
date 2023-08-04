@@ -14,6 +14,8 @@ struct TextDrawData
 
     sf::Color outlineColour = sf::Color(0, 0, 0);
     float outlineThickness = 0;
+
+    bool centered = false;
 };
 
 class TextRenderer {

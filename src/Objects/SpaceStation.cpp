@@ -19,6 +19,11 @@ void SpaceStation::setPosition(sf::Vector2f position)
     this->position = position;
 }
 
+sf::Vector2f SpaceStation::getPosition()
+{
+    return position;
+}
+
 void SpaceStation::setRotation(sf::Angle rotation)
 {
     this->rotation = rotation;

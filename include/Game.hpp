@@ -16,6 +16,12 @@
 #include "Manager/AsteroidManager.hpp"
 #include "Manager/ItemPickupManager.hpp"
 
+enum class GameState
+{
+    InSpace,
+    InStation
+};
+
 class Game
 {
 
@@ -27,13 +33,24 @@ public:
     void mainLoop();
 
 private:
+    void inSpaceLoop();
+    void inStationLoop();
+
+    float distanceSqToStation();
+
+private:
     sf::RenderWindow window;
     sf::Image iconImage;
+
+    GameState gameState;
 
     sf::Clock clock;
     PlanetRenderer mainPlanetRenderer;
     SpaceStation spaceStation;
     PlayerShip playerShip;
+
+    const float STATION_MAX_RANGE = 320;
+    bool inStationRange;
 
 };
 
