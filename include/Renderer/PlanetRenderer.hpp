@@ -7,6 +7,8 @@
 
 #include "Manager/TextureManager.hpp"
 #include "Camera.hpp"
+#include "Constants.hpp"
+#include "Helper.hpp"
 
 enum class PlanetType
 {
@@ -26,6 +28,8 @@ public:
     void setPlanetType(PlanetType newType);
     void setPosition(sf::Vector2f newPosition);
     void setScale(float newScale);
+
+    sf::Vector2f getPosition();
 
 private:
     static const int ANIMATION_X_FRAMES = 60;

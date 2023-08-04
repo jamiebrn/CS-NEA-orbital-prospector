@@ -2,6 +2,7 @@
 
 Game::Game()
     : playerShip(sf::Vector2f(0, 0)),
+    spaceStation(sf::Vector2f(700, 1200), sf::degrees(0)),
     mainPlanetRenderer(PlanetType::Earth)
 {}
 
@@ -81,11 +82,19 @@ void Game::mainLoop()
 
         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 
+        sf::Vector2f drawOffset = Camera::getDrawOffset();
+
         playerShip.update(deltaTime, mousePosition);
 
         BulletManager::updateBullets(deltaTime);
 
         AsteroidManager::updateAsteroids(deltaTime);
+
+        float unprojectMult = Helper::unprojectDepthMultipier(PLANET_DEPTH_DIVIDE, SPACE_STATION_DEPTH_DIVIDE);
+        sf::Vector2f planetCentre = mainPlanetRenderer.getPosition();
+        planetCentre += drawOffset * unprojectMult;
+
+        spaceStation.orbitBody(planetCentre, 1400, 1, deltaTime);
 
         mainPlanetRenderer.update(deltaTime);
 
@@ -97,12 +106,12 @@ void Game::mainLoop()
 
         window.clear();
 
-        sf::Vector2f drawOffset = Camera::getDrawOffset();
-
-        TextureDrawData backgroundData = {TextureType::EarthBackground, sf::Vector2f(drawOffset.x / 2, drawOffset.y / 2), sf::degrees(0), 3, false};
+        TextureDrawData backgroundData = {TextureType::EarthBackground, drawOffset / BACKGROUND_DEPTH_DIVIDE, sf::degrees(0), 3, false};
         TextureManager::drawSubTexture(window, backgroundData, sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(WORLD_WIDTH, WORLD_HEIGHT)));
 
         mainPlanetRenderer.draw(window);
+
+        spaceStation.draw(window);
 
         ItemPickupManager::drawPickups(window);
 
@@ -111,6 +120,10 @@ void Game::mainLoop()
         BulletManager::drawBullets(window);
 
         playerShip.draw(window);
+
+        sf::CircleShape c(3);
+        c.setPosition(mainPlanetRenderer.getPosition() + drawOffset / 1.2f);
+        window.draw(c);
 
 
 

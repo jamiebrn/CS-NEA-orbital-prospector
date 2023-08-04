@@ -6,11 +6,12 @@
 #include <iostream>
 
 #include "Constants.hpp"
-#include "Objects/PlayerShip.hpp"
-#include "Manager/TextureManager.hpp"
 #include "Camera.hpp"
+#include "Objects/PlayerShip.hpp"
+#include "Objects/SpaceStation.hpp"
 #include "Renderer/PlanetRenderer.hpp"
 #include "Renderer/TextRenderer.hpp"
+#include "Manager/TextureManager.hpp"
 #include "Manager/BulletManager.hpp"
 #include "Manager/AsteroidManager.hpp"
 #include "Manager/ItemPickupManager.hpp"
@@ -31,6 +32,7 @@ private:
 
     sf::Clock clock;
     PlanetRenderer mainPlanetRenderer;
+    SpaceStation spaceStation;
     PlayerShip playerShip;
 
 };

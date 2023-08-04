@@ -25,6 +25,8 @@ enum class TextureType
     Earth,
     EarthBackground,
 
+    SpaceStation,
+
     PickupRock
 };
 
@@ -81,6 +83,8 @@ private:
 
         {TextureType::Earth, "Planets/Earth.png"},
         {TextureType::EarthBackground, "Backgrounds/Earth Background.png"},
+
+        {TextureType::SpaceStation, "Space Ship Pack/Base/PNGs/Space Station.png"},
 
         {TextureType::PickupRock, "Pickups/Rock.png"}
     };

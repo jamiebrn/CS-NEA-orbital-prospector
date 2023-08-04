@@ -37,6 +37,15 @@ inline sf::Angle lerpAngle(sf::Angle startAngle, sf::Angle destAngle, float weig
     
 }
 
+inline float unprojectDepthMultipier(float initDepth, float destDepth)
+{
+    float diff = destDepth - initDepth;
+    float mult = destDepth * initDepth;
+    float multiplier = diff / mult;
+
+    return multiplier;
+}
+
 }
 
 #endif

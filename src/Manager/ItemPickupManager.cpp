@@ -16,9 +16,10 @@ std::vector<ItemPickupType> ItemPickupManager::testCollectedPickups(sf::Vector2f
 
     for (auto iter = itemPickups.begin(); iter != itemPickups.end();)
     {
-        float distance = (position - iter->getPosition()).lengthSq();
+        sf::Vector2f itemPosition = iter->getPosition();
+        float distanceSq = (position - itemPosition).lengthSq();
 
-        if (distance <= radius * radius)
+        if (distanceSq <= radius * radius)
         {
             collected.push_back(iter->getType());
 

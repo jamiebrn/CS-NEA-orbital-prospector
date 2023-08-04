@@ -5,17 +5,18 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Objects/DrawableObject.hpp"
 #include "Objects/ItemPickupType.hpp"
 #include "Manager/TextureManager.hpp"
 #include "Camera.hpp"
 
-class ItemPickup
+class ItemPickup : public DrawableObject
 {
 
 public:
     ItemPickup(ItemPickupType type, sf::Vector2f position);
 
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window) override;
 
     sf::Vector2f getPosition();
     ItemPickupType getType();

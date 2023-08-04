@@ -35,7 +35,7 @@ void PlanetRenderer::draw(sf::RenderWindow& window)
 
     TextureDrawData drawData = {
         textureType,
-        position + Camera::getDrawOffset() / 1.2f,
+        position + Camera::getDrawOffset() / PLANET_DEPTH_DIVIDE,
         sf::degrees(0),
         scale
     };
@@ -59,4 +59,9 @@ void PlanetRenderer::setPosition(sf::Vector2f newPosition)
 void PlanetRenderer::setScale(float newScale)
 {
     scale = newScale;
+}
+
+sf::Vector2f PlanetRenderer::getPosition()
+{
+    return position;
 }
