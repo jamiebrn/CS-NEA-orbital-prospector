@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Camera.hpp"
+#include "Helper.hpp"
 #include "Manager/TextureManager.hpp"
 
 class EnemyShip
@@ -19,6 +20,14 @@ public:
     sf::Vector2f getPosition() const;
 
 private:
+    const float SPEED = 100;
+    const float ACCELERATION = 12;
+    const float DECELERATION = 15;
+
+    const float ROTATION_LERP_WEIGHT = 4;
+
+    const float PLAYER_SHOOT_RADIUS = 350;
+
     sf::Vector2f position, velocity;
     sf::Angle rotation;
 

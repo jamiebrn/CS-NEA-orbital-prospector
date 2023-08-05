@@ -16,7 +16,7 @@ private:
 public:
     static void addShip(sf::Vector2f position);
 
-    static void updateShips(float deltaTime);
+    static void updateShips(sf::Vector2f playerPos, float deltaTime);
 
     static void drawShips(sf::RenderWindow& window);
 

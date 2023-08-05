@@ -9,8 +9,13 @@ void EnemyShipManager::addShip(sf::Vector2f position)
     enemyShips.push_back(ship);
 }
 
-void EnemyShipManager::updateShips(float deltaTime)
+void EnemyShipManager::updateShips(sf::Vector2f playerPos, float deltaTime)
 {
+
+    for (EnemyShip& ship : enemyShips)
+    {
+        ship.update(playerPos, deltaTime);
+    }
 
 }
 

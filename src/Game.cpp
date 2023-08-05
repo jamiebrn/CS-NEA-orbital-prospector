@@ -54,7 +54,7 @@ void Game::mainLoop()
 
     playerShip.setPosition(sf::Vector2f(5000, 5000));
 
-    EnemyShipManager::addShip(sf::Vector2f(3000, 3000));
+    EnemyShipManager::addShip(sf::Vector2f(5000, 4500));
 
     for (int i = 0; i < 1000; i++)
     {
@@ -124,6 +124,8 @@ void Game::inSpaceLoop()
     sf::Vector2f drawOffset = Camera::getDrawOffset();
 
     playerShip.update(deltaTime, mousePosition);
+
+    EnemyShipManager::updateShips(playerShip.getPosition(), deltaTime);
 
     BulletManager::updateBullets(deltaTime);
 
