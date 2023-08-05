@@ -30,7 +30,7 @@ class PlayerShip : public DrawableObject
 public:
     PlayerShip(sf::Vector2f position);
 
-    void update(float deltaTime, sf::Vector2i mouse_position);
+    void update(float deltaTime, sf::Vector2f mouse_position);
 
     void draw(sf::RenderWindow& window) override;
 

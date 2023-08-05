@@ -3,7 +3,8 @@
 Game::Game()
     : playerShip(sf::Vector2f(0, 0)),
     spaceStation(sf::Vector2f(700, 1200), sf::degrees(0)),
-    mainPlanetRenderer(PlanetType::Earth)
+    mainPlanetRenderer(PlanetType::Earth),
+    view(sf::Vector2f(1920 / 2, 1080 / 2), sf::Vector2f(1920, 1080))
 {}
 
 bool Game::initialise()
@@ -11,7 +12,7 @@ bool Game::initialise()
 
     srand((unsigned)time(0));
 
-    window.create(sf::VideoMode(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT)), WINDOW_TITLE, sf::Style::Titlebar | sf::Style::Close);
+    window.create(sf::VideoMode(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT)), WINDOW_TITLE, sf::Style::Fullscreen);
 
     window.setFramerateLimit(200);
 
@@ -21,6 +22,8 @@ bool Game::initialise()
         return false;
     }
     window.setIcon(iconImage.getSize(), iconImage.getPixelsPtr());
+
+    window.setView(view);
 
     if (!TextureManager::loadTextures())
     {
@@ -43,7 +46,7 @@ bool Game::initialise()
     gameState = GameState::InSpace;
 
     mainPlanetRenderer.setPosition(sf::Vector2f(1700, 1700));
-    mainPlanetRenderer.setScale(6);
+    mainPlanetRenderer.setScale(7);
 
     inStationRange = false;
 
@@ -127,9 +130,10 @@ void Game::inSpaceLoop()
 
     float deltaTime = clock.restart().asSeconds();
 
-    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-
     sf::Vector2f drawOffset = Camera::getDrawOffset();
+
+    sf::Vector2i screenMousePosition = sf::Mouse::getPosition(window);
+    sf::Vector2f mousePosition = window.mapPixelToCoords(screenMousePosition);
 
     playerShip.update(deltaTime, mousePosition);
 
@@ -236,7 +240,7 @@ void Game::inStationLoop()
     window.clear(sf::Color(40, 40, 220));
 
     std::string text = "Space Station";
-    TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 80), sf::Color(255, 255, 255), 80, sf::Color(0, 0, 0), 3, true});
+    TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 80), sf::Color(255, 255, 255), 100, sf::Color(0, 0, 0), 4, true});
 
     TextureDrawData drawData = {
         TextureType::PickupRock,
@@ -249,10 +253,10 @@ void Game::inStationLoop()
     TextureManager::drawTexture(window, drawData);
 
     text = std::to_string(InventoryManager::getItemCount(ItemPickupType::Rock));
-    TextRenderer::drawText(window, {text, sf::Vector2f(370, 410), sf::Color(255, 255, 255), 50, sf::Color(0, 0, 0), 3});
+    TextRenderer::drawText(window, {text, sf::Vector2f(370, 410), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
 
     text = "Exit (ESC)";
-    TextRenderer::drawText(window, {text, sf::Vector2f(20, 600), sf::Color(255, 255, 255), 50, sf::Color(0, 0, 0), 3});
+    TextRenderer::drawText(window, {text, sf::Vector2f(20, 980), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
 
     window.display();
 

@@ -18,7 +18,7 @@ PlayerShip::PlayerShip(sf::Vector2f position)
 }
 
 // Update player ship object position and rotation based on inputs
-void PlayerShip::update(float deltaTime, sf::Vector2i mouse_position)
+void PlayerShip::update(float deltaTime, sf::Vector2f mouse_position)
 {
 
     // Movement

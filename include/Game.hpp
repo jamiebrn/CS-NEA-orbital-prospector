@@ -45,6 +45,7 @@ private:
 private:
     sf::RenderWindow window;
     sf::Image iconImage;
+    sf::View view;
 
     GameState gameState;
 

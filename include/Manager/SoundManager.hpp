@@ -47,7 +47,7 @@ private:
 
     inline static std::unordered_map<MusicType, std::unique_ptr<sf::Music>> musicMap;
 
-    static constexpr float MUSIC_VOLUME = 15.0f;
+    static constexpr float MUSIC_VOLUME = 10.0f;
 
     inline static const std::unordered_map<MusicType, std::string> musicPaths = {
         {MusicType::Track1, "Music/Arthur Vyncke - A few jumps away.flac"}
