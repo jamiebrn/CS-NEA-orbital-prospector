@@ -9,6 +9,7 @@
 #include "Camera.hpp"
 #include "Manager/TextureManager.hpp"
 #include "Manager/ItemPickupManager.hpp"
+#include "Manager/SoundManager.hpp"
 #include "Objects/ItemPickupType.hpp"
 #include "Objects/DrawableObject.hpp"
 

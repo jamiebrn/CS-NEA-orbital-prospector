@@ -87,6 +87,8 @@ void Asteroid::damage(int amount)
         exploding = true;
         explosionFrame = 0;
         explosionFrameTick = 0;
+
+        SoundManager::playSound(SoundType::AsteroidExplode);
     }
 
 }

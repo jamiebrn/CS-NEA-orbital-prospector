@@ -28,6 +28,12 @@ bool Game::initialise()
         return false;
     }
 
+    if (!SoundManager::loadSounds())
+    {
+        std::cout << "ERROR: Sounds have not been loaded correctly" << std::endl;
+        return false;
+    }
+
     if (!TextRenderer::loadFont(FONT_PATH))
     {
         std::cout << "ERROR: Font has not been loaded correctly" << std::endl;
@@ -61,6 +67,8 @@ void Game::mainLoop()
         sf::Vector2f position(rand() % static_cast<int>(WORLD_WIDTH), rand() % static_cast<int>(WORLD_HEIGHT));
         AsteroidManager::createAsteroid(position);
     }
+
+    SoundManager::playMusic(MusicType::Track1);
 
     while (window.isOpen())
     {

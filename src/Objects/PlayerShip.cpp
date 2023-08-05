@@ -79,6 +79,10 @@ void PlayerShip::update(float deltaTime, sf::Vector2i mouse_position)
     {
         InventoryManager::addItem(item, 1);
     }
+    if (pickedUp.size() > 0)
+    {
+        SoundManager::playSound(SoundType::ItemPickup);
+    }
 
 }
 
@@ -91,6 +95,8 @@ void PlayerShip::shootBullets()
     globalPosition += localSpawnPos.rotatedBy(sf::radians(direction)) * 4.0f;
 
     BulletManager::createBullet(globalPosition, sf::radians(direction));
+
+    SoundManager::playSound(SoundType::Shoot);
 
 }
 
