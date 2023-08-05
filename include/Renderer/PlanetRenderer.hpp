@@ -32,8 +32,8 @@ public:
     sf::Vector2f getPosition();
 
 private:
-    static const int ANIMATION_X_FRAMES = 60;
-    static const int ANIMATION_Y_FRAMES = 10;
+    static constexpr int ANIMATION_X_FRAMES = 60;
+    static constexpr int ANIMATION_Y_FRAMES = 10;
     static constexpr float ANIMATION_TICK_MAX = 0.09;
 
     PlanetType type;

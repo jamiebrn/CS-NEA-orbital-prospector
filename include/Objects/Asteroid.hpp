@@ -36,10 +36,10 @@ private:
 
 private:
     static constexpr float FLASH_TIME = 0.15f;
-    static const int MAX_HEALTH = 50;
+    static constexpr int MAX_HEALTH = 50;
 
-    static const int CRACK_FRAMES = 5;
-    static const int EXPLOSION_FRAMES = 7;
+    static constexpr int CRACK_FRAMES = 5;
+    static constexpr int EXPLOSION_FRAMES = 7;
     static constexpr float EXPLOSION_FRAME_MAX_TICK = 0.07f;
 
     sf::Vector2f position;

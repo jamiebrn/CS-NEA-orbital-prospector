@@ -29,7 +29,7 @@ private:
 
 private:
     static constexpr float MAX_ANIM_TICK = 0.04;
-    static const int MAX_ANIM_FRAMES = 4;
+    static constexpr int MAX_ANIM_FRAMES = 4;
 
     static constexpr float LIFETIME = 6;
 

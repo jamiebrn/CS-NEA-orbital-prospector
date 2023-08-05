@@ -52,7 +52,7 @@ private:
     SpaceStation spaceStation;
     PlayerShip playerShip;
 
-    const float STATION_MAX_RANGE = 320;
+    static constexpr float STATION_MAX_RANGE = 320;
     bool inStationRange;
 
     bool showUIRing;
