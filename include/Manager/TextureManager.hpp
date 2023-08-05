@@ -19,6 +19,7 @@ enum class TextureType
 
     EnemyShip,
     EnemyShipEngine,
+    EnemyShipFlash,
 
     Bullet,
 
@@ -85,6 +86,7 @@ private:
         
         {TextureType::EnemyShip, "Space Ship Pack/Base/PNGs/Kla'ed - Scout - Base.png"},
         {TextureType::EnemyShipEngine, "Space Ship Pack/Engine/PNGs/Kla'ed - Scout - Engine.png"},
+        {TextureType::EnemyShipFlash, "Space Ship Pack/Base/PNGs/Kla'ed - Scout - Flash.png"},
 
         {TextureType::Bullet, "Space Ship Pack/Projectiles/PNGs/Kla'ed - Bullet.png"},
         

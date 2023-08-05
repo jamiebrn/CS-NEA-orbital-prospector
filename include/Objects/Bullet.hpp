@@ -9,6 +9,8 @@
 #include "Objects/DrawableObject.hpp"
 #include "Objects/Asteroid.hpp"
 #include "Manager/AsteroidManager.hpp"
+#include "Manager/EnemyShipManager.hpp"
+#include "Objects/EnemyShip.hpp"
 
 class Bullet : public DrawableObject
 {

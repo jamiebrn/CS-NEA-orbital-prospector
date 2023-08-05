@@ -20,7 +20,7 @@ public:
 
     static void drawShips(sf::RenderWindow& window);
 
-    static const std::vector<EnemyShip>& getShips();
+    static std::vector<EnemyShip>& getShips();
 
 private:
     static std::vector<EnemyShip> enemyShips;

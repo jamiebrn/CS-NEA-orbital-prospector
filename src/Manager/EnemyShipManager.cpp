@@ -17,6 +17,18 @@ void EnemyShipManager::updateShips(sf::Vector2f playerPos, float deltaTime)
         ship.update(playerPos, deltaTime);
     }
 
+    for (int i = 0; i < enemyShips.size();)
+    {
+
+        if (!enemyShips[i].isAlive())
+        {
+            enemyShips.erase(enemyShips.begin() + i);
+            continue;
+        }
+
+        i++;
+    }
+
 }
 
 void EnemyShipManager::drawShips(sf::RenderWindow& window)
@@ -29,7 +41,7 @@ void EnemyShipManager::drawShips(sf::RenderWindow& window)
 
 }
 
-const std::vector<EnemyShip>& EnemyShipManager::getShips()
+std::vector<EnemyShip>& EnemyShipManager::getShips()
 {
     return enemyShips;
 }

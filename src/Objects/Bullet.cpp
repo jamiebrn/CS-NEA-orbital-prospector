@@ -41,6 +41,14 @@ void Bullet::checkCollisions()
         }
     }
 
+    for (EnemyShip& ship : EnemyShipManager::getShips())
+    {
+        if (ship.isBulletColliding(position))
+        {
+            timeAlive = LIFETIME;
+        }
+    }
+
 }
 
 bool Bullet::isAlive()
