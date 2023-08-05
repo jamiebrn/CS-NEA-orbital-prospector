@@ -54,6 +54,8 @@ void Game::mainLoop()
 
     playerShip.setPosition(sf::Vector2f(5000, 5000));
 
+    EnemyShipManager::addShip(sf::Vector2f(3000, 3000));
+
     for (int i = 0; i < 1000; i++)
     {
         sf::Vector2f position(rand() % static_cast<int>(WORLD_WIDTH), rand() % static_cast<int>(WORLD_HEIGHT));
@@ -147,7 +149,7 @@ void Game::inSpaceLoop()
     unprojectMult = Helper::unprojectDepthMultipier(SPACE_STATION_DEPTH_DIVIDE, 1);
     sf::Vector2f spaceStationPos = spaceStation.getPosition() + drawOffset * unprojectMult;
 
-    UIRingManager::update(spaceStationPos);
+    UIRingManager::update(spaceStationPos, EnemyShipManager::getShips());
 
     Camera::update(playerShip.getPosition(), deltaTime);
 
@@ -170,6 +172,8 @@ void Game::inSpaceLoop()
 
     BulletManager::drawBullets(window);
 
+    EnemyShipManager::drawShips(window);
+
     playerShip.draw(window);
 
 
@@ -177,13 +181,13 @@ void Game::inSpaceLoop()
     // UI
 
     std::string text = std::to_string(static_cast<int>(1 / deltaTime)) + " FPS";
-    TextRenderer::drawText(window, {text, sf::Vector2f(20, 10), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+    TextRenderer::drawText(window, {text, sf::Vector2f(20, 5), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
 
     text = std::to_string(BulletManager::getBulletCount()) + " Bullets";
-    TextRenderer::drawText(window, {text, sf::Vector2f(20, 70), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+    TextRenderer::drawText(window, {text, sf::Vector2f(20, 25), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
 
     text = std::to_string(AsteroidManager::getAsteroids().size()) + " Asteroids";
-    TextRenderer::drawText(window, {text, sf::Vector2f(20, 130), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+    TextRenderer::drawText(window, {text, sf::Vector2f(20, 45), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
 
     if (inStationRange)
     {

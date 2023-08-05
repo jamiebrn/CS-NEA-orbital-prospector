@@ -2,16 +2,32 @@
 
 const sf::Vector2f UIRingManager::MID_SCREEN(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 sf::Vector2f UIRingManager::stationVector;
+std::vector<sf::Vector2f> UIRingManager::enemyShipVectors;
 
-void UIRingManager::update(sf::Vector2f stationPos)
+void UIRingManager::update(sf::Vector2f stationPos, const std::vector<EnemyShip>& enemyShips)
 {
 
+    stationVector = calculateVector(stationPos);
+
+    enemyShipVectors.clear();
+    for (const EnemyShip& ship : enemyShips)
+    {
+        sf::Vector2f shipVector = calculateVector(ship.getPosition());
+
+        enemyShipVectors.push_back(shipVector);
+    }
+
+}
+
+sf::Vector2f UIRingManager::calculateVector(sf::Vector2f targetPos)
+{
     sf::Vector2f camPos = -Camera::getDrawOffset();
 
-    stationVector = (stationPos - (camPos + MID_SCREEN));
-    float stationRadius = std::min(RING_RADIUS, stationVector.length());
-    stationVector = stationVector.normalized() * stationRadius;
+    sf::Vector2f vector = (targetPos - (camPos + MID_SCREEN));
+    float radius = std::min(RING_RADIUS, vector.length());
+    vector = vector.normalized() * radius;
 
+    return vector;
 }
 
 void UIRingManager::draw(sf::RenderWindow& window)
@@ -33,6 +49,23 @@ void UIRingManager::draw(sf::RenderWindow& window)
             TextureType::SymbolSpaceStation,
             MID_SCREEN + stationVector,
             sf::degrees(0),
+            2,
+            true,
+            sf::Color(255, 255, 255, 170)
+        };
+
+        TextureManager::drawTexture(window, drawData);
+    }
+
+    for (sf::Vector2f enemyShipVector : enemyShipVectors)
+    {
+        if (enemyShipVector.lengthSq() < (RING_RADIUS * RING_RADIUS) - 10)
+            continue;
+
+        TextureDrawData drawData = {
+            TextureType::SymbolEnemyMarker,
+            MID_SCREEN + enemyShipVector,
+            enemyShipVector.angle() + sf::degrees(90),
             2,
             true,
             sf::Color(255, 255, 255, 170)

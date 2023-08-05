@@ -16,6 +16,10 @@ enum class TextureType
 {
     PlayerShip,
     PlayerShipEngine,
+
+    EnemyShip,
+    EnemyShipEngine,
+
     Bullet,
 
     AsteroidCrack,
@@ -29,7 +33,8 @@ enum class TextureType
 
     PickupRock,
 
-    SymbolSpaceStation
+    SymbolSpaceStation,
+    SymbolEnemyMarker
 };
 
 // Struct containing data required to draw texture
@@ -77,6 +82,10 @@ private:
     inline static const std::unordered_map<TextureType, std::string> texturePaths = {
         {TextureType::PlayerShip, "Space Ship Pack/Base/PNGs/Kla'ed - Fighter - Base.png"},
         {TextureType::PlayerShipEngine, "Space Ship Pack/Engine/PNGs/Kla'ed - Fighter - Engine.png"},
+        
+        {TextureType::EnemyShip, "Space Ship Pack/Base/PNGs/Kla'ed - Scout - Base.png"},
+        {TextureType::EnemyShipEngine, "Space Ship Pack/Engine/PNGs/Kla'ed - Scout - Engine.png"},
+
         {TextureType::Bullet, "Space Ship Pack/Projectiles/PNGs/Kla'ed - Bullet.png"},
         
         {TextureType::AsteroidCrack, "Environment/Asteroids/PNGs/Asteroid 01 - Crack.png"},
@@ -90,7 +99,8 @@ private:
 
         {TextureType::PickupRock, "Pickups/Rock.png"},
 
-        {TextureType::SymbolSpaceStation, "UI/SpaceStationSymbol.png"}
+        {TextureType::SymbolSpaceStation, "UI/SpaceStationSymbol.png"},
+        {TextureType::SymbolEnemyMarker, "UI/EnemyMarkerSymbol.png"}
     };
 
 };

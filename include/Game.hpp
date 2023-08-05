@@ -17,6 +17,7 @@
 #include "Manager/ItemPickupManager.hpp"
 #include "Manager/InventoryManager.hpp"
 #include "Manager/UIRingManager.hpp"
+#include "Manager/EnemyShipManager.hpp"
 
 enum class GameState
 {
