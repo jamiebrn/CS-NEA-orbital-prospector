@@ -12,21 +12,18 @@ void EnemyShipManager::addShip(sf::Vector2f position)
 void EnemyShipManager::updateShips(sf::Vector2f playerPos, float deltaTime)
 {
 
-    for (EnemyShip& ship : enemyShips)
-    {
-        ship.update(playerPos, deltaTime);
-    }
-
-    for (int i = 0; i < enemyShips.size();)
+    for (auto iter = enemyShips.begin(); iter != enemyShips.end();)
     {
 
-        if (!enemyShips[i].isAlive())
+        iter->update(playerPos, deltaTime);
+
+        if (!iter->isAlive())
         {
-            enemyShips.erase(enemyShips.begin() + i);
+            iter = enemyShips.erase(iter);
             continue;
         }
 
-        i++;
+        iter++;
     }
 
 }

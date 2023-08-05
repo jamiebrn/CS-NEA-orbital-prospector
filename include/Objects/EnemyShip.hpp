@@ -29,24 +29,24 @@ private:
     void damage(int amount);
 
 private:
-    const float SCALE = 6;
+    static constexpr float SCALE = 6;
 
-    const float SPEED = 100;
-    const float ACCELERATION = 6;
-    const float DECELERATION = 8;
+    static constexpr float SPEED = 100;
+    static constexpr float ACCELERATION = 6;
+    static constexpr float DECELERATION = 8;
 
-    const int MAX_HEALTH = 20;
+    static constexpr int MAX_HEALTH = 20;
 
-    const float ROTATION_LERP_WEIGHT = 4;
+    static constexpr float ROTATION_LERP_WEIGHT = 4;
 
-    const float PLAYER_SHOOT_RADIUS = 350;
+    static constexpr float PLAYER_SHOOT_RADIUS = 350;
 
-    const float HITBOX_RADIUS = 5 * SCALE;
+    static constexpr float HITBOX_RADIUS = 5 * SCALE;
 
-    const int ENGINE_ANIM_FRAMES = 10;
-    const float ENGINE_ANIM_TICK_MAX = 0.06;
+    static constexpr int ENGINE_ANIM_FRAMES = 10;
+    static constexpr float ENGINE_ANIM_TICK_MAX = 0.06;
 
-    const float MAX_FLASH_TIME = 0.2;
+    static constexpr float MAX_FLASH_TIME = 0.2;
 
     sf::Vector2f position, velocity;
     sf::Angle rotation;
