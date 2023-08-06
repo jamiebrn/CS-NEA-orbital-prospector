@@ -4,7 +4,7 @@ Game::Game()
     : playerShip(sf::Vector2f(0, 0)),
     spaceStation(sf::Vector2f(700, 1200), sf::degrees(0)),
     mainPlanetRenderer(PlanetType::Earth),
-    view(sf::Vector2f(1920 / 2, 1080 / 2), sf::Vector2f(1920, 1080))
+    view(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT))
 {}
 
 bool Game::initialise()
@@ -12,7 +12,8 @@ bool Game::initialise()
 
     srand((unsigned)time(0));
 
-    window.create(sf::VideoMode(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT)), WINDOW_TITLE, sf::Style::Fullscreen);
+    sf::Vector2u monitorRes = sf::VideoMode::getDesktopMode().size;
+    window.create(sf::VideoMode(monitorRes), WINDOW_TITLE, sf::Style::Fullscreen);
 
     window.setFramerateLimit(200);
 
