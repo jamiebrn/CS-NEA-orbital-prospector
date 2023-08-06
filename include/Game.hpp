@@ -22,6 +22,7 @@
 
 enum class GameState
 {
+    MainMenu,
     InSpace,
     InStation
 };
@@ -37,6 +38,7 @@ public:
     void mainLoop();
 
 private:
+    void inMainMenuLoop();
     void inSpaceLoop();
     void inStationLoop();
 

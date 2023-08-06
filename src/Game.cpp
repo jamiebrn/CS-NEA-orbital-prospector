@@ -43,7 +43,7 @@ bool Game::initialise()
         return false;
     }
 
-    gameState = GameState::InSpace;
+    gameState = GameState::MainMenu;
 
     mainPlanetRenderer.setPosition(sf::Vector2f(1700, 1700));
     mainPlanetRenderer.setScale(7);
@@ -59,7 +59,7 @@ bool Game::initialise()
 void Game::mainLoop()
 {
 
-    Camera::setOffset(sf::Vector2f(900, 900));
+    Camera::setOffset(sf::Vector2f(4500, 4000));
 
     playerShip.setPosition(sf::Vector2f(5000, 5000));
 
@@ -79,8 +79,11 @@ void Game::mainLoop()
         switch (gameState)
         {
         
+        case GameState::MainMenu:
+            inMainMenuLoop();
+            break;
+        
         case GameState::InSpace:
-
             inSpaceLoop();
             break;
         
@@ -91,6 +94,47 @@ void Game::mainLoop()
         }
 
     }
+
+}
+
+void Game::inMainMenuLoop()
+{
+
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+
+        if (event.type == sf::Event::Closed)
+            window.close();
+        
+        if (event.type == sf::Event::KeyPressed)
+        {
+            if (event.key.code == sf::Keyboard::Escape)
+                window.close();
+
+            if (event.key.code == sf::Keyboard::Space)
+            {
+                gameState = GameState::InSpace;
+            }
+
+        }
+
+    }
+
+    float deltaTime = clock.restart().asSeconds();
+
+    window.clear(sf::Color(30, 30, 160));
+
+    std::string text = "Orbital Prospector";
+    TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 150), sf::Color(255, 255, 255), 130, sf::Color(0, 0, 0), 4, true});
+
+    text = "Press (SPACE) to begin";
+    TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 800), sf::Color(255, 255, 255), 70, sf::Color(0, 0, 0), 3, true});
+
+    text = "Exit (ESC)";
+    TextRenderer::drawText(window, {text, sf::Vector2f(20, 980), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+
+    window.display();
 
 }
 
