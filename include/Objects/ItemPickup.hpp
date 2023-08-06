@@ -27,7 +27,9 @@ private:
     ItemPickupType type;
 
     inline static const std::unordered_map<ItemPickupType, TextureType> itemTextureMap = {
-        {ItemPickupType::Rock, TextureType::PickupRock}
+        {ItemPickupType::Rock, TextureType::PickupRock},
+        {ItemPickupType::CopperChunk, TextureType::PickupCopperChunk},
+        {ItemPickupType::IronChunk, TextureType::PickupIronChunk}
     };
 
 };

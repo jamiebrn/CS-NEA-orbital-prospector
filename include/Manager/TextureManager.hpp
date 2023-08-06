@@ -32,7 +32,10 @@ enum class TextureType
     Earth,
     EarthBackground,
 
+    SilverCoin,
     PickupRock,
+    PickupCopperChunk,
+    PickupIronChunk,
 
     SymbolSpaceStation,
     SymbolEnemyMarker
@@ -72,38 +75,15 @@ private:
 
 // Private member variables
 private:
-    inline static bool loadedTextures = false;
+    static bool loadedTextures;
 
     // Stores loaded textures
-    inline static std::unordered_map<TextureType, sf::Texture> textureMap;
+    static std::unordered_map<TextureType, sf::Texture> textureMap;
 
-    inline static std::unordered_map<TextureType, sf::Sprite> spriteMap;
+    static std::unordered_map<TextureType, sf::Sprite> spriteMap;
 
     // Stores relative path to each texture, so each texture can be loaded
-    inline static const std::unordered_map<TextureType, std::string> texturePaths = {
-        {TextureType::PlayerShip, "Space Ship Pack/Base/PNGs/Kla'ed - Fighter - Base.png"},
-        {TextureType::PlayerShipEngine, "Space Ship Pack/Engine/PNGs/Kla'ed - Fighter - Engine.png"},
-        
-        {TextureType::EnemyShip, "Space Ship Pack/Base/PNGs/Kla'ed - Scout - Base.png"},
-        {TextureType::EnemyShipEngine, "Space Ship Pack/Engine/PNGs/Kla'ed - Scout - Engine.png"},
-        {TextureType::EnemyShipFlash, "Space Ship Pack/Base/PNGs/Kla'ed - Scout - Flash.png"},
-
-        {TextureType::Bullet, "Space Ship Pack/Projectiles/PNGs/Kla'ed - Bullet.png"},
-        
-        {TextureType::AsteroidCrack, "Environment/Asteroids/PNGs/Asteroid 01 - Crack.png"},
-        {TextureType::AsteroidExplode, "Environment/Asteroids/PNGs/Asteroid 01 - Explode.png"},
-        {TextureType::AsteroidFlash, "Environment/Asteroids/PNGs/Asteroid 01 - Flash.png"},
-
-        {TextureType::SpaceStation, "Space Ship Pack/Base/PNGs/Space Station.png"},
-
-        {TextureType::Earth, "Planets/Earth.png"},
-        {TextureType::EarthBackground, "Backgrounds/Earth Background.png"},
-
-        {TextureType::PickupRock, "Pickups/Rock.png"},
-
-        {TextureType::SymbolSpaceStation, "UI/SpaceStationSymbol.png"},
-        {TextureType::SymbolEnemyMarker, "UI/EnemyMarkerSymbol.png"}
-    };
+    static const std::unordered_map<TextureType, std::string> texturePaths;
 
 };
 

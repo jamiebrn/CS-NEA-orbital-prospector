@@ -3,7 +3,9 @@
 
 enum class ItemPickupType
 {
-    Rock
+    Rock,
+    CopperChunk,
+    IronChunk
 };
 
 #endif

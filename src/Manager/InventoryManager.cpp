@@ -1,6 +1,7 @@
 #include "Manager/InventoryManager.hpp"
 
 std::unordered_map<ItemPickupType, int> InventoryManager::itemsCount;
+int InventoryManager::silverCoins;
 
 void InventoryManager::addItem(ItemPickupType type, int amount)
 {

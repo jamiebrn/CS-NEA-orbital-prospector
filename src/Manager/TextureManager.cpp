@@ -1,5 +1,40 @@
 #include "Manager/TextureManager.hpp"
 
+bool TextureManager::loadedTextures = false;
+
+// Stores loaded textures
+std::unordered_map<TextureType, sf::Texture> TextureManager::textureMap;
+
+std::unordered_map<TextureType, sf::Sprite> TextureManager::spriteMap;
+
+const std::unordered_map<TextureType, std::string> TextureManager::texturePaths = {
+    {TextureType::PlayerShip, "Space Ship Pack/Base/PNGs/Kla'ed - Fighter - Base.png"},
+    {TextureType::PlayerShipEngine, "Space Ship Pack/Engine/PNGs/Kla'ed - Fighter - Engine.png"},
+    
+    {TextureType::EnemyShip, "Space Ship Pack/Base/PNGs/Kla'ed - Scout - Base.png"},
+    {TextureType::EnemyShipEngine, "Space Ship Pack/Engine/PNGs/Kla'ed - Scout - Engine.png"},
+    {TextureType::EnemyShipFlash, "Space Ship Pack/Base/PNGs/Kla'ed - Scout - Flash.png"},
+
+    {TextureType::Bullet, "Space Ship Pack/Projectiles/PNGs/Kla'ed - Bullet.png"},
+    
+    {TextureType::AsteroidCrack, "Environment/Asteroids/PNGs/Asteroid 01 - Crack.png"},
+    {TextureType::AsteroidExplode, "Environment/Asteroids/PNGs/Asteroid 01 - Explode.png"},
+    {TextureType::AsteroidFlash, "Environment/Asteroids/PNGs/Asteroid 01 - Flash.png"},
+
+    {TextureType::SpaceStation, "Space Ship Pack/Base/PNGs/Space Station.png"},
+
+    {TextureType::Earth, "Planets/Earth.png"},
+    {TextureType::EarthBackground, "Backgrounds/Earth Background.png"},
+
+    {TextureType::SilverCoin, "UI/SilverCoin.png"},
+    {TextureType::PickupRock, "Pickups/Rock.png"},
+    {TextureType::PickupCopperChunk, "Pickups/CopperChunk.png"},
+    {TextureType::PickupIronChunk, "Pickups/IronChunk.png"},
+
+    {TextureType::SymbolSpaceStation, "UI/SpaceStationSymbol.png"},
+    {TextureType::SymbolEnemyMarker, "UI/EnemyMarkerSymbol.png"}
+};
+
 // Loads all textures from paths specified into texture map
 bool TextureManager::loadTextures()
 {

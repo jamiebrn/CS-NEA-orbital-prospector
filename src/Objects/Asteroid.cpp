@@ -51,7 +51,22 @@ void Asteroid::spawnPickups()
         sf::Vector2f spawnPos = sf::Vector2f(0, -1).rotatedBy(rotation) * projection;
         spawnPos += position;
 
-        ItemPickupManager::addItem(ItemPickupType::Rock, spawnPos);
+        ItemPickupType pickupType;
+        int typeRand = rand() % 101;
+        if (typeRand < 60)
+        {
+            pickupType = ItemPickupType::Rock;
+        }
+        else if (typeRand < 90)
+        {
+            pickupType = ItemPickupType::CopperChunk;
+        }
+        else
+        {
+            pickupType = ItemPickupType::IronChunk;
+        }
+
+        ItemPickupManager::addItem(pickupType, spawnPos);
     }
 }
 

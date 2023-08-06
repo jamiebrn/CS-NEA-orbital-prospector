@@ -19,6 +19,7 @@
 #include "Manager/UIRingManager.hpp"
 #include "Manager/EnemyShipManager.hpp"
 #include "Manager/SoundManager.hpp"
+#include "UI/UIButton.hpp"
 
 enum class GameState
 {
@@ -43,6 +44,7 @@ private:
     void inStationLoop();
 
     float distanceSqToStation();
+    void sellItem(ItemPickupType type);
 
 private:
     sf::RenderWindow window;
