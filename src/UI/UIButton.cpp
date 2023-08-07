@@ -48,11 +48,12 @@ void UIButton::draw(sf::RenderWindow& window)
 
     TextDrawData drawData = {
         text,
-        position,
+        position + size / 2.0f,
         sf::Color(255, 255, 255),
         32,
         sf::Color(0, 0, 0),
-        3
+        3,
+        true
     };
 
     TextRenderer::drawText(window, drawData);

@@ -1,7 +1,7 @@
 CPP := g++
 CPPFLAGS := -I include/ -L lib/
 LIBFLAGS := -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-SRC_FILES := src/*.cpp src/Objects/*.cpp src/Manager/*.cpp src/Renderer/*.cpp src/UI/*.cpp
+SRC_FILES := $(wildcard src/*.cpp) $(wildcard src/*/*.cpp)
 
 ICON_DATA := dev_resources/icon_data.res
 
