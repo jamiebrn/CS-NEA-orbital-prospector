@@ -44,7 +44,7 @@ bool Game::initialise()
         return false;
     }
 
-    gameState = GameState::MainMenu;
+    changeState(GameState::MainMenu);
 
     InventoryManager::resetSilverCoins();
 
@@ -79,38 +79,32 @@ void Game::mainLoop()
     while (window.isOpen())
     {
 
-        switch (gameState)
-        {
-        
-        case GameState::MainMenu:
-            inMainMenuLoop();
-            break;
-        
-        case GameState::InSpace:
-            inSpaceLoop();
-            break;
-        
-        case GameState::InStation:
-            inStationLoop();
-            break;
-        
-        }
+        loopFunction(this);
 
     }
 
 }
 
-float Game::distanceSqToStation()
+void Game::changeState(GameState newState)
 {
 
-    sf::Vector2f drawOffset = Camera::getDrawOffset();
-    float unprojStation = Helper::unprojectDepthMultipier(SPACE_STATION_DEPTH_DIVIDE, 1);
+    switch (newState)
+    {
+    
+    case GameState::MainMenu:
+        loopFunction = &Game::inMainMenuLoop;
+        break;
 
-    sf::Vector2f stationPos = spaceStation.getPosition();
-    stationPos += drawOffset * unprojStation;
+    case GameState::InSpace:
+        loopFunction = &Game::inSpaceLoop;
+        break;
+    
+    case GameState::InStation:
+        loopFunction = &Game::inStationLoop;
+        break;
+    
+    }
 
-    float distanceSq = (playerShip.getPosition() - stationPos).lengthSq();
-
-    return distanceSq;
+    gameState = newState;
 
 }

@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
+#include <functional>
 
 #include "Constants.hpp"
 #include "Camera.hpp"
@@ -43,6 +44,8 @@ private:
     void inSpaceLoop();
     void inStationLoop();
 
+    void changeState(GameState newState);
+
     float distanceSqToStation();
     void sellItem(ItemPickupType type);
 
@@ -52,7 +55,8 @@ private:
     sf::View view;
 
     GameState gameState;
-
+    std::function<void(Game*)> loopFunction;
+    
     sf::Clock clock;
     PlanetRenderer mainPlanetRenderer;
     SpaceStation spaceStation;

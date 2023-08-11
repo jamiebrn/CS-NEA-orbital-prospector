@@ -1,8 +1,6 @@
 #ifndef ITEM_PICKUP_HPP
 #define ITEM_PICKUP_HPP
 
-#include <unordered_map>
-
 #include <SFML/Graphics.hpp>
 
 #include "Objects/DrawableObject.hpp"
@@ -25,12 +23,6 @@ private:
     sf::Vector2f position;
 
     ItemPickupType type;
-
-    inline static const std::unordered_map<ItemPickupType, TextureType> itemTextureMap = {
-        {ItemPickupType::Rock, TextureType::PickupRock},
-        {ItemPickupType::CopperChunk, TextureType::PickupCopperChunk},
-        {ItemPickupType::IronChunk, TextureType::PickupIronChunk}
-    };
 
 };
 

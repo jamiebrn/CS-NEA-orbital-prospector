@@ -20,7 +20,7 @@ void Game::inSpaceLoop()
             if (event.key.code == sf::Keyboard::E)
             {
                 if (inStationRange)
-                    gameState = GameState::InStation;
+                    changeState(GameState::InStation);
             }
 
             if (event.key.code == sf::Keyboard::H)
@@ -120,5 +120,20 @@ void Game::inSpaceLoop()
 
 
     window.display();
+
+}
+
+float Game::distanceSqToStation()
+{
+
+    sf::Vector2f drawOffset = Camera::getDrawOffset();
+    float unprojStation = Helper::unprojectDepthMultipier(SPACE_STATION_DEPTH_DIVIDE, 1);
+
+    sf::Vector2f stationPos = spaceStation.getPosition();
+    stationPos += drawOffset * unprojStation;
+
+    float distanceSq = (playerShip.getPosition() - stationPos).lengthSq();
+
+    return distanceSq;
 
 }

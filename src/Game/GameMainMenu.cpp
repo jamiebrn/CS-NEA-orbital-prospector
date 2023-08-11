@@ -26,7 +26,7 @@ void Game::inMainMenuLoop()
         if (event.type == sf::Event::MouseButtonPressed)
         {
             if (event.mouseButton.button == sf::Mouse::Left && startButton.isHovering())
-                gameState = GameState::InSpace;
+                changeState(GameState::InSpace);
         }
 
     }
