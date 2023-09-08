@@ -21,6 +21,7 @@
 #include "Manager/EnemyShipManager.hpp"
 #include "Manager/SoundManager.hpp"
 #include "UI/UIButton.hpp"
+#include "UI/UISellItemBar.hpp"
 
 enum class GameState
 {
@@ -55,7 +56,6 @@ private:
     sf::View view;
 
     GameState gameState;
-    std::function<void(Game*)> loopFunction;
     
     sf::Clock clock;
     PlanetRenderer mainPlanetRenderer;

@@ -22,13 +22,18 @@ void TextRenderer::drawText(sf::RenderWindow& window, TextDrawData drawData) {
     text.setOutlineColor(drawData.outlineColour);
     text.setOutlineThickness(drawData.outlineThickness);
 
-    text.setOrigin(sf::Vector2f(0, 0));
+    sf::Vector2f textCentre(0, 0);
 
-    if (drawData.centered)
+    if (drawData.centeredX)
     {
-        sf::Vector2f textCentre = text.getLocalBounds().getSize() / 2.0f;
-        text.setOrigin(textCentre);
+        textCentre.x = text.getLocalBounds().getSize().x / 2.0f;
     }
+    if (drawData.centeredY)
+    {
+        textCentre.y = text.getLocalBounds().getSize().y / 2.0f;
+    }
+
+    text.setOrigin(textCentre);
 
     window.draw(text);
 

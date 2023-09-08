@@ -5,6 +5,8 @@
 
 #include "UI/UIButton.hpp"
 #include "Objects/ItemPickupType.hpp"
+#include "Renderer/TextRenderer.hpp"
+#include "Manager/InventoryManager.hpp"
 
 class UISellItemBar
 {
@@ -13,6 +15,10 @@ public:
     UISellItemBar(ItemPickupType type);
 
     void setPosition(sf::Vector2f position);
+    void update(sf::Vector2i mousePos);
+    bool sellButtonHovering();
+    ItemPickupType getPickupType();
+
     void draw(sf::RenderWindow& window);
 
 private:

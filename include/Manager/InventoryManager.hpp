@@ -17,6 +17,8 @@ public:
 
     static int getItemCount(ItemPickupType type);
 
+    static void sellItems(ItemPickupType type, int count);
+
     inline static void resetSilverCoins() {silverCoins = 0;}
 
     inline static void addSilverCoins(int amount) {silverCoins += amount;}
@@ -28,6 +30,10 @@ private:
 
 private:
     static std::unordered_map<ItemPickupType, int> itemsCount;
+
+    inline static const std::unordered_map<ItemPickupType, int> itemBasePrice = {
+        {ItemPickupType::Rock, 2}
+    };
 
     static int silverCoins;
 

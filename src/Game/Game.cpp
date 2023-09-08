@@ -15,7 +15,7 @@ bool Game::initialise()
     sf::Vector2u monitorRes = sf::VideoMode::getDesktopMode().size;
     window.create(sf::VideoMode(monitorRes), WINDOW_TITLE, sf::Style::Fullscreen);
 
-    window.setFramerateLimit(200);
+    //window.setFramerateLimit(200);
 
     if (!iconImage.loadFromFile(ICON_PATH))
     {
@@ -79,7 +79,22 @@ void Game::mainLoop()
     while (window.isOpen())
     {
 
-        loopFunction(this);
+        switch (gameState)
+        {
+
+            case GameState::MainMenu:
+                inMainMenuLoop();
+                break;
+            
+            case GameState::InSpace:
+                inSpaceLoop();
+                break;
+            
+            case GameState::InStation:
+                inStationLoop();
+                break;
+
+        }
 
     }
 
@@ -87,23 +102,6 @@ void Game::mainLoop()
 
 void Game::changeState(GameState newState)
 {
-
-    switch (newState)
-    {
-    
-    case GameState::MainMenu:
-        loopFunction = &Game::inMainMenuLoop;
-        break;
-
-    case GameState::InSpace:
-        loopFunction = &Game::inSpaceLoop;
-        break;
-    
-    case GameState::InStation:
-        loopFunction = &Game::inStationLoop;
-        break;
-    
-    }
 
     gameState = newState;
 

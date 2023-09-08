@@ -53,6 +53,7 @@ void UIButton::draw(sf::RenderWindow& window)
         32,
         sf::Color(0, 0, 0),
         3,
+        true,
         true
     };
 

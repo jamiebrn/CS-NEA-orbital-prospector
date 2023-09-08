@@ -17,6 +17,15 @@ int InventoryManager::getItemCount(ItemPickupType type)
     return itemsCount[type];
 }
 
+void InventoryManager::sellItems(ItemPickupType type, int count)
+{
+    count = std::min(count, getItemCount(type));
+
+    addSilverCoins(itemBasePrice.at(type) * count);
+
+    addItem(type, -count);
+}
+
 void InventoryManager::initTypeTest(ItemPickupType type)
 {
     if (itemsCount.count(type) == 0)
