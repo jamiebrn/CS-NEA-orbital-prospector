@@ -5,11 +5,13 @@
 #include <cmath>
 #include <iostream>
 #include <functional>
+#include <vector>
 
 #include "Constants.hpp"
 #include "Camera.hpp"
 #include "Objects/PlayerShip.hpp"
 #include "Objects/SpaceStation.hpp"
+#include "Objects/ItemPickupType.hpp"
 #include "Renderer/PlanetRenderer.hpp"
 #include "Renderer/TextRenderer.hpp"
 #include "Manager/TextureManager.hpp"

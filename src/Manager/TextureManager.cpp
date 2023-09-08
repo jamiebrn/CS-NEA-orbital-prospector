@@ -114,7 +114,7 @@ void TextureManager::applyTextureData(TextureDrawData drawData)
     if (drawData.centered)
     {
         sf::FloatRect sizeRect = sprite.getLocalBounds();
-        sf::Vector2f origin = sf::Vector2f(sizeRect.width / 2, sizeRect.height / 2);
+        sf::Vector2f origin = sf::Vector2f(sizeRect.width / 2.0f, sizeRect.height / 2.0f);
         sprite.setOrigin(origin);
     }
 

@@ -34,25 +34,25 @@ ItemPickupType UISellItemBar::getPickupType()
 void UISellItemBar::draw(sf::RenderWindow& window)
 {
 
-    sf::RectangleShape background(sf::Vector2f(600, 150));
+    sf::RectangleShape background(sf::Vector2f(600, 100));
     background.setPosition(position);
     background.setFillColor(sf::Color(20, 20, 20, 100));
     window.draw(background);
 
     TextureDrawData drawData = {
         itemTextureMap.at(itemType),
-        position + sf::Vector2f(100, 123),
+        position + sf::Vector2f(50, 50),
         sf::degrees(0),
-        4
+        5
     };
 
     TextureManager::drawTexture(window, drawData);
 
     TextDrawData quantityLabel = {
         "x" + std::to_string(InventoryManager::getItemCount(itemType)),
-        position + sf::Vector2f(180, 123),
+        position + sf::Vector2f(90, 50),
         sf::Color(255, 255, 255),
-        32,
+        40,
         sf::Color(0, 0, 0),
         3,
         false,

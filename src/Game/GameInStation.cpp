@@ -6,9 +6,22 @@ void Game::inStationLoop()
     // UI
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
-    UISellItemBar sellRock(ItemPickupType::Rock);
-    sellRock.setPosition(sf::Vector2f(400, 300));
-    sellRock.update(mousePos);
+    std::vector<UISellItemBar> sellItemBars;
+    int yOffset = 0;
+    for (auto itemTypePair : itemTextureMap)
+    {
+
+        ItemPickupType itemType = itemTypePair.first;
+
+        UISellItemBar sellItemBar(itemType);
+        sellItemBar.setPosition(sf::Vector2f(400, 300 + yOffset));
+        sellItemBar.update(mousePos);
+
+        sellItemBars.push_back(sellItemBar);
+
+        yOffset += 125;
+
+    }
 
     sf::Event event;
     while (window.pollEvent(event))
@@ -28,12 +41,15 @@ void Game::inStationLoop()
 
             if (event.mouseButton.button == sf::Mouse::Left)
             {
-                if (sellRock.sellButtonHovering())
+                for (UISellItemBar& sellItemBar : sellItemBars)
                 {
-                    ItemPickupType itemType = sellRock.getPickupType();
-                    int itemCount = InventoryManager::getItemCount(itemType);
+                    if (sellItemBar.sellButtonHovering())
+                    {
+                        ItemPickupType itemType = sellItemBar.getPickupType();
+                        int itemCount = InventoryManager::getItemCount(itemType);
 
-                    InventoryManager::sellItems(itemType, itemCount);
+                        InventoryManager::sellItems(itemType, itemCount);
+                    }
                 }
             }
 
@@ -48,7 +64,10 @@ void Game::inStationLoop()
     std::string text = "Space Station";
     TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 80), sf::Color(255, 255, 255), 100, sf::Color(0, 0, 0), 4, true});
 
-    sellRock.draw(window);
+    for (UISellItemBar& sellItemBar : sellItemBars)
+    {
+        sellItemBar.draw(window);
+    }
 
     TextureDrawData drawData = {
         TextureType::SilverCoin,

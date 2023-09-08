@@ -31,6 +31,7 @@ void TextRenderer::drawText(sf::RenderWindow& window, TextDrawData drawData) {
     if (drawData.centeredY)
     {
         textCentre.y = text.getLocalBounds().getSize().y / 2.0f;
+        textCentre.y += text.getLocalBounds().getPosition().y;
     }
 
     text.setOrigin(textCentre);

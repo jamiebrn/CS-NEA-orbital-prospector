@@ -48,7 +48,7 @@ void UIButton::draw(sf::RenderWindow& window)
 
     TextDrawData drawData = {
         text,
-        position + size / 2.0f,
+        position + sf::Vector2f(size.x / 2.0f, size.y / 2.0f),
         sf::Color(255, 255, 255),
         32,
         sf::Color(0, 0, 0),
