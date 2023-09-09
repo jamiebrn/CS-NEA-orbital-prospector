@@ -7,6 +7,8 @@ UISellItemBar::UISellItemBar(ItemPickupType type)
 
     sellButton.setText("Sell");
     sellButton.setSize(sf::Vector2f(150, 75));
+    sellButton.setColour(sf::Color(20, 190, 20));
+    sellButton.setHoverColour(sf::Color(30, 200, 30));
     
 }
 

@@ -53,6 +53,7 @@ bool Game::initialise()
 
     showUIRing = true;
     paused = false;
+    savedSincePause = false;
 
     return true;
 

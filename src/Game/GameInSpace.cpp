@@ -11,6 +11,8 @@ void Game::inSpaceLoop()
         saveButton.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 100, 600));
         saveButton.setSize(sf::Vector2f(200, 70));
         saveButton.setText("Save");
+        if (savedSincePause)
+            saveButton.setText("Saved!");
         saveButton.setColour(sf::Color(245, 175, 15));
         saveButton.setHoverColour(sf::Color(250, 185, 25));
         saveButton.update(sf::Mouse::getPosition(window));
@@ -36,9 +38,8 @@ void Game::inSpaceLoop()
         {
             if (event.key.code == sf::Keyboard::Escape)
             {
-                //saveData();
-                //window.close();
                 paused = !paused;
+                savedSincePause = false;
             }
 
             if (event.key.code == sf::Keyboard::E)
@@ -59,6 +60,7 @@ void Game::inSpaceLoop()
                 if (event.mouseButton.button == sf::Mouse::Left && saveButton.isHovering())
                 {
                     saveData();
+                    savedSincePause = true;
                 }
                 if (event.mouseButton.button == sf::Mouse::Left && quitButton.isHovering())
                 {

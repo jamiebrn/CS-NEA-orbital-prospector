@@ -86,6 +86,7 @@ private:
 
     bool showUIRing;
     bool paused;
+    bool savedSincePause;
 
 };
 
