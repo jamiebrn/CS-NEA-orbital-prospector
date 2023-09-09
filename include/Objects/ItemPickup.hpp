@@ -2,11 +2,20 @@
 #define ITEM_PICKUP_HPP
 
 #include <SFML/Graphics.hpp>
+#include <json.hpp>
 
 #include "Objects/DrawableObject.hpp"
 #include "Objects/ItemPickupType.hpp"
 #include "Manager/TextureManager.hpp"
 #include "Camera.hpp"
+
+struct ItemPickupData
+{
+    float x, y;
+    ItemPickupType type;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(ItemPickupData, x, y, type)
+};
 
 class ItemPickup : public DrawableObject
 {
@@ -25,5 +34,7 @@ private:
     ItemPickupType type;
 
 };
+
+
 
 #endif

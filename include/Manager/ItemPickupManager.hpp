@@ -19,6 +19,8 @@ public:
 
     static std::vector<ItemPickupType> testCollectedPickups(sf::Vector2f position, float radius);
 
+    static std::vector<ItemPickup>& getPickups();
+
     static void drawPickups(sf::RenderWindow& window);
 
 private:

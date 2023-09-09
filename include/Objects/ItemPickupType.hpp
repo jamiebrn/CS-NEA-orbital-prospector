@@ -2,15 +2,22 @@
 #define ITEM_PICKUP_TYPE_HPP
 
 #include <map>
+#include <json.hpp>
 
 #include "Manager/TextureManager.hpp"
 
-enum class ItemPickupType
+enum ItemPickupType
 {
     Rock,
     CopperChunk,
     IronChunk
 };
+
+NLOHMANN_JSON_SERIALIZE_ENUM(ItemPickupType, {
+    {Rock, "rock"},
+    {CopperChunk, "copper"},
+    {IronChunk, "iron"}
+})
 
 const std::map<ItemPickupType, TextureType> itemTextureMap = {
     {ItemPickupType::Rock, TextureType::PickupRock},

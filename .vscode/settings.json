@@ -68,6 +68,13 @@
         "xtr1common": "cpp",
         "xtree": "cpp",
         "xutility": "cpp",
-        "array": "cpp"
+        "array": "cpp",
+        "any": "cpp",
+        "fstream": "cpp",
+        "functional": "cpp",
+        "numeric": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "valarray": "cpp"
     }
 }

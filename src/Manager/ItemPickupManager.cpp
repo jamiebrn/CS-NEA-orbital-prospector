@@ -35,6 +35,11 @@ std::vector<ItemPickupType> ItemPickupManager::testCollectedPickups(sf::Vector2f
 
 }
 
+std::vector<ItemPickup>& ItemPickupManager::getPickups()
+{
+    return itemPickups;
+}
+
 void ItemPickupManager::drawPickups(sf::RenderWindow& window)
 {
 

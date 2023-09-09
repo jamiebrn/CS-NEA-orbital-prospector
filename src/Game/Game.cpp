@@ -46,38 +46,19 @@ bool Game::initialise()
 
     changeState(GameState::MainMenu);
 
-    InventoryManager::resetSilverCoins();
-
-    playerShip.setPosition(sf::Vector2f(5000, 5000));
-
-    std::ifstream file("save.json");
-    if (!file.fail())
+    if (!loadData())
     {
-        nlohmann::json saveData;
-        file >> saveData;
 
-        InventoryManager::addItem(ItemPickupType::Rock, saveData["rock"]);
-        InventoryManager::addItem(ItemPickupType::CopperChunk, saveData["copper"]);
-        InventoryManager::addItem(ItemPickupType::IronChunk, saveData["iron"]);
-        InventoryManager::addSilverCoins(saveData["coins"]);
+        InventoryManager::resetSilverCoins();
+        playerShip.setPosition(sf::Vector2f(5000, 5000));
+        Camera::setOffset(sf::Vector2f(4500, 4000));
 
-		std::vector<AsteroidData> asteroidDatas = saveData["asteroids"];
-		for (AsteroidData data : asteroidDatas)
-		{
-			Asteroid asteroid(sf::Vector2f(data.x, data.y));
-			asteroid.setData(data);
-			AsteroidManager::insertAsteroid(asteroid);
-		}
-
-        playerShip.setPosition(sf::Vector2f(saveData["pos"]["x"], saveData["pos"]["y"]));
-    }
-    else
-    {
         for (int i = 0; i < 1000; i++)
         {
             sf::Vector2f position(rand() % static_cast<int>(WORLD_WIDTH), rand() % static_cast<int>(WORLD_HEIGHT));
             AsteroidManager::createAsteroid(position);
         }
+
     }
 
     mainPlanetRenderer.setPosition(sf::Vector2f(1700, 1700));
@@ -93,8 +74,6 @@ bool Game::initialise()
 
 void Game::mainLoop()
 {
-
-    Camera::setOffset(sf::Vector2f(4500, 4000));
 
     EnemyShipManager::addShip(sf::Vector2f(5000, 4500));
 
@@ -136,6 +115,43 @@ void Game::changeState(GameState newState)
 
 }
 
+bool Game::loadData()
+{
+
+    std::ifstream file("save.json");
+    if (file.fail())
+        return false;
+
+    nlohmann::json saveData;
+    file >> saveData;
+
+    InventoryManager::addItem(ItemPickupType::Rock, saveData["rock"]);
+    InventoryManager::addItem(ItemPickupType::CopperChunk, saveData["copper"]);
+    InventoryManager::addItem(ItemPickupType::IronChunk, saveData["iron"]);
+    InventoryManager::addSilverCoins(saveData["coins"]);
+
+    std::vector<AsteroidData> asteroidDatas = saveData["asteroids"];
+    for (AsteroidData data : asteroidDatas)
+    {
+        Asteroid asteroid(sf::Vector2f(data.x, data.y));
+        asteroid.setData(data);
+        AsteroidManager::insertAsteroid(asteroid);
+    }
+
+    std::vector<ItemPickupData> itemDatas = saveData["itemPickups"];
+    for (ItemPickupData data : itemDatas)
+    {
+        ItemPickupManager::addItem(data.type, sf::Vector2f(data.x, data.y));
+    }
+
+    playerShip.setPosition(sf::Vector2f(saveData["pos"]["x"], saveData["pos"]["y"]));
+
+    Camera::setOffset(sf::Vector2f(saveData["cam"]["x"], saveData["cam"]["y"]));
+
+    return true;
+
+}
+
 void Game::saveData()
 {
 
@@ -146,6 +162,8 @@ void Game::saveData()
 	saveData["coins"] = InventoryManager::getSilverCoins();
 	saveData["pos"]["x"] = playerShip.getPosition().x;
 	saveData["pos"]["y"] = playerShip.getPosition().y;
+    saveData["cam"]["x"] = -Camera::getDrawOffset().x;
+    saveData["cam"]["y"] = -Camera::getDrawOffset().y;
 
 	std::vector<AsteroidData> asteroidDatas;
 	for (Asteroid& asteroid : AsteroidManager::getAsteroids())
@@ -154,6 +172,14 @@ void Game::saveData()
 		asteroidDatas.push_back(asteroidData);
 	}
 	saveData["asteroids"] = asteroidDatas;
+
+    std::vector<ItemPickupData> itemDatas;
+    for (ItemPickup& item : ItemPickupManager::getPickups())
+    {
+        ItemPickupData itemData{item.getPosition().x, item.getPosition().y, item.getType()};
+        itemDatas.push_back(itemData);
+    }
+    saveData["itemPickups"] = itemDatas;
 
 	std::ofstream file("save.json");
 	file << saveData << std::endl;

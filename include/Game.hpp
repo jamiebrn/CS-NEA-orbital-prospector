@@ -62,6 +62,7 @@ private:
     float distanceSqToStation();
     void sellItem(ItemPickupType type);
 
+    bool loadData();
     void saveData();
 
 private:
