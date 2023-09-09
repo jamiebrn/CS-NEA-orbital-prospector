@@ -145,7 +145,7 @@ void Game::saveData()
 	saveData["iron"] = InventoryManager::getItemCount(ItemPickupType::IronChunk);
 	saveData["coins"] = InventoryManager::getSilverCoins();
 	saveData["pos"]["x"] = playerShip.getPosition().x;
-	saveData["pos"]["y"] = playerShip.getPosition().x;
+	saveData["pos"]["y"] = playerShip.getPosition().y;
 
 	std::vector<AsteroidData> asteroidDatas;
 	for (Asteroid& asteroid : AsteroidManager::getAsteroids())
