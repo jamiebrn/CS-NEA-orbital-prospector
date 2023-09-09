@@ -178,3 +178,25 @@ bool Asteroid::isAlive()
 {
     return alive;
 }
+
+AsteroidData Asteroid::generateData()
+{
+
+    AsteroidData data;
+    data.x = position.x;
+    data.y = position.y;
+    data.rot = rotation.asDegrees();
+    data.scale = scale;
+    data.hp = health;
+
+    return data;
+
+}
+
+void Asteroid::setData(AsteroidData data)
+{
+    position = sf::Vector2f(data.x, data.y);
+    rotation = sf::degrees(data.rot);
+    scale = data.scale;
+    health = data.hp;
+}

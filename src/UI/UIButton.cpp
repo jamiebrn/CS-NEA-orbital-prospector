@@ -42,7 +42,15 @@ void UIButton::draw(sf::RenderWindow& window)
     rect.setPosition(position);
 
     if (hovering)
+    {
+        sf::RectangleShape outlineRect(size + sf::Vector2f(6, 6));
+        outlineRect.setPosition(position - sf::Vector2f(3, 3));
+        outlineRect.setFillColor(sf::Color(255, 255, 255));
+
+        window.draw(outlineRect);
+
         rect.setFillColor(sf::Color(40, 200, 40));
+    }
 
     window.draw(rect);
 

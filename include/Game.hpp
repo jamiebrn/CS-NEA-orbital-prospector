@@ -2,9 +2,10 @@
 #define GAME_HPP
 
 #include <SFML/Graphics.hpp>
+#include <json.hpp>
+#include <fstream>
 #include <cmath>
 #include <iostream>
-#include <functional>
 #include <vector>
 
 #include "Constants.hpp"
@@ -32,6 +33,15 @@ enum class GameState
     InStation
 };
 
+enum class StationMenuState
+{
+    Main,
+    Upgrades,
+    Market,
+    Missons,
+    Level
+};
+
 class Game
 {
 
@@ -52,12 +62,15 @@ private:
     float distanceSqToStation();
     void sellItem(ItemPickupType type);
 
+    void saveData();
+
 private:
     sf::RenderWindow window;
     sf::Image iconImage;
     sf::View view;
 
     GameState gameState;
+    StationMenuState stationMenuState;
     
     sf::Clock clock;
     PlanetRenderer mainPlanetRenderer;

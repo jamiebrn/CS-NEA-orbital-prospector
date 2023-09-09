@@ -15,7 +15,10 @@ void Game::inSpaceLoop()
         if (event.type == sf::Event::KeyPressed)
         {
             if (event.key.code == sf::Keyboard::Escape)
+            {
+                saveData();
                 window.close();
+            }
 
             if (event.key.code == sf::Keyboard::E)
             {
@@ -108,6 +111,9 @@ void Game::inSpaceLoop()
 
     text = std::to_string(AsteroidManager::getAsteroids().size()) + " Asteroids";
     TextRenderer::drawText(window, {text, sf::Vector2f(20, 45), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
+
+    text = std::to_string(drawOffset.x) + ", " + std::to_string(drawOffset.y);
+    TextRenderer::drawText(window, {text, sf::Vector2f(20, 65), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
 
     if (inStationRange)
     {

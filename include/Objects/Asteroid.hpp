@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <json.hpp>
 
 #include <SFML/Graphics.hpp>
 
@@ -12,6 +13,16 @@
 #include "Manager/SoundManager.hpp"
 #include "Objects/ItemPickupType.hpp"
 #include "Objects/DrawableObject.hpp"
+
+struct AsteroidData
+{
+    float x, y;
+    float rot;
+    float scale;
+    int hp;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(AsteroidData, x, y, rot, scale, hp)
+};
 
 class Asteroid : public DrawableObject
 {
@@ -26,6 +37,9 @@ public:
     bool isColliding(sf::Vector2f bulletTip);
 
     bool isAlive();
+
+    AsteroidData generateData();
+    void setData(AsteroidData data);
 
 private:
     void damage(int amount);

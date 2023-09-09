@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Objects/Asteroid.hpp"
+#include "Camera.hpp"
 
 class AsteroidManager
 {
@@ -16,6 +17,8 @@ private:
 public:
     static void createAsteroid(sf::Vector2f position);
 
+    static void insertAsteroid(Asteroid asteroid);
+
     static void updateAsteroids(float deltaTime);
 
     static void drawAsteroids(sf::RenderWindow& window);
@@ -24,6 +27,11 @@ public:
 
 private:
     static std::vector<Asteroid> asteroids;
+
+    static constexpr int SPAWN_MAX = 1000;
+    static constexpr float SPAWN_COOLDOWN = 10;
+
+    static float lastSpawn;
 
 };
 
