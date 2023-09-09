@@ -65,6 +65,9 @@ private:
     bool loadData();
     void saveData();
 
+    void newGame();
+    void loadGame();
+
 private:
     sf::RenderWindow window;
     sf::Image iconImage;
@@ -82,6 +85,7 @@ private:
     bool inStationRange;
 
     bool showUIRing;
+    bool paused;
 
 };
 

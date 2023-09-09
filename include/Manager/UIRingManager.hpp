@@ -25,7 +25,7 @@ private:
     static sf::Vector2f calculateVector(sf::Vector2f targetPos);
 
 private:
-    static constexpr float RING_RADIUS = 460;
+    static constexpr float RING_RADIUS = 300;
 
     static const sf::Vector2f MID_SCREEN;
 

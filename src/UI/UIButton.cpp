@@ -15,6 +15,17 @@ void UIButton::setText(std::string text)
     this->text = text;
 }
 
+void UIButton::setColour(sf::Color colour)
+{
+    this->colour = colour;
+}
+
+void UIButton::setHoverColour(sf::Color colour)
+{
+    hoverColour = colour;
+}
+
+
 void UIButton::update(sf::Vector2i mousePos)
 {
 
@@ -40,6 +51,7 @@ void UIButton::draw(sf::RenderWindow& window)
 
     sf::RectangleShape rect(size);
     rect.setPosition(position);
+    rect.setFillColor(colour);
 
     if (hovering)
     {
@@ -49,7 +61,7 @@ void UIButton::draw(sf::RenderWindow& window)
 
         window.draw(outlineRect);
 
-        rect.setFillColor(sf::Color(40, 200, 40));
+        rect.setFillColor(hoverColour);
     }
 
     window.draw(rect);

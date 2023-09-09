@@ -49,3 +49,8 @@ void ItemPickupManager::drawPickups(sf::RenderWindow& window)
     }
 
 }
+
+void ItemPickupManager::empty()
+{
+    itemPickups.clear();
+}

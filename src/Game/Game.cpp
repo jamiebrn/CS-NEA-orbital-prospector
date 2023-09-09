@@ -46,27 +46,13 @@ bool Game::initialise()
 
     changeState(GameState::MainMenu);
 
-    if (!loadData())
-    {
-
-        InventoryManager::resetSilverCoins();
-        playerShip.setPosition(sf::Vector2f(5000, 5000));
-        Camera::setOffset(sf::Vector2f(4500, 4000));
-
-        for (int i = 0; i < 1000; i++)
-        {
-            sf::Vector2f position(rand() % static_cast<int>(WORLD_WIDTH), rand() % static_cast<int>(WORLD_HEIGHT));
-            AsteroidManager::createAsteroid(position);
-        }
-
-    }
-
     mainPlanetRenderer.setPosition(sf::Vector2f(1700, 1700));
     mainPlanetRenderer.setScale(7);
 
     inStationRange = false;
 
     showUIRing = true;
+    paused = false;
 
     return true;
 

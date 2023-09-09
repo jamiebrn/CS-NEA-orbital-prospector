@@ -14,6 +14,8 @@ public:
     void setPosition(sf::Vector2f pos);
     void setSize(sf::Vector2f size);
     void setText(std::string text);
+    void setColour(sf::Color colour);
+    void setHoverColour(sf::Color colour);
 
     void update(sf::Vector2i mousePos);
     bool isHovering();
@@ -23,6 +25,9 @@ public:
 private:
     sf::Vector2f position, size;
     std::string text;
+
+    sf::Color colour;
+    sf::Color hoverColour;
 
     bool hovering;
 

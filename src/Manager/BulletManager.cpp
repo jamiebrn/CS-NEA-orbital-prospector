@@ -37,6 +37,11 @@ void BulletManager::drawBullets(sf::RenderWindow& window)
     }
 }
 
+void BulletManager::empty()
+{
+    bullets.clear();
+}
+
 int BulletManager::getBulletCount()
 {
     return bullets.size();

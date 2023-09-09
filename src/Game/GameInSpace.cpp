@@ -3,6 +3,18 @@
 void Game::inSpaceLoop()
 {
 
+    // Pause menu UI
+    UIButton quitButton;
+    if (paused)
+    {
+        quitButton.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 100, 600));
+        quitButton.setSize(sf::Vector2f(200, 70));
+        quitButton.setText("Quit");
+        quitButton.setColour(sf::Color(190, 15, 15));
+        quitButton.setHoverColour(sf::Color(220, 20, 20));
+        quitButton.update(sf::Mouse::getPosition(window));
+    }
+
     // Event handling
         
     sf::Event event;
@@ -16,8 +28,9 @@ void Game::inSpaceLoop()
         {
             if (event.key.code == sf::Keyboard::Escape)
             {
-                saveData();
-                window.close();
+                //saveData();
+                //window.close();
+                paused = !paused;
             }
 
             if (event.key.code == sf::Keyboard::E)
@@ -31,6 +44,18 @@ void Game::inSpaceLoop()
 
         }
 
+        if (paused)
+        {
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+                if (event.mouseButton.button == sf::Mouse::Left && quitButton.isHovering())
+                {
+                    saveData();
+                    changeState(GameState::MainMenu);
+                }
+            }
+        }
+
     }
 
     
@@ -38,43 +63,47 @@ void Game::inSpaceLoop()
     // Logic
 
     float deltaTime = clock.restart().asSeconds();
-
     sf::Vector2f drawOffset = Camera::getDrawOffset();
 
-    sf::Vector2i screenMousePosition = sf::Mouse::getPosition(window);
-    sf::Vector2f mousePosition = window.mapPixelToCoords(screenMousePosition);
-
-    playerShip.update(deltaTime, mousePosition);
-
-    EnemyShipManager::updateShips(playerShip.getPosition(), deltaTime);
-
-    BulletManager::updateBullets(deltaTime);
-
-    AsteroidManager::updateAsteroids(deltaTime);
-
-    float unprojectMult = Helper::unprojectDepthMultipier(PLANET_DEPTH_DIVIDE, SPACE_STATION_DEPTH_DIVIDE);
-    sf::Vector2f planetCentre = mainPlanetRenderer.getPosition();
-    planetCentre += drawOffset * unprojectMult;
-
-    spaceStation.orbitBody(planetCentre, 1400, 1, deltaTime);
-
-    if (distanceSqToStation() <= STATION_MAX_RANGE * STATION_MAX_RANGE)
+    if (!paused)
     {
-        inStationRange = true;
+
+        sf::Vector2i screenMousePosition = sf::Mouse::getPosition(window);
+        sf::Vector2f mousePosition = window.mapPixelToCoords(screenMousePosition);
+
+        playerShip.update(deltaTime, mousePosition);
+
+        EnemyShipManager::updateShips(playerShip.getPosition(), deltaTime);
+
+        BulletManager::updateBullets(deltaTime);
+
+        AsteroidManager::updateAsteroids(deltaTime);
+
+        float unprojectMult = Helper::unprojectDepthMultipier(PLANET_DEPTH_DIVIDE, SPACE_STATION_DEPTH_DIVIDE);
+        sf::Vector2f planetCentre = mainPlanetRenderer.getPosition();
+        planetCentre += drawOffset * unprojectMult;
+
+        spaceStation.orbitBody(planetCentre, 1400, 1, deltaTime);
+
+        if (distanceSqToStation() <= STATION_MAX_RANGE * STATION_MAX_RANGE)
+        {
+            inStationRange = true;
+        }
+        else
+        {
+            inStationRange = false;
+        }
+
+        mainPlanetRenderer.update(deltaTime);
+
+        unprojectMult = Helper::unprojectDepthMultipier(SPACE_STATION_DEPTH_DIVIDE, 1);
+        sf::Vector2f spaceStationPos = spaceStation.getPosition() + drawOffset * unprojectMult;
+
+        UIRingManager::update(spaceStationPos, EnemyShipManager::getShips());
+
+        Camera::update(playerShip.getPosition(), deltaTime);
+
     }
-    else
-    {
-        inStationRange = false;
-    }
-
-    mainPlanetRenderer.update(deltaTime);
-
-    unprojectMult = Helper::unprojectDepthMultipier(SPACE_STATION_DEPTH_DIVIDE, 1);
-    sf::Vector2f spaceStationPos = spaceStation.getPosition() + drawOffset * unprojectMult;
-
-    UIRingManager::update(spaceStationPos, EnemyShipManager::getShips());
-
-    Camera::update(playerShip.getPosition(), deltaTime);
 
 
 
@@ -123,7 +152,19 @@ void Game::inSpaceLoop()
 
     if (showUIRing)
         UIRingManager::draw(window);
+    
+    // Pause menu
+    if (paused)
+    {
 
+        sf::RectangleShape background(sf::Vector2f(500, 700));
+        background.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 250, WINDOW_HEIGHT / 2 - 350));
+        background.setFillColor(sf::Color(20, 20, 20, 150));
+
+        window.draw(background);
+        quitButton.draw(window);
+
+    }
 
     window.display();
 

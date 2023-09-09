@@ -68,6 +68,11 @@ void AsteroidManager::drawAsteroids(sf::RenderWindow& window)
     }
 }
 
+void AsteroidManager::empty()
+{
+    asteroids.clear();
+}
+
 std::vector<Asteroid>& AsteroidManager::getAsteroids()
 {
     return asteroids;
