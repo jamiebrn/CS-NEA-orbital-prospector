@@ -125,6 +125,9 @@ void Asteroid::draw(sf::RenderWindow& window)
 void Asteroid::drawAsteroid(sf::RenderWindow& window)
 {
 
+    if (!Camera::isInView(position, sf::Vector2f(200, 200)))
+        return;
+
     sf::Vector2f drawOffset = Camera::getDrawOffset();
 
     TextureDrawData drawData = {
@@ -141,18 +144,21 @@ void Asteroid::drawAsteroid(sf::RenderWindow& window)
 
     TextureManager::drawSubTexture(window, drawData, subRect);
 
-    float flashAlpha = 210.0f * (flashTime / FLASH_TIME);
+    if (flashTime > 0)
+    {
+        float flashAlpha = 210.0f * (flashTime / FLASH_TIME);
 
-    drawData = {
-        TextureType::AsteroidFlash,
-        position + drawOffset,
-        rotation,
-        scale,
-        true,
-        sf::Color(255, 255, 255, flashAlpha)
-    };
+        drawData = {
+            TextureType::AsteroidFlash,
+            position + drawOffset,
+            rotation,
+            scale,
+            true,
+            sf::Color(255, 255, 255, flashAlpha)
+        };
 
-    TextureManager::drawTexture(window, drawData);
+        TextureManager::drawTexture(window, drawData);
+    }
 
 }
 

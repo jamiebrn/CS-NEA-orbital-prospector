@@ -9,6 +9,9 @@ ItemPickup::ItemPickup(ItemPickupType type, sf::Vector2f position)
 void ItemPickup::draw(sf::RenderWindow& window)
 {
 
+    if (!Camera::isInView(position, sf::Vector2f(100, 100)))
+        return;
+
     sf::Vector2f drawOffset = Camera::getDrawOffset();
 
     TextureType textureType = itemTextureMap.at(type);

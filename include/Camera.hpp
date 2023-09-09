@@ -21,6 +21,8 @@ public:
     
     static void setOffset(sf::Vector2f newOffset);
 
+    static bool isInView(sf::Vector2f position, sf::Vector2f size);
+
 private:
     static constexpr float MOVE_LERP_WEIGHT = 3.5;
 

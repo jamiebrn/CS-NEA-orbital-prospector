@@ -4,10 +4,18 @@ void Game::inSpaceLoop()
 {
 
     // Pause menu UI
+    UIButton saveButton;
     UIButton quitButton;
     if (paused)
     {
-        quitButton.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 100, 600));
+        saveButton.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 100, 600));
+        saveButton.setSize(sf::Vector2f(200, 70));
+        saveButton.setText("Save");
+        saveButton.setColour(sf::Color(245, 175, 15));
+        saveButton.setHoverColour(sf::Color(250, 185, 25));
+        saveButton.update(sf::Mouse::getPosition(window));
+
+        quitButton.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 100, 700));
         quitButton.setSize(sf::Vector2f(200, 70));
         quitButton.setText("Quit");
         quitButton.setColour(sf::Color(190, 15, 15));
@@ -48,9 +56,12 @@ void Game::inSpaceLoop()
         {
             if (event.type == sf::Event::MouseButtonPressed)
             {
-                if (event.mouseButton.button == sf::Mouse::Left && quitButton.isHovering())
+                if (event.mouseButton.button == sf::Mouse::Left && saveButton.isHovering())
                 {
                     saveData();
+                }
+                if (event.mouseButton.button == sf::Mouse::Left && quitButton.isHovering())
+                {
                     changeState(GameState::MainMenu);
                 }
             }
@@ -157,11 +168,12 @@ void Game::inSpaceLoop()
     if (paused)
     {
 
-        sf::RectangleShape background(sf::Vector2f(500, 700));
-        background.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 250, WINDOW_HEIGHT / 2 - 350));
+        sf::RectangleShape background(sf::Vector2f(300, 400));
+        background.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 150, WINDOW_HEIGHT / 2 - 200));
         background.setFillColor(sf::Color(20, 20, 20, 150));
 
         window.draw(background);
+        saveButton.draw(window);
         quitButton.draw(window);
 
     }

@@ -26,3 +26,15 @@ void Camera::setOffset(sf::Vector2f newOffset)
 {
     offset = newOffset;
 }
+
+bool Camera::isInView(sf::Vector2f position, sf::Vector2f size)
+{
+
+    float minX = offset.x - size.x;
+    float minY = offset.y - size.y;
+    float maxX = offset.x + WINDOW_WIDTH + size.x;
+    float maxY = offset.y + WINDOW_HEIGHT + size.y;
+
+    return (position.x >= minX && position.y >= minY && position.x <= maxX && position.y <= maxY);
+
+}

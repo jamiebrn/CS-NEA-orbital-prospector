@@ -59,6 +59,9 @@ bool Bullet::isAlive()
 void Bullet::draw(sf::RenderWindow& window)
 {
 
+    if (!Camera::isInView(position, sf::Vector2f(50, 50)))
+        return;
+
     sf::Vector2f drawOffset = Camera::getDrawOffset();
 
     TextureDrawData bulletDrawData = {
