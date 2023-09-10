@@ -119,11 +119,11 @@ LoadDataSuccess Game::loadData()
     if (file.fail())
         return LoadDataSuccess::NO_FILE;
 
-    nlohmann::json saveData;
-    file >> saveData;
-
     try
     {
+
+        nlohmann::json saveData;
+        file >> saveData;
 
         InventoryManager::addItem(ItemPickupType::Rock, saveData.at("rock"));
         InventoryManager::addItem(ItemPickupType::CopperChunk, saveData.at("copper"));
