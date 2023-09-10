@@ -4,7 +4,8 @@ void Game::inStationLoop()
 {
 
     // UI
-    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    sf::Vector2i screenMousePosition = sf::Mouse::getPosition(window);
+    sf::Vector2f mousePosition = window.mapPixelToCoords(screenMousePosition);
 
     std::vector<UISellItemBar> sellItemBars;
     int yOffset = 0;
@@ -15,7 +16,7 @@ void Game::inStationLoop()
 
         UISellItemBar sellItemBar(itemType);
         sellItemBar.setPosition(sf::Vector2f(400, 300 + yOffset));
-        sellItemBar.update(mousePos);
+        sellItemBar.update(mousePosition);
 
         sellItemBars.push_back(sellItemBar);
 

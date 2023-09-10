@@ -19,6 +19,8 @@ public:
 
     static void sellItems(ItemPickupType type, int count);
 
+    static void reset();
+
     inline static void resetSilverCoins() {silverCoins = 0;}
 
     inline static void addSilverCoins(int amount) {silverCoins += amount;}

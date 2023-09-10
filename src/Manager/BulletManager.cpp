@@ -37,7 +37,7 @@ void BulletManager::drawBullets(sf::RenderWindow& window)
     }
 }
 
-void BulletManager::empty()
+void BulletManager::reset()
 {
     bullets.clear();
 }

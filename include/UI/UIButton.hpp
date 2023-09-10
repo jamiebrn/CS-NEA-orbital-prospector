@@ -17,7 +17,7 @@ public:
     void setColour(sf::Color colour);
     void setHoverColour(sf::Color colour);
 
-    void update(sf::Vector2i mousePos);
+    void update(sf::Vector2f mousePos);
     bool isHovering();
 
     void draw(sf::RenderWindow& window);

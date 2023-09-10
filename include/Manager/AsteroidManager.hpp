@@ -23,14 +23,13 @@ public:
 
     static void drawAsteroids(sf::RenderWindow& window);
 
-    static void empty();
+    static void reset();
 
     static std::vector<Asteroid>& getAsteroids();
 
 private:
     static std::vector<Asteroid> asteroids;
 
-    static constexpr int SPAWN_MAX = 1000;
     static constexpr float SPAWN_COOLDOWN = 10;
 
     static float lastSpawn;

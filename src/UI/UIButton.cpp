@@ -26,7 +26,7 @@ void UIButton::setHoverColour(sf::Color colour)
 }
 
 
-void UIButton::update(sf::Vector2i mousePos)
+void UIButton::update(sf::Vector2f mousePos)
 {
 
     hovering = false;

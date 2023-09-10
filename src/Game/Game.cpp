@@ -3,6 +3,7 @@
 Game::Game()
     : playerShip(sf::Vector2f(0, 0)),
     spaceStation(sf::Vector2f(700, 1200), sf::degrees(0)),
+    titlePlanetRenderer(PlanetType::Earth),
     mainPlanetRenderer(PlanetType::Earth),
     view(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT))
 {}
@@ -46,6 +47,11 @@ bool Game::initialise()
 
     changeState(GameState::MainMenu);
 
+    titleBackgroundSubRectPos = sf::Vector2i(rand() % static_cast<int>(WORLD_WIDTH), rand() % static_cast<int>(WORLD_HEIGHT));
+
+    titlePlanetRenderer.setPosition(sf::Vector2f(WINDOW_WIDTH * 0.8, WINDOW_HEIGHT * 0.85));
+    titlePlanetRenderer.setScale(7);
+
     mainPlanetRenderer.setPosition(sf::Vector2f(1700, 1700));
     mainPlanetRenderer.setScale(7);
 
@@ -55,14 +61,14 @@ bool Game::initialise()
     paused = false;
     savedSincePause = false;
 
+    loadDataError = false;
+
     return true;
 
 }
 
 void Game::mainLoop()
 {
-
-    EnemyShipManager::addShip(sf::Vector2f(5000, 4500));
 
     SoundManager::playMusic(MusicType::Track1);
 
@@ -97,45 +103,59 @@ void Game::changeState(GameState newState)
     {
         stationMenuState = StationMenuState::Main;
     }
+    else if (newState == GameState::MainMenu)
+    {
+        Camera::setOffset(sf::Vector2f(0, 0));
+    }
 
     gameState = newState;
 
 }
 
-bool Game::loadData()
+LoadDataSuccess Game::loadData()
 {
 
     std::ifstream file("save.json");
     if (file.fail())
-        return false;
+        return LoadDataSuccess::NO_FILE;
 
     nlohmann::json saveData;
     file >> saveData;
 
-    InventoryManager::addItem(ItemPickupType::Rock, saveData["rock"]);
-    InventoryManager::addItem(ItemPickupType::CopperChunk, saveData["copper"]);
-    InventoryManager::addItem(ItemPickupType::IronChunk, saveData["iron"]);
-    InventoryManager::addSilverCoins(saveData["coins"]);
-
-    std::vector<AsteroidData> asteroidDatas = saveData["asteroids"];
-    for (AsteroidData data : asteroidDatas)
+    try
     {
-        Asteroid asteroid(sf::Vector2f(data.x, data.y));
-        asteroid.setData(data);
-        AsteroidManager::insertAsteroid(asteroid);
+
+        InventoryManager::addItem(ItemPickupType::Rock, saveData.at("rock"));
+        InventoryManager::addItem(ItemPickupType::CopperChunk, saveData.at("copper"));
+        InventoryManager::addItem(ItemPickupType::IronChunk, saveData.at("iron"));
+        InventoryManager::addSilverCoins(saveData.at("coins"));
+
+        std::vector<AsteroidData> asteroidDatas = saveData.at("asteroids");
+        for (AsteroidData data : asteroidDatas)
+        {
+            Asteroid asteroid(sf::Vector2f(data.x, data.y));
+            asteroid.setData(data);
+            AsteroidManager::insertAsteroid(asteroid);
+        }
+
+        std::vector<ItemPickupData> itemDatas = saveData.at("itemPickups");
+        for (ItemPickupData data : itemDatas)
+        {
+            ItemPickupManager::addItem(data.type, sf::Vector2f(data.x, data.y));
+        }
+
+        playerShip.setPosition(sf::Vector2f(saveData.at("pos").at("x"), saveData.at("pos").at("y")));
+
+        Camera::setOffset(sf::Vector2f(saveData.at("cam").at("x"), saveData.at("cam").at("y")));
+
+    }
+    catch (const std::exception& e)
+    {
+        std::cout << "ERROR: " << e.what() << std::endl;
+        return LoadDataSuccess::CORRUPT_FILE;
     }
 
-    std::vector<ItemPickupData> itemDatas = saveData["itemPickups"];
-    for (ItemPickupData data : itemDatas)
-    {
-        ItemPickupManager::addItem(data.type, sf::Vector2f(data.x, data.y));
-    }
-
-    playerShip.setPosition(sf::Vector2f(saveData["pos"]["x"], saveData["pos"]["y"]));
-
-    Camera::setOffset(sf::Vector2f(saveData["cam"]["x"], saveData["cam"]["y"]));
-
-    return true;
+    return LoadDataSuccess::SUCCESSFUL;
 
 }
 

@@ -24,7 +24,7 @@ void AsteroidManager::updateAsteroids(float deltaTime)
     {
         lastSpawn = 0;
 
-        int toSpawn = SPAWN_MAX - asteroids.size();
+        int toSpawn = ASTEROID_MAX - asteroids.size();
         for (int i = 0; i < toSpawn; i++)
         {
             sf::Vector2f position(rand() % static_cast<int>(WORLD_WIDTH), rand() % static_cast<int>(WORLD_HEIGHT));
@@ -68,7 +68,7 @@ void AsteroidManager::drawAsteroids(sf::RenderWindow& window)
     }
 }
 
-void AsteroidManager::empty()
+void AsteroidManager::reset()
 {
     asteroids.clear();
 }

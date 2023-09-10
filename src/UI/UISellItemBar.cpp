@@ -18,7 +18,7 @@ void UISellItemBar::setPosition(sf::Vector2f position)
     sellButton.setPosition(position + sf::Vector2f(400, 12));
 }
 
-void UISellItemBar::update(sf::Vector2i mousePos)
+void UISellItemBar::update(sf::Vector2f mousePos)
 {
     sellButton.update(mousePos);
 }

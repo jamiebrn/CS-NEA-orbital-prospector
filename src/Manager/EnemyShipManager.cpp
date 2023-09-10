@@ -38,6 +38,11 @@ void EnemyShipManager::drawShips(sf::RenderWindow& window)
 
 }
 
+void EnemyShipManager::reset()
+{
+    enemyShips.clear();
+}
+
 std::vector<EnemyShip>& EnemyShipManager::getShips()
 {
     return enemyShips;

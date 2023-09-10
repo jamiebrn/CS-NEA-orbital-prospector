@@ -23,7 +23,7 @@ public:
 
     static void drawPickups(sf::RenderWindow& window);
 
-    static void empty();
+    static void reset();
 
 private:
     static std::vector<ItemPickup> itemPickups;

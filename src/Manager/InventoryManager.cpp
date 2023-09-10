@@ -26,6 +26,19 @@ void InventoryManager::sellItems(ItemPickupType type, int count)
     addItem(type, -count);
 }
 
+void InventoryManager::reset()
+{
+
+    for (auto itemPair : itemsCount)
+    {
+        ItemPickupType type = itemPair.first;
+        itemsCount.at(type) = 0;
+    }
+
+    resetSilverCoins();
+
+}
+
 void InventoryManager::initTypeTest(ItemPickupType type)
 {
     if (itemsCount.count(type) == 0)

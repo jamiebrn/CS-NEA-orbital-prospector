@@ -3,6 +3,9 @@
 void Game::inSpaceLoop()
 {
 
+    sf::Vector2i screenMousePosition = sf::Mouse::getPosition(window);
+    sf::Vector2f mousePosition = window.mapPixelToCoords(screenMousePosition);
+
     // Pause menu UI
     UIButton saveButton;
     UIButton quitButton;
@@ -15,14 +18,14 @@ void Game::inSpaceLoop()
             saveButton.setText("Saved!");
         saveButton.setColour(sf::Color(245, 175, 15));
         saveButton.setHoverColour(sf::Color(250, 185, 25));
-        saveButton.update(sf::Mouse::getPosition(window));
+        saveButton.update(mousePosition);
 
         quitButton.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 100, 700));
         quitButton.setSize(sf::Vector2f(200, 70));
         quitButton.setText("Quit");
         quitButton.setColour(sf::Color(190, 15, 15));
         quitButton.setHoverColour(sf::Color(220, 20, 20));
-        quitButton.update(sf::Mouse::getPosition(window));
+        quitButton.update(mousePosition);
     }
 
     // Event handling
@@ -80,9 +83,6 @@ void Game::inSpaceLoop()
 
     if (!paused)
     {
-
-        sf::Vector2i screenMousePosition = sf::Mouse::getPosition(window);
-        sf::Vector2f mousePosition = window.mapPixelToCoords(screenMousePosition);
 
         playerShip.update(deltaTime, mousePosition);
 
@@ -166,7 +166,10 @@ void Game::inSpaceLoop()
     if (showUIRing)
         UIRingManager::draw(window);
     
+    
+
     // Pause menu
+
     if (paused)
     {
 

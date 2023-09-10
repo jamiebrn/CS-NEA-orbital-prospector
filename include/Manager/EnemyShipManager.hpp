@@ -20,6 +20,8 @@ public:
 
     static void drawShips(sf::RenderWindow& window);
 
+    static void reset();
+
     static std::vector<EnemyShip>& getShips();
 
 private:

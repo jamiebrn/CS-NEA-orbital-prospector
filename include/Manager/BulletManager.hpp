@@ -20,7 +20,7 @@ public:
 
     static void drawBullets(sf::RenderWindow& window);
 
-    static void empty();
+    static void reset();
 
     static int getBulletCount();
 

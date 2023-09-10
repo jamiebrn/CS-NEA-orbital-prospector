@@ -15,7 +15,7 @@ public:
     UISellItemBar(ItemPickupType type);
 
     void setPosition(sf::Vector2f position);
-    void update(sf::Vector2i mousePos);
+    void update(sf::Vector2f mousePos);
     bool sellButtonHovering();
     ItemPickupType getPickupType();
 

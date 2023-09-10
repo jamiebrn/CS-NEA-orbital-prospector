@@ -42,6 +42,13 @@ enum class StationMenuState
     Level
 };
 
+enum class LoadDataSuccess
+{
+    SUCCESSFUL,
+    NO_FILE,
+    CORRUPT_FILE
+};
+
 class Game
 {
 
@@ -62,11 +69,12 @@ private:
     float distanceSqToStation();
     void sellItem(ItemPickupType type);
 
-    bool loadData();
+    LoadDataSuccess loadData();
     void saveData();
 
     void newGame();
     void loadGame();
+    void resetGame();
 
 private:
     sf::RenderWindow window;
@@ -76,6 +84,9 @@ private:
     GameState gameState;
     StationMenuState stationMenuState;
     
+    sf::Vector2i titleBackgroundSubRectPos;
+    PlanetRenderer titlePlanetRenderer;
+
     sf::Clock clock;
     PlanetRenderer mainPlanetRenderer;
     SpaceStation spaceStation;
@@ -87,6 +98,9 @@ private:
     bool showUIRing;
     bool paused;
     bool savedSincePause;
+
+    bool loadDataError;
+    LoadDataSuccess loadDataErrorType;
 
 };
 

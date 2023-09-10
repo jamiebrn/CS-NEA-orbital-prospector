@@ -15,6 +15,8 @@
 #define PLANET_DEPTH_DIVIDE 3.2f
 #define SPACE_STATION_DEPTH_DIVIDE 1.4f
 
+#define ASTEROID_MAX 1000
+
 #define PI 3.14159
 
 #endif

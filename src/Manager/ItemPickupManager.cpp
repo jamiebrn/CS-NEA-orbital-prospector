@@ -50,7 +50,7 @@ void ItemPickupManager::drawPickups(sf::RenderWindow& window)
 
 }
 
-void ItemPickupManager::empty()
+void ItemPickupManager::reset()
 {
     itemPickups.clear();
 }
