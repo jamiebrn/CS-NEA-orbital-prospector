@@ -6,27 +6,6 @@ void Game::inMainMenuLoop()
     sf::Vector2i screenMousePosition = sf::Mouse::getPosition(window);
     sf::Vector2f mousePosition = window.mapPixelToCoords(screenMousePosition);
 
-    UIButton newButton;
-    newButton.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 100, 700));
-    newButton.setSize(sf::Vector2f(200, 70));
-    newButton.setText("New");
-    newButton.setColour(sf::Color(15, 190, 15));
-    newButton.setHoverColour(sf::Color(20, 220, 20));
-
-    UIButton loadButton;
-    loadButton.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 100, 800));
-    loadButton.setSize(sf::Vector2f(200, 70));
-    loadButton.setText("Load");
-    loadButton.setColour(sf::Color(15, 15, 190));
-    loadButton.setHoverColour(sf::Color(20, 20, 220));
-
-    UIButton quitButton;
-    quitButton.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 100, 900));
-    quitButton.setSize(sf::Vector2f(200, 70));
-    quitButton.setText("Quit");
-    quitButton.setColour(sf::Color(190, 15, 15));
-    quitButton.setHoverColour(sf::Color(220, 20, 20));
-
     UIButton loadDataErrorButton;
     loadDataErrorButton.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 100, 600));
     loadDataErrorButton.setSize(sf::Vector2f(200, 70));
@@ -37,9 +16,7 @@ void Game::inMainMenuLoop()
 
     if (!loadDataError)
     {
-        newButton.update(mousePosition);
-        loadButton.update(mousePosition);
-        quitButton.update(mousePosition);
+        titleButtons.update(mousePosition);
     }
 
     sf::Event event;
@@ -56,17 +33,17 @@ void Game::inMainMenuLoop()
                 if (loadDataError && event.mouseButton.button == sf::Mouse::Left && loadDataErrorButton.isHovering())
                     loadDataError = false;    
             }
-            else
+            else if (event.mouseButton.button == sf::Mouse::Left)
             {
-                if (event.mouseButton.button == sf::Mouse::Left && newButton.isHovering())
+                if (titleButtons.isButtonPressed("new"))
                 {
                     newGame();
                 }
-                if (event.mouseButton.button == sf::Mouse::Left && loadButton.isHovering())
+                if (titleButtons.isButtonPressed("load"))
                 {
                     loadGame();
                 }
-                if (event.mouseButton.button == sf::Mouse::Left && quitButton.isHovering())
+                if (titleButtons.isButtonPressed("quit"))
                 {
                     window.close();
                 }
@@ -90,9 +67,7 @@ void Game::inMainMenuLoop()
     std::string text = "Orbital Prospector";
     TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 150), sf::Color(255, 255, 255), 130, sf::Color(0, 0, 0), 4, true});
 
-    newButton.draw(window);
-    loadButton.draw(window);
-    quitButton.draw(window);
+    titleButtons.draw(window);
 
     if (loadDataError)
     {

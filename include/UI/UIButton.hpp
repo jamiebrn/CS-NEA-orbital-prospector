@@ -5,6 +5,13 @@
 
 #include "Renderer/TextRenderer.hpp"
 
+struct UIButtonData
+{
+    sf::Vector2f position, size;
+    std::string text;
+    sf::Color colour, hoverColour;
+};
+
 class UIButton
 {
 

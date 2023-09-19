@@ -10,11 +10,14 @@
 
 #include "Constants.hpp"
 #include "Camera.hpp"
+
 #include "Objects/PlayerShip.hpp"
 #include "Objects/SpaceStation.hpp"
 #include "Objects/ItemPickupType.hpp"
+
 #include "Renderer/PlanetRenderer.hpp"
 #include "Renderer/TextRenderer.hpp"
+
 #include "Manager/TextureManager.hpp"
 #include "Manager/BulletManager.hpp"
 #include "Manager/AsteroidManager.hpp"
@@ -23,8 +26,10 @@
 #include "Manager/UIRingManager.hpp"
 #include "Manager/EnemyShipManager.hpp"
 #include "Manager/SoundManager.hpp"
+
 #include "UI/UIButton.hpp"
 #include "UI/UISellItemBar.hpp"
+#include "UI/UIButtonGroup.hpp"
 
 enum class GameState
 {
@@ -60,6 +65,8 @@ public:
     void mainLoop();
 
 private:
+    void initUI();
+
     void inMainMenuLoop();
     void inSpaceLoop();
     void inStationLoop();
@@ -91,6 +98,9 @@ private:
     PlanetRenderer mainPlanetRenderer;
     SpaceStation spaceStation;
     PlayerShip playerShip;
+
+    UIButtonGroup titleButtons;
+    UIButtonGroup stationMenuButtons;
 
     static constexpr float STATION_MAX_RANGE = 320;
     bool inStationRange;

@@ -8,20 +8,28 @@ void Game::inStationLoop()
     sf::Vector2f mousePosition = window.mapPixelToCoords(screenMousePosition);
 
     std::vector<UISellItemBar> sellItemBars;
-    int yOffset = 0;
-    for (auto itemTypePair : itemTextureMap)
+
+    if (stationMenuState == StationMenuState::Main)
     {
+        stationMenuButtons.update(mousePosition);
+    }
+    else if (stationMenuState == StationMenuState::Market)
+    {
+        int yOffset = 0;
+        for (auto itemTypePair : itemTextureMap)
+        {
 
-        ItemPickupType itemType = itemTypePair.first;
+            ItemPickupType itemType = itemTypePair.first;
 
-        UISellItemBar sellItemBar(itemType);
-        sellItemBar.setPosition(sf::Vector2f(400, 300 + yOffset));
-        sellItemBar.update(mousePosition);
+            UISellItemBar sellItemBar(itemType);
+            sellItemBar.setPosition(sf::Vector2f(400, 300 + yOffset));
+            sellItemBar.update(mousePosition);
 
-        sellItemBars.push_back(sellItemBar);
+            sellItemBars.push_back(sellItemBar);
 
-        yOffset += 125;
+            yOffset += 125;
 
+        }
     }
 
     sf::Event event;
@@ -34,7 +42,16 @@ void Game::inStationLoop()
         if (event.type == sf::Event::KeyPressed)
         {
             if (event.key.code == sf::Keyboard::Escape)
-                changeState(GameState::InSpace);
+            {
+                if (stationMenuState == StationMenuState::Main)
+                {
+                    changeState(GameState::InSpace);
+                }
+                else
+                {
+                    stationMenuState = StationMenuState::Main;
+                }
+            }
         }
 
         if (event.type == sf::Event::MouseButtonPressed)
@@ -42,15 +59,29 @@ void Game::inStationLoop()
 
             if (event.mouseButton.button == sf::Mouse::Left)
             {
-                for (UISellItemBar& sellItemBar : sellItemBars)
+                switch (stationMenuState)
                 {
-                    if (sellItemBar.sellButtonHovering())
-                    {
-                        ItemPickupType itemType = sellItemBar.getPickupType();
-                        int itemCount = InventoryManager::getItemCount(itemType);
 
-                        InventoryManager::sellItems(itemType, itemCount);
+                case StationMenuState::Main:
+                    if (stationMenuButtons.isButtonPressed("market"))
+                    {
+                        stationMenuState = StationMenuState::Market;
                     }
+                    break;
+
+                case StationMenuState::Market:
+                    for (UISellItemBar& sellItemBar : sellItemBars)
+                    {
+                        if (sellItemBar.sellButtonHovering())
+                        {
+                            ItemPickupType itemType = sellItemBar.getPickupType();
+                            int itemCount = InventoryManager::getItemCount(itemType);
+
+                            InventoryManager::sellItems(itemType, itemCount);
+                        }
+                    }
+                    break;
+
                 }
             }
 
@@ -65,23 +96,35 @@ void Game::inStationLoop()
     std::string text = "Space Station";
     TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 80), sf::Color(255, 255, 255), 100, sf::Color(0, 0, 0), 4, true});
 
-    for (UISellItemBar& sellItemBar : sellItemBars)
+    switch (stationMenuState)
     {
-        sellItemBar.draw(window);
+    
+    case StationMenuState::Main:
+        stationMenuButtons.draw(window);
+        break;
+
+    case StationMenuState::Market:
+        for (UISellItemBar& sellItemBar : sellItemBars)
+        {
+            sellItemBar.draw(window);
+        }
+
+        TextureDrawData drawData = {
+            TextureType::SilverCoin,
+            sf::Vector2f(200, 250),
+            sf::degrees(0),
+            5,
+            false
+        };
+
+        TextureManager::drawTexture(window, drawData);
+
+        text = std::to_string(InventoryManager::getSilverCoins());
+        TextRenderer::drawText(window, {text, sf::Vector2f(270, 260), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+        break;
+
     }
 
-    TextureDrawData drawData = {
-        TextureType::SilverCoin,
-        sf::Vector2f(200, 250),
-        sf::degrees(0),
-        5,
-        false
-    };
-
-    TextureManager::drawTexture(window, drawData);
-
-    text = std::to_string(InventoryManager::getSilverCoins());
-    TextRenderer::drawText(window, {text, sf::Vector2f(270, 260), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
 
     text = "Exit (ESC)";
     TextRenderer::drawText(window, {text, sf::Vector2f(20, 980), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
