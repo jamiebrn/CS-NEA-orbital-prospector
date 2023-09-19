@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Objects/EnemyShip.hpp"
+#include "Constants.hpp"
 
 class EnemyShipManager
 {
@@ -14,7 +15,7 @@ private:
     EnemyShipManager() = delete;
 
 public:
-    static void addShip(sf::Vector2f position);
+    static void addShip(EnemyShip ship);
 
     static void updateShips(sf::Vector2f playerPos, float deltaTime);
 
@@ -26,6 +27,10 @@ public:
 
 private:
     static std::vector<EnemyShip> enemyShips;
+
+    static constexpr float SPAWN_COOLDOWN = 10;
+
+    static float lastSpawn;
 
 };
 

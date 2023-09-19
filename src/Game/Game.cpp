@@ -75,6 +75,13 @@ LoadDataSuccess Game::loadData()
             AsteroidManager::insertAsteroid(asteroid);
         }
 
+        std::vector<EnemyShipData> enemyShipDatas = saveData.at("enemyShips");
+        for (EnemyShipData data : enemyShipDatas)
+        {
+            EnemyShip ship(data);
+            EnemyShipManager::addShip(ship);
+        }
+
         std::vector<ItemPickupData> itemDatas = saveData.at("itemPickups");
         for (ItemPickupData data : itemDatas)
         {
@@ -120,6 +127,14 @@ void Game::saveData()
 		asteroidDatas.push_back(asteroidData);
 	}
 	saveData["asteroids"] = asteroidDatas;
+
+    std::vector<EnemyShipData> enemyShipDatas;
+	for (EnemyShip& EnemyShip : EnemyShipManager::getShips())
+	{
+		EnemyShipData enemyShipData = EnemyShip.generateData();
+		enemyShipDatas.push_back(enemyShipData);
+	}
+	saveData["enemyShips"] = enemyShipDatas;
 
     std::vector<ItemPickupData> itemDatas;
     for (ItemPickup& item : ItemPickupManager::getPickups())

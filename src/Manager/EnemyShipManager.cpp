@@ -1,11 +1,10 @@
 #include "Manager/EnemyShipManager.hpp"
 
 std::vector<EnemyShip> EnemyShipManager::enemyShips;
+float EnemyShipManager::lastSpawn = 0;
 
-void EnemyShipManager::addShip(sf::Vector2f position)
+void EnemyShipManager::addShip(EnemyShip ship)
 {
-    EnemyShip ship(position);
-
     enemyShips.push_back(ship);
 }
 
@@ -24,6 +23,17 @@ void EnemyShipManager::updateShips(sf::Vector2f playerPos, float deltaTime)
         }
 
         iter++;
+    }
+
+    lastSpawn += deltaTime;
+    if (lastSpawn >= SPAWN_COOLDOWN)
+    {
+        lastSpawn = 0;
+
+        float xPos = rand() % static_cast<int>(WORLD_WIDTH);
+        float yPos = rand() % static_cast<int>(WORLD_HEIGHT);
+        
+        addShip(EnemyShip(sf::Vector2f(xPos, yPos)));
     }
 
 }

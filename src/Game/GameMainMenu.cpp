@@ -107,7 +107,6 @@ void Game::newGame()
 
     resetGame();
 
-    InventoryManager::resetSilverCoins();
     playerShip.setPosition(sf::Vector2f(5000, 5000));
     Camera::setOffset(sf::Vector2f(4500, 4000));
 
@@ -116,6 +115,8 @@ void Game::newGame()
         sf::Vector2f position(rand() % static_cast<int>(WORLD_WIDTH), rand() % static_cast<int>(WORLD_HEIGHT));
         AsteroidManager::createAsteroid(position);
     }
+
+    EnemyShipManager::addShip(EnemyShip(sf::Vector2f(5000, 4000)));
 
     changeState(GameState::InSpace);
 
@@ -153,7 +154,5 @@ void Game::resetGame()
 
     levelBar.reset();
     levelBar.setMaxValue(InventoryManager::getMaxLevelExp());
-
-    EnemyShipManager::addShip(sf::Vector2f(5000, 4500));
 
 }

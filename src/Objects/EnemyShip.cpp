@@ -20,6 +20,23 @@ EnemyShip::EnemyShip(sf::Vector2f position)
 
 }
 
+EnemyShip::EnemyShip(EnemyShipData data)
+    : healthBar(sf::Vector2f(0, 0), sf::Vector2f(100, 30), MAX_HEALTH)
+{
+
+    position = sf::Vector2f(data.x, data.y);
+    velocity = sf::Vector2f(data.velx, data.vely);
+    rotation = sf::degrees(data.rot);
+    health = data.hp;
+
+    engineActive = false;
+
+    flashTime = 0;
+
+    healthBar.updateValue(health);
+
+}
+
 void EnemyShip::update(sf::Vector2f playerPos, float deltaTime)
 {
 
@@ -94,6 +111,21 @@ void EnemyShip::damage(int amount)
 bool EnemyShip::isAlive()
 {
     return (health > 0);
+}
+
+EnemyShipData EnemyShip::generateData()
+{
+
+    EnemyShipData data;
+    data.x = position.x;
+    data.y = position.y;
+    data.velx = velocity.x;
+    data.vely = velocity.y;
+    data.rot = rotation.asDegrees();
+    data.hp = health;
+
+    return data;
+
 }
 
 void EnemyShip::draw(sf::RenderWindow& window)

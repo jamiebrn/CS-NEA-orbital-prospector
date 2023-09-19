@@ -2,6 +2,7 @@
 #define ENEMY_SHIP_HPP
 
 #include <SFML/Graphics.hpp>
+#include <json.hpp>
 
 #include "DrawableObject.hpp"
 #include "Camera.hpp"
@@ -9,11 +10,29 @@
 #include "Manager/TextureManager.hpp"
 #include "Objects/HealthBar.hpp"
 
+struct EnemyShipData
+{
+    float x, y;
+    float velx, vely;
+    float rot;
+    int hp;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(
+        EnemyShipData,
+        x, y,
+        velx, vely,
+        rot,
+        hp
+    )
+};
+
 class EnemyShip : public DrawableObject
 {
 
 public:
     EnemyShip(sf::Vector2f position);
+
+    EnemyShip(EnemyShipData data);
 
     void update(sf::Vector2f playerPos, float deltaTime);
 
@@ -22,6 +41,8 @@ public:
     bool isBulletColliding(sf::Vector2f bulletPos);
 
     bool isAlive();
+
+    EnemyShipData generateData();
 
     sf::Vector2f getPosition() const;
 
