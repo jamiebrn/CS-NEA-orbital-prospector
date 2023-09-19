@@ -5,6 +5,7 @@ Game::Game()
     spaceStation(sf::Vector2f(700, 1200), sf::degrees(0)),
     titlePlanetRenderer(PlanetType::Earth),
     mainPlanetRenderer(PlanetType::Earth),
+    levelBar(sf::Vector2f(WINDOW_WIDTH / 2 - 300, 50), sf::Vector2f(600, 50), 50),
     view(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT))
 {}
 
@@ -56,6 +57,8 @@ bool Game::initialise()
 
     mainPlanetRenderer.setPosition(sf::Vector2f(1700, 1700));
     mainPlanetRenderer.setScale(7);
+
+    levelBar.setFillColour(sf::Color(255, 239, 1));
 
     inStationRange = false;
 

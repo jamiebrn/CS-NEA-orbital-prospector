@@ -14,6 +14,7 @@
 #include "Objects/PlayerShip.hpp"
 #include "Objects/SpaceStation.hpp"
 #include "Objects/ItemPickupType.hpp"
+#include "Objects/HealthBar.hpp"
 
 #include "Renderer/PlanetRenderer.hpp"
 #include "Renderer/TextRenderer.hpp"
@@ -98,6 +99,8 @@ private:
     PlanetRenderer mainPlanetRenderer;
     SpaceStation spaceStation;
     PlayerShip playerShip;
+
+    HealthBar levelBar;
 
     UIButtonGroup titleButtons;
     UIButtonGroup stationMenuButtons;

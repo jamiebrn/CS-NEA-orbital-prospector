@@ -6,17 +6,34 @@ HealthBar::HealthBar(sf::Vector2f position, sf::Vector2f size, float maxValue)
     this->size = size;
 
     this->maxValue = maxValue;
-    value = maxValue;
+    value = 0;
+
+    fillColour = sf::Color(30, 200, 30);
+}
+
+void HealthBar::update(float deltaTime)
+{
+    value = Helper::lerp(value, destValue, LERP_WEIGHT * deltaTime);
 }
 
 void HealthBar::updateValue(float value)
 {
-    this->value = value;
+    destValue = value;
+}
+
+void HealthBar::setMaxValue(float value)
+{
+    maxValue = value;
 }
 
 void HealthBar::setDrawPosition(sf::Vector2f position)
 {
     this->position = position;
+}
+
+void HealthBar::setFillColour(sf::Color colour)
+{
+    fillColour = colour;
 }
 
 void HealthBar::draw(sf::RenderWindow& window)
@@ -33,7 +50,7 @@ void HealthBar::draw(sf::RenderWindow& window)
     float healthWidth = (size.x - 10) * (value / maxValue);
     sf::RectangleShape health(sf::Vector2f(healthWidth, size.y - 10));
     health.setPosition(sf::Vector2f(position.x + 5, position.y + 5));
-    health.setFillColor(sf::Color(30, 200, 30));
+    health.setFillColor(fillColour);
 
     window.draw(border);
     window.draw(inset);

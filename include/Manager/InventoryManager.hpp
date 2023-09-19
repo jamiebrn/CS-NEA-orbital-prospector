@@ -27,8 +27,18 @@ public:
 
     inline static int getSilverCoins() {return silverCoins;}
 
+    static void addExperience(int amount);
+
+    inline static int getCurrentLevel() {return currentLevel;}
+
+    inline static int getLevelExp() {return levelExp;}
+
+    inline static int getMaxLevelExp() {return maxLevelExp;}
+
 private:
     static void initTypeTest(ItemPickupType type);
+
+    static void levelUp();
 
 private:
     static std::unordered_map<ItemPickupType, int> itemsCount;
@@ -40,6 +50,10 @@ private:
     };
 
     static int silverCoins;
+
+    static int currentLevel;
+    static int levelExp;
+    static int maxLevelExp;
 
 };
 

@@ -60,6 +60,8 @@ void EnemyShip::update(sf::Vector2f playerPos, float deltaTime)
 
     flashTime = std::max(flashTime - deltaTime, 0.0f);
 
+    healthBar.update(deltaTime);
+
 }
 
 bool EnemyShip::isBulletColliding(sf::Vector2f bulletPos)
