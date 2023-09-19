@@ -128,7 +128,7 @@ void Game::loadGame()
 
     LoadDataSuccess loadSuccess = loadData();
 
-    if (loadSuccess == LoadDataSuccess::NO_FILE || loadSuccess == LoadDataSuccess::CORRUPT_FILE)
+    if (loadSuccess != LoadDataSuccess::SUCCESSFUL)
     {
         loadDataError = true;
         loadDataErrorType = loadSuccess;
@@ -150,6 +150,9 @@ void Game::resetGame()
     ItemPickupManager::reset();
     EnemyShipManager::reset();
     InventoryManager::reset();
+
+    levelBar.reset();
+    levelBar.setMaxValue(InventoryManager::getMaxLevelExp());
 
     EnemyShipManager::addShip(sf::Vector2f(5000, 4500));
 

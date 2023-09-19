@@ -63,6 +63,10 @@ LoadDataSuccess Game::loadData()
         InventoryManager::addItem(ItemPickupType::IronChunk, saveData.at("iron"));
         InventoryManager::addSilverCoins(saveData.at("coins"));
 
+        InventoryManager::setCurrentLevel(saveData.at("level").at("value"));
+        InventoryManager::setLevelExp(saveData.at("level").at("progress"));
+        InventoryManager::setMaxLevelExp(saveData.at("level").at("max"));
+
         std::vector<AsteroidData> asteroidDatas = saveData.at("asteroids");
         for (AsteroidData data : asteroidDatas)
         {
@@ -104,6 +108,10 @@ void Game::saveData()
 	saveData["pos"]["y"] = playerShip.getPosition().y;
     saveData["cam"]["x"] = -Camera::getDrawOffset().x;
     saveData["cam"]["y"] = -Camera::getDrawOffset().y;
+
+    saveData["level"]["value"] = InventoryManager::getCurrentLevel();
+    saveData["level"]["progress"] = InventoryManager::getLevelExp();
+    saveData["level"]["max"] = InventoryManager::getMaxLevelExp();
 
 	std::vector<AsteroidData> asteroidDatas;
 	for (Asteroid& asteroid : AsteroidManager::getAsteroids())

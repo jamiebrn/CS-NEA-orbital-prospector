@@ -2,6 +2,7 @@
 #define INVENTORY_MANAGER_HPP
 
 #include <unordered_map>
+#include <iostream>
 
 #include "Objects/ItemPickupType.hpp"
 
@@ -34,6 +35,14 @@ public:
     inline static int getLevelExp() {return levelExp;}
 
     inline static int getMaxLevelExp() {return maxLevelExp;}
+
+    inline static void setCurrentLevel(int level) {currentLevel = level;}
+
+    inline static void setLevelExp(int exp) {levelExp = exp;}
+
+    inline static void setMaxLevelExp(int exp) {maxLevelExp = exp;}
+
+    inline static int itemPrice(ItemPickupType type) {return itemBasePrice.at(type);}
 
 private:
     static void initTypeTest(ItemPickupType type);

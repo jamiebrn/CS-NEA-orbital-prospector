@@ -47,7 +47,7 @@ private:
     static constexpr float ACCELERATION = 11;
     static constexpr float DECELERATION = 16;
 
-    static constexpr float SHOOT_COOLDOWN = 0;
+    static constexpr float SHOOT_COOLDOWN = 0.1;
 
     static constexpr float ITEM_PICKUP_RADIUS = 50;
 

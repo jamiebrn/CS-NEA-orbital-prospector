@@ -26,6 +26,12 @@ void HealthBar::setMaxValue(float value)
     maxValue = value;
 }
 
+void HealthBar::reset()
+{
+    value = 0;
+    destValue = 0;
+}
+
 void HealthBar::setDrawPosition(sf::Vector2f position)
 {
     this->position = position;

@@ -18,14 +18,22 @@ public:
 
     void setMaxValue(float value);
 
+    void reset();
+
     void setDrawPosition(sf::Vector2f position);
 
     void setFillColour(sf::Color colour);
 
     void draw(sf::RenderWindow& window) override;
 
+    inline float getMaxValue() {return maxValue;}
+
+    inline float getValue() {return value;}
+
+    inline float getDestValue() {return destValue;}
+
 private:
-    static constexpr float LERP_WEIGHT = 3;
+    static constexpr float LERP_WEIGHT = 5;
 
     sf::Vector2f position, size;
 

@@ -11,8 +11,6 @@ void InventoryManager::addItem(ItemPickupType type, int amount)
     initTypeTest(type);
 
     itemsCount[type] += amount;
-
-    addExperience(itemBasePrice.at(type) * amount);
 }
 
 int InventoryManager::getItemCount(ItemPickupType type)

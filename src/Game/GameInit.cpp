@@ -17,7 +17,7 @@ bool Game::initialise()
     sf::Vector2u monitorRes = sf::VideoMode::getDesktopMode().size;
     window.create(sf::VideoMode(monitorRes), WINDOW_TITLE, sf::Style::Fullscreen);
 
-    //window.setFramerateLimit(200);
+    window.setFramerateLimit(240);
 
     if (!iconImage.loadFromFile(ICON_PATH))
     {

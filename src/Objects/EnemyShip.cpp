@@ -16,6 +16,7 @@ EnemyShip::EnemyShip(sf::Vector2f position)
     flashTime = 0;
 
     health = MAX_HEALTH;
+    healthBar.updateValue(health);
 
 }
 
