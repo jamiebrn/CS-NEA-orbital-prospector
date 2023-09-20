@@ -58,8 +58,14 @@ void HealthBar::draw(sf::RenderWindow& window)
     health.setPosition(sf::Vector2f(position.x + 5, position.y + 5));
     health.setFillColor(fillColour);
 
+    float deltaWidth = (size.x - 10) * ((destValue - value) / maxValue);
+    sf::RectangleShape delta(sf::Vector2f(deltaWidth, size.y - 10));
+    delta.setPosition(sf::Vector2f(position.x + 5 + healthWidth, position.y + 5));
+    delta.setFillColor(sf::Color(fillColour.r * 0.5, fillColour.g * 0.5, fillColour.b * 0.5));
+
     window.draw(border);
     window.draw(inset);
     window.draw(health);
+    window.draw(delta);
 
 }
