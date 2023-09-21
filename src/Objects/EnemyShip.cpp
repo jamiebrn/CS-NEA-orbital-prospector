@@ -56,15 +56,15 @@ void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& shi
     // Move towards player
 
     float distanceSq = (position - playerPos).lengthSq();
-    if (distanceSq >= PLAYER_SHOOT_RADIUS * PLAYER_SHOOT_RADIUS)
-    {
-        sf::Vector2f directionVector = (playerPos - position).normalized();
+    sf::Vector2f directionVector = (playerPos - position).normalized();
 
-        velocity.x = Helper::lerp(velocity.x, directionVector.x * SPEED, ACCELERATION * deltaTime);
-        velocity.y = Helper::lerp(velocity.y, directionVector.y * SPEED, ACCELERATION * deltaTime);
-    
-        engineActive = true;
-    }
+    //float currentAcceleration = ACCELERATION * std::max(1, )
+
+    velocity.x = Helper::lerp(velocity.x, directionVector.x * SPEED, ACCELERATION * deltaTime);
+    velocity.y = Helper::lerp(velocity.y, directionVector.y * SPEED, ACCELERATION * deltaTime);
+
+    engineActive = true;
+    /*
     else
     {
         velocity.x = Helper::lerp(velocity.x, 0, DECELERATION * deltaTime);
@@ -72,6 +72,7 @@ void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& shi
 
         engineActive = false;
     }
+    */
 
 
     // Move away from other closeby ships
@@ -113,7 +114,12 @@ void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& shi
     if (closeShipProximity)
     {
         float velocityMagnitude = velocity.length();
-        velocity = (position - closeShipPos).normalized() * velocityMagnitude;
+        float distanceSq = (position - closeShipPos).lengthSq();
+        float pushMult = 1 - (distanceSq / (SHIP_CLOSEST_RADIUS * SHIP_CLOSEST_RADIUS * SCALE));
+
+        sf::Vector2f pushVector = (position - closeShipPos).normalized() * velocityMagnitude;
+
+        velocity = (1 - pushMult) * velocity + pushMult * pushVector;
     }
 
 

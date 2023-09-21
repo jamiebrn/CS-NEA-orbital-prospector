@@ -66,7 +66,7 @@ private:
 
     static constexpr float ROTATION_LERP_WEIGHT = 4;
 
-    static constexpr float PLAYER_SHOOT_RADIUS = 350;
+    static constexpr float PLAYER_SPEED_RADIUS = 350;
     static constexpr float SHIP_CLOSEST_RADIUS = 8 * SCALE;
 
     static constexpr float HITBOX_RADIUS = 5 * SCALE;
