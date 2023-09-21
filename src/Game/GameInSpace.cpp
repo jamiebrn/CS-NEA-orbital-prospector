@@ -151,10 +151,8 @@ void Game::inSpaceLoop()
     
     levelBar.draw(window);
     std::string text = "Level " + std::to_string(InventoryManager::getCurrentLevel());
-    TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 65), sf::Color(255, 255, 255), 32, sf::Color(0, 0, 0), 3, true, true});
-
-    text = std::to_string(static_cast<int>(levelBar.getValue())) + " / " + std::to_string(static_cast<int>(levelBar.getMaxValue()));
-    TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 85), sf::Color(255, 255, 255), 24, sf::Color(0, 0, 0), 1, true, true});
+    text += " - " + std::to_string(static_cast<int>(levelBar.getValue())) + " / " + std::to_string(static_cast<int>(levelBar.getMaxValue())) + " XP";
+    TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 55), sf::Color(255, 255, 255), 32, sf::Color(0, 0, 0), 3, true, true});
 
     text = std::to_string(static_cast<int>(1 / deltaTime)) + " FPS";
     TextRenderer::drawText(window, {text, sf::Vector2f(20, 5), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});

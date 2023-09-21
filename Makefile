@@ -7,7 +7,10 @@ ICON_DATA := dev_resources/icon_data.res
 
 EXEC := "Orbital Prospector.exe"
 
-all: icon
+all:
+	$(CPP) $(SRC_FILES) -o bin/$(EXEC) ${ICON_DATA} -O0 $(CPPFLAGS) -mwindows $(LIBFLAGS)
+
+release: icon
 	$(CPP) $(SRC_FILES) -o bin/$(EXEC) ${ICON_DATA} -O3 $(CPPFLAGS) -mwindows $(LIBFLAGS)
 
 debug:

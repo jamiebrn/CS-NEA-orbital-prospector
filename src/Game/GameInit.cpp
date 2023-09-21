@@ -5,7 +5,7 @@ Game::Game()
     spaceStation(sf::Vector2f(700, 1200), sf::degrees(0)),
     titlePlanetRenderer(PlanetType::Earth),
     mainPlanetRenderer(PlanetType::Earth),
-    levelBar(sf::Vector2f(WINDOW_WIDTH / 2 - 300, 50), sf::Vector2f(600, 50), 50),
+    levelBar(sf::Vector2f(WINDOW_WIDTH / 2 - 300, 30), sf::Vector2f(600, 50), 50),
     view(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT))
 {}
 
