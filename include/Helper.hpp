@@ -27,9 +27,8 @@ inline sf::Angle lerpAngle(sf::Angle startAngle, sf::Angle destAngle, float weig
     float dest = destAngle.asDegrees();
 
     float dt = std::clamp(dest - start - std::floor((dest - start) / 360) * 360, 0.0f, 360.0f);
-    if (dt > 180) {
+    if (dt > 180)
         dt -= 360;
-    }
 
     float lerpedAngle = lerp(start, start + dt, weight);
 

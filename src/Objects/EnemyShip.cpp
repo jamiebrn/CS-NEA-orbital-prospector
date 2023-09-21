@@ -9,6 +9,8 @@ EnemyShip::EnemyShip(sf::Vector2f position)
     velocity = sf::Vector2f(0, 0);
     rotation = sf::degrees(0);
 
+    id = std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1);
+
     hitboxPosition = sf::Vector2f(0, 0);
 
     engineActive = false;
@@ -29,6 +31,8 @@ EnemyShip::EnemyShip(EnemyShipData data)
     rotation = sf::degrees(data.rot);
     health = data.hp;
 
+    id = data.id;
+
     engineActive = false;
 
     flashTime = 0;
@@ -37,16 +41,24 @@ EnemyShip::EnemyShip(EnemyShipData data)
 
 }
 
-void EnemyShip::update(sf::Vector2f playerPos, float deltaTime)
+void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& ships, float deltaTime)
 {
 
-    sf::Angle destRot = (position - playerPos).angle() - sf::degrees(90);
-    rotation = Helper::lerpAngle(rotation, destRot, ROTATION_LERP_WEIGHT * deltaTime);
+    // Rotation
+
+    if (velocity.lengthSq() > 0)
+    {
+        sf::Angle destRot = velocity.angle() + sf::degrees(90);
+        rotation = Helper::lerpAngle(rotation, destRot, ROTATION_LERP_WEIGHT * deltaTime);
+    }
+
+
+    // Move towards player
 
     float distanceSq = (position - playerPos).lengthSq();
     if (distanceSq >= PLAYER_SHOOT_RADIUS * PLAYER_SHOOT_RADIUS)
     {
-        sf::Vector2f directionVector = sf::Vector2f(0, -1).rotatedBy(rotation);
+        sf::Vector2f directionVector = (playerPos - position).normalized();
 
         velocity.x = Helper::lerp(velocity.x, directionVector.x * SPEED, ACCELERATION * deltaTime);
         velocity.y = Helper::lerp(velocity.y, directionVector.y * SPEED, ACCELERATION * deltaTime);
@@ -61,6 +73,52 @@ void EnemyShip::update(sf::Vector2f playerPos, float deltaTime)
         engineActive = false;
     }
 
+
+    // Move away from other closeby ships
+
+    bool closeShipProximity = false;
+    sf::Vector2f closeShipPos;
+    for (const EnemyShip& ship : ships)
+    {
+
+        // Skip self
+        if (id == ship.getID())
+            continue;
+
+        sf::Vector2f shipPos = ship.getPosition();
+        float distanceSq = (position - shipPos).lengthSq();
+
+        if(distanceSq <= SHIP_CLOSEST_RADIUS * SHIP_CLOSEST_RADIUS * SCALE)
+        {
+
+            // Not already found close ship
+            if (!closeShipProximity)
+            {
+                closeShipPos = shipPos;
+                closeShipProximity = true;
+            }
+            else
+            {
+                float closestDistanceSq = (position - closeShipPos).lengthSq();
+                if (distanceSq < closestDistanceSq)
+                {
+                    closeShipPos = shipPos;
+                }
+            }
+
+        }
+
+    }
+
+    if (closeShipProximity)
+    {
+        float velocityMagnitude = velocity.length();
+        velocity = (position - closeShipPos).normalized() * velocityMagnitude;
+    }
+
+
+    // Animation
+
     if (engineActive)
     {
         engineFrameTick += deltaTime;
@@ -70,6 +128,9 @@ void EnemyShip::update(sf::Vector2f playerPos, float deltaTime)
             engineFrameIndex = (engineFrameIndex + 1) % ENGINE_ANIM_FRAMES;
         }
     }
+
+    
+    // Update variables
 
     position += velocity * deltaTime;
 
@@ -123,6 +184,7 @@ EnemyShipData EnemyShip::generateData()
     data.vely = velocity.y;
     data.rot = rotation.asDegrees();
     data.hp = health;
+    data.id = id;
 
     return data;
 
@@ -172,9 +234,25 @@ void EnemyShip::draw(sf::RenderWindow& window)
     healthBar.setDrawPosition(sf::Vector2f(position.x - 50, position.y - 50) + drawOffset);
     healthBar.draw(window);
 
+    // Debug
+
+    sf::CircleShape closeBox(SHIP_CLOSEST_RADIUS);
+    closeBox.setPosition(position + drawOffset);
+    closeBox.setOrigin(sf::Vector2f(SHIP_CLOSEST_RADIUS, SHIP_CLOSEST_RADIUS));
+    closeBox.setFillColor(sf::Color(100, 30, 30, 100));
+    window.draw(closeBox);
+
+    sf::Vertex line[] = {sf::Vertex(position + drawOffset), sf::Vertex(position + velocity * 10.0f + drawOffset)};
+    window.draw(line, 2, sf::Lines);
+
 }
 
 sf::Vector2f EnemyShip::getPosition() const
 {
     return position;
+}
+
+unsigned long long EnemyShip::getID() const
+{
+    return id;
 }

@@ -14,7 +14,7 @@ void EnemyShipManager::updateShips(sf::Vector2f playerPos, float deltaTime)
     for (auto iter = enemyShips.begin(); iter != enemyShips.end();)
     {
 
-        iter->update(playerPos, deltaTime);
+        iter->update(playerPos, enemyShips, deltaTime);
 
         if (!iter->isAlive())
         {

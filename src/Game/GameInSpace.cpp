@@ -53,6 +53,12 @@ void Game::inSpaceLoop()
 
             if (event.key.code == sf::Keyboard::H)
                 showUIRing = !showUIRing;
+            
+            if (event.key.code == sf::Keyboard::G)
+            {
+                sf::Vector2f pos = mousePosition - Camera::getDrawOffset();
+                EnemyShipManager::addShip(EnemyShip(pos));
+            }
 
         }
 
