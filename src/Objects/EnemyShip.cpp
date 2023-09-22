@@ -185,7 +185,8 @@ bool EnemyShip::isBulletColliding(sf::Vector2f bulletPos)
 
 void EnemyShip::shoot()
 {
-    BulletManager::createEnemyBullet(position, rotation);
+    sf::Vector2f offset = sf::Vector2f(0, -6 * SCALE).rotatedBy(rotation);
+    BulletManager::createEnemyBullet(position + offset, rotation);
 }
 
 void EnemyShip::damage(int amount)
