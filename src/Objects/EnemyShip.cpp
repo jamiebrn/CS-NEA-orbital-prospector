@@ -119,7 +119,8 @@ void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& shi
 
         sf::Vector2f pushVector = (position - closeShipPos).normalized() * velocityMagnitude;
 
-        velocity = (1 - pushMult) * velocity + pushMult * pushVector;
+        velocity += pushMult * pushVector;
+        velocity = velocity.normalized() * velocityMagnitude;
     }
 
 
@@ -167,12 +168,21 @@ bool EnemyShip::isBulletColliding(sf::Vector2f bulletPos)
 
 void EnemyShip::damage(int amount)
 {
+
+    if (health <= 0)
+        return;
+
     flashTime = MAX_FLASH_TIME;
 
     health -= amount;
 
-    if (health >= 0)
+    if (health > 0)
         healthBar.updateValue(health);
+    else
+    {
+        // Dead
+        InventoryManager::addExperience(15);
+    }
 }
 
 bool EnemyShip::isAlive()
@@ -239,17 +249,6 @@ void EnemyShip::draw(sf::RenderWindow& window)
 
     healthBar.setDrawPosition(sf::Vector2f(position.x - 50, position.y - 50) + drawOffset);
     healthBar.draw(window);
-
-    // Debug
-
-    sf::CircleShape closeBox(SHIP_CLOSEST_RADIUS);
-    closeBox.setPosition(position + drawOffset);
-    closeBox.setOrigin(sf::Vector2f(SHIP_CLOSEST_RADIUS, SHIP_CLOSEST_RADIUS));
-    closeBox.setFillColor(sf::Color(100, 30, 30, 100));
-    window.draw(closeBox);
-
-    sf::Vertex line[] = {sf::Vertex(position + drawOffset), sf::Vertex(position + velocity * 10.0f + drawOffset)};
-    window.draw(line, 2, sf::Lines);
 
 }
 

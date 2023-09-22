@@ -10,6 +10,7 @@
 #include "Camera.hpp"
 #include "Helper.hpp"
 #include "Manager/TextureManager.hpp"
+#include "Manager/InventoryManager.hpp"
 #include "Objects/HealthBar.hpp"
 
 struct EnemyShipData
