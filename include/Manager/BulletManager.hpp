@@ -20,12 +20,24 @@ public:
 
     static void drawBullets(sf::RenderWindow& window);
 
+    static void createEnemyBullet(sf::Vector2f position, sf::Angle rotation);
+
+    static void updateEnemyBullets(float deltaTime);
+
+    static void drawEnemyBullets(sf::RenderWindow& window);
+
     static void reset();
 
     static int getBulletCount();
 
+    static std::vector<Bullet>& getBullets();
+
+    static std::vector<Bullet>& getEnemyBullets();
+
 private:
     static std::vector<Bullet> bullets;
+
+    static std::vector<Bullet> enemyBullets;
 
 };
 

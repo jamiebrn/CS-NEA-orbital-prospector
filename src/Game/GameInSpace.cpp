@@ -95,6 +95,7 @@ void Game::inSpaceLoop()
         EnemyShipManager::updateShips(playerShip.getPosition(), deltaTime);
 
         BulletManager::updateBullets(deltaTime);
+        BulletManager::updateEnemyBullets(deltaTime);
 
         AsteroidManager::updateAsteroids(deltaTime);
 
@@ -146,6 +147,7 @@ void Game::inSpaceLoop()
     AsteroidManager::drawAsteroids(window);
 
     BulletManager::drawBullets(window);
+    BulletManager::drawEnemyBullets(window);
 
     EnemyShipManager::drawShips(window);
 

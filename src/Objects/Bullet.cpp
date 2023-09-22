@@ -26,10 +26,11 @@ void Bullet::update(float deltaTime)
 
     timeAlive += deltaTime;
 
-    checkCollisions();
+    //checkCollisions();
 
 }
 
+/*
 void Bullet::checkCollisions()
 {
 
@@ -50,10 +51,21 @@ void Bullet::checkCollisions()
     }
 
 }
+*/
+
+sf::Vector2f Bullet::getPosition()
+{
+    return position;
+}
 
 bool Bullet::isAlive()
 {
     return (timeAlive < LIFETIME);
+}
+
+void Bullet::kill()
+{
+    timeAlive = LIFETIME;
 }
 
 void Bullet::draw(sf::RenderWindow& window)

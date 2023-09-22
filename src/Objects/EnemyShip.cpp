@@ -11,6 +11,8 @@ EnemyShip::EnemyShip(sf::Vector2f position)
 
     id = std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1);
 
+    shootCooldown = 0;
+
     hitboxPosition = sf::Vector2f(0, 0);
 
     engineActive = false;
@@ -33,6 +35,8 @@ EnemyShip::EnemyShip(EnemyShipData data)
 
     id = data.id;
 
+    shootCooldown = 0;
+
     engineActive = false;
 
     flashTime = 0;
@@ -47,32 +51,34 @@ void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& shi
     // Rotation
 
     if (velocity.lengthSq() > 0)
-    {
-        sf::Angle destRot = velocity.angle() + sf::degrees(90);
-        rotation = Helper::lerpAngle(rotation, destRot, ROTATION_LERP_WEIGHT * deltaTime);
-    }
-
+        destRotation = (position - playerPos).angle() - sf::degrees(90);
 
     // Move towards player
 
     float distanceSq = (position - playerPos).lengthSq();
-    sf::Vector2f directionVector = (playerPos - position).normalized();
 
-    //float currentAcceleration = ACCELERATION * std::max(1, )
+    float inverseDist = (distanceSq / (PLAYER_SPEED_RADIUS * PLAYER_SPEED_RADIUS * SCALE));
+    float currentSpeed = SPEED * std::max(1.0f, (1 - inverseDist) * 7);
 
-    velocity.x = Helper::lerp(velocity.x, directionVector.x * SPEED, ACCELERATION * deltaTime);
-    velocity.y = Helper::lerp(velocity.y, directionVector.y * SPEED, ACCELERATION * deltaTime);
+    float rotationLerp = ROTATION_LERP_WEIGHT * std::clamp((inverseDist) * 3.5f, 0.3f, 1.0f);
+    rotation = Helper::lerpAngle(rotation, destRotation, rotationLerp * deltaTime);
+
+    sf::Vector2f directionVector = sf::Vector2f(0, -1).rotatedBy(rotation);
+
+    velocity.x = Helper::lerp(velocity.x, directionVector.x * currentSpeed, ACCELERATION * deltaTime);
+    velocity.y = Helper::lerp(velocity.y, directionVector.y * currentSpeed, ACCELERATION * deltaTime);
 
     engineActive = true;
-    /*
-    else
-    {
-        velocity.x = Helper::lerp(velocity.x, 0, DECELERATION * deltaTime);
-        velocity.y = Helper::lerp(velocity.y, 0, DECELERATION * deltaTime);
 
-        engineActive = false;
+    // Shoot player
+
+    shootCooldown += deltaTime;
+
+    if (distanceSq <= PLAYER_SHOOT_RADIUS * PLAYER_SHOOT_RADIUS * SCALE && shootCooldown >= SHOOT_COOLDOWN)
+    {
+        shootCooldown = 0;
+        shoot();
     }
-    */
 
 
     // Move away from other closeby ships
@@ -124,6 +130,19 @@ void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& shi
     }
 
 
+    // Check bullet collision
+    
+    for (Bullet& bullet : BulletManager::getBullets())
+    {
+        sf::Vector2f bulletPos = bullet.getPosition();
+        if (isBulletColliding(bulletPos))
+        {
+            damage(1);
+            bullet.kill();
+        }
+    }
+
+
     // Animation
 
     if (engineActive)
@@ -157,13 +176,16 @@ bool EnemyShip::isBulletColliding(sf::Vector2f bulletPos)
 
     if (distanceSq < HITBOX_RADIUS * HITBOX_RADIUS * SCALE)
     {
-        damage(1);
-
         return true;
     }
 
     return false;
 
+}
+
+void EnemyShip::shoot()
+{
+    BulletManager::createEnemyBullet(position, rotation);
 }
 
 void EnemyShip::damage(int amount)

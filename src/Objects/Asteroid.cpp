@@ -20,6 +20,18 @@ void Asteroid::update(float deltaTime)
     if (!exploding)
     {
         flashTime = std::max(flashTime - deltaTime, 0.0f);
+
+        // Check bullet collision
+        for (Bullet& bullet : BulletManager::getBullets())
+        {
+            sf::Vector2f bulletPos = bullet.getPosition();
+            if (isColliding(bulletPos))
+            {
+                damage(1);
+                bullet.kill();
+            }
+        }
+        
         return;
     }
 
@@ -82,8 +94,6 @@ bool Asteroid::isColliding(sf::Vector2f bulletTip)
 
     if (distanceSq < radius * radius)
     {
-        damage(1);
-
         return true;
     }
 

@@ -11,6 +11,7 @@
 #include "Helper.hpp"
 #include "Manager/TextureManager.hpp"
 #include "Manager/InventoryManager.hpp"
+#include "Manager/BulletManager.hpp"
 #include "Objects/HealthBar.hpp"
 
 struct EnemyShipData
@@ -56,6 +57,8 @@ public:
 private:
     void damage(int amount);
 
+    void shoot();
+
 private:
     static constexpr float SCALE = 6;
 
@@ -65,9 +68,12 @@ private:
 
     static constexpr int MAX_HEALTH = 20;
 
+    static constexpr float SHOOT_COOLDOWN = 0.05;
+
     static constexpr float ROTATION_LERP_WEIGHT = 4;
 
     static constexpr float PLAYER_SPEED_RADIUS = 350;
+    static constexpr float PLAYER_SHOOT_RADIUS = 500;
     static constexpr float SHIP_CLOSEST_RADIUS = 8 * SCALE;
 
     static constexpr float HITBOX_RADIUS = 5 * SCALE;
@@ -81,9 +87,12 @@ private:
 
     sf::Vector2f position, velocity;
     sf::Angle rotation;
+    sf::Angle destRotation;
 
     int health;
     HealthBar healthBar;
+
+    float shootCooldown;
 
     sf::Vector2f hitboxPosition;
 
