@@ -84,14 +84,7 @@ void Game::inSpaceLoop()
 
         spaceStation.orbitBody(planetCentre, 1400, 1, deltaTime);
 
-        if (distanceSqToStation() <= STATION_MAX_RANGE * STATION_MAX_RANGE)
-        {
-            inStationRange = true;
-        }
-        else
-        {
-            inStationRange = false;
-        }
+        inStationRange = (distanceSqToStation() <= STATION_MAX_RANGE * STATION_MAX_RANGE);
 
         mainPlanetRenderer.update(deltaTime);
 
