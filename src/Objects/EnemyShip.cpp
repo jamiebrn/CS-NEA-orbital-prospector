@@ -37,6 +37,8 @@ EnemyShip::EnemyShip(EnemyShipData data)
 
     shootCooldown = 0;
 
+    hitboxPosition = sf::Vector2f(0, 0);
+
     engineActive = false;
 
     flashTime = 0;

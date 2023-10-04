@@ -76,6 +76,7 @@ void BulletManager::drawEnemyBullets(sf::RenderWindow& window)
 void BulletManager::reset()
 {
     bullets.clear();
+    enemyBullets.clear();
 }
 
 int BulletManager::getBulletCount()
