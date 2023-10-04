@@ -5,6 +5,7 @@ Game::Game()
     spaceStation(sf::Vector2f(700, 1200), sf::degrees(0)),
     titlePlanetRenderer(PlanetType::Earth),
     mainPlanetRenderer(PlanetType::Earth),
+    playerHealthBar(sf::Vector2f(30, 30), sf::Vector2f(600, 50), 50),
     levelBar(sf::Vector2f(WINDOW_WIDTH / 2 - 300, 30), sf::Vector2f(600, 50), 50),
     view(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT))
 {}
@@ -64,7 +65,6 @@ bool Game::initialise()
 
     showUIRing = true;
     paused = false;
-    savedSincePause = false;
 
     loadDataError = false;
 
@@ -89,6 +89,18 @@ void Game::initUI()
 
     titleButtons.addButton("quit", {
         sf::Vector2f(WINDOW_WIDTH / 2 - 100, 900), sf::Vector2f(200, 70),
+        "Quit", sf::Color(190, 15, 15), sf::Color(220, 20, 20)
+    });
+
+    // Pause menu buttons
+
+    pauseMenuButtons.addButton("save", {
+        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 500), sf::Vector2f(200, 70),
+        "Save", sf::Color(245, 175, 15), sf::Color(250, 185, 25)
+    });
+
+    pauseMenuButtons.addButton("quit", {
+        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 600), sf::Vector2f(200, 70),
         "Quit", sf::Color(190, 15, 15), sf::Color(220, 20, 20)
     });
 

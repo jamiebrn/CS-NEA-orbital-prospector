@@ -15,6 +15,7 @@ Bullet::Bullet(sf::Vector2f initPosition, sf::Angle initRotation)
 
 void Bullet::update(float deltaTime)
 {
+    
     position += velocity * deltaTime;
 
     animTick += deltaTime;
@@ -26,32 +27,7 @@ void Bullet::update(float deltaTime)
 
     timeAlive += deltaTime;
 
-    //checkCollisions();
-
 }
-
-/*
-void Bullet::checkCollisions()
-{
-
-    for (Asteroid& asteroid : AsteroidManager::getAsteroids())
-    {
-        if (asteroid.isColliding(position))
-        {
-            timeAlive = LIFETIME;
-        }
-    }
-
-    for (EnemyShip& ship : EnemyShipManager::getShips())
-    {
-        if (ship.isBulletColliding(position))
-        {
-            timeAlive = LIFETIME;
-        }
-    }
-
-}
-*/
 
 sf::Vector2f Bullet::getPosition()
 {

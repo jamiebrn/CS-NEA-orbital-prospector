@@ -8,12 +8,17 @@ PlayerShip::PlayerShip(sf::Vector2f position)
     velocity = sf::Vector2f(0, 0);
     direction = 0;
 
+    maxHealth = STARTING_MAX_HEALTH;
+    health = maxHealth;
+
     shootCooldown = 0;
     currentGunIndex = 0;
 
     engineAnimationIndex = 0;
     engineAnimTick = 0;
     engineActive = false;
+
+    flashTime = 0;
 
 }
 
@@ -50,6 +55,22 @@ void PlayerShip::update(float deltaTime, sf::Vector2f mouse_position)
 
     position += velocity * deltaTime;
 
+
+    // Enemy bullet collision
+
+    for (Bullet& bullet : BulletManager::getEnemyBullets())
+    {
+        float lengthSq = (position - bullet.getPosition()).lengthSq();
+        if (lengthSq <= HITBOX_RADIUS * HITBOX_RADIUS)
+        {
+            damage(1);
+            bullet.kill();
+        }
+    }
+
+
+    // Animation
+
     if (engineActive)
     {
         engineAnimTick += deltaTime;
@@ -59,6 +80,9 @@ void PlayerShip::update(float deltaTime, sf::Vector2f mouse_position)
             engineAnimationIndex = (engineAnimationIndex + 1) % 10;
         }
     }
+
+    flashTime -= deltaTime;
+
 
     // Shooting
 
@@ -72,6 +96,7 @@ void PlayerShip::update(float deltaTime, sf::Vector2f mouse_position)
         currentGunIndex = (currentGunIndex + 1) % bulletSpawnPos.size();
     }
 
+
     // Item pickups
 
     std::vector<ItemPickupType> pickedUp = ItemPickupManager::testCollectedPickups(position, ITEM_PICKUP_RADIUS);
@@ -84,6 +109,15 @@ void PlayerShip::update(float deltaTime, sf::Vector2f mouse_position)
     {
         SoundManager::playSound(SoundType::ItemPickup);
     }
+
+}
+
+void PlayerShip::damage(int amount)
+{
+
+    health -= amount;
+
+    flashTime = FLASH_TIME_MAX;
 
 }
 
@@ -107,6 +141,9 @@ void PlayerShip::draw(sf::RenderWindow& window)
 
     sf::Vector2f drawOffset = Camera::getDrawOffset();
 
+
+    // Draw engine trail
+
     if (engineActive)
     {
         TextureDrawData engineDrawData = {
@@ -121,6 +158,9 @@ void PlayerShip::draw(sf::RenderWindow& window)
         TextureManager::drawSubTexture(window, engineDrawData, engineSubRect);
     }
 
+
+    // Draw ship
+
     TextureDrawData shipDrawData = {
         TextureType::PlayerShip,
         position + drawOffset,
@@ -129,6 +169,25 @@ void PlayerShip::draw(sf::RenderWindow& window)
     };
 
     TextureManager::drawTexture(window, shipDrawData);
+
+
+    // Draw flash effect from being damaged
+
+    if (flashTime > 0)
+    {
+        float flashAlpha = (flashTime / FLASH_TIME_MAX) * 255;
+
+        TextureDrawData flashDrawData = {
+            TextureType::PlayerShipFlash,
+            position + drawOffset,
+            sf::radians(direction),
+            4,
+            true,
+            sf::Color(255, 255, 255, flashAlpha)
+        };
+
+        TextureManager::drawTexture(window, flashDrawData);
+    }
 
 }
 

@@ -60,7 +60,7 @@ void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& shi
     float inverseDist = (distanceSq / (PLAYER_SPEED_RADIUS * PLAYER_SPEED_RADIUS * SCALE));
     float currentSpeed = SPEED * std::max(1.0f, (1 - inverseDist) * 7);
 
-    float rotationLerp = ROTATION_LERP_WEIGHT * std::clamp((inverseDist) * 3.5f, 0.3f, 1.0f);
+    float rotationLerp = ROTATION_LERP_WEIGHT * std::clamp((inverseDist) * 1.1f, 0.3f, 1.0f);
     rotation = Helper::lerpAngle(rotation, destRotation, rotationLerp * deltaTime);
 
     sf::Vector2f directionVector = sf::Vector2f(0, -1).rotatedBy(rotation);

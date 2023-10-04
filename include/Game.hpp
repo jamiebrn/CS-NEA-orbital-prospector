@@ -1,3 +1,11 @@
+//
+// Game.hpp
+//
+// An instance of this is created in the main function
+// The whole game is then ran inside this class
+//
+
+
 #ifndef GAME_HPP
 #define GAME_HPP
 
@@ -100,9 +108,11 @@ private:
     SpaceStation spaceStation;
     PlayerShip playerShip;
 
+    HealthBar playerHealthBar;
     HealthBar levelBar;
 
     UIButtonGroup titleButtons;
+    UIButtonGroup pauseMenuButtons;
     UIButtonGroup stationMenuButtons;
 
     static constexpr float STATION_MAX_RANGE = 320;
@@ -110,7 +120,6 @@ private:
 
     bool showUIRing;
     bool paused;
-    bool savedSincePause;
 
     bool loadDataError;
     LoadDataSuccess loadDataErrorType;

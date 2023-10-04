@@ -89,6 +89,8 @@ LoadDataSuccess Game::loadData()
         }
 
         playerShip.setPosition(sf::Vector2f(saveData.at("pos").at("x"), saveData.at("pos").at("y")));
+        playerShip.setHealth(saveData.at("health"));
+        playerShip.setMaxHealth(saveData.at("maxHealth"));
 
         Camera::setOffset(sf::Vector2f(saveData.at("cam").at("x"), saveData.at("cam").at("y")));
 
@@ -107,12 +109,17 @@ void Game::saveData()
 {
 
 	nlohmann::json saveData;
+    
 	saveData["rock"] = InventoryManager::getItemCount(ItemPickupType::Rock);
 	saveData["copper"] = InventoryManager::getItemCount(ItemPickupType::CopperChunk);
 	saveData["iron"] = InventoryManager::getItemCount(ItemPickupType::IronChunk);
 	saveData["coins"] = InventoryManager::getSilverCoins();
+
 	saveData["pos"]["x"] = playerShip.getPosition().x;
 	saveData["pos"]["y"] = playerShip.getPosition().y;
+    saveData["health"] = playerShip.getHealth();
+    saveData["maxHealth"] = playerShip.getMaxHealth();
+
     saveData["cam"]["x"] = -Camera::getDrawOffset().x;
     saveData["cam"]["y"] = -Camera::getDrawOffset().y;
 

@@ -16,6 +16,7 @@ enum class TextureType
 {
     PlayerShip,
     PlayerShipEngine,
+    PlayerShipFlash,
 
     EnemyShip,
     EnemyShipEngine,

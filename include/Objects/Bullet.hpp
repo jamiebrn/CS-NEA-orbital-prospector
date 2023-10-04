@@ -33,7 +33,7 @@ private:
 
     static constexpr float LIFETIME = 6;
 
-    static constexpr float SPEED = 600;
+    static constexpr float SPEED = 1400;
 
     sf::Vector2f position, velocity;
     sf::Angle rotation;

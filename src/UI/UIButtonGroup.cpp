@@ -37,6 +37,16 @@ bool UIButtonGroup::isButtonPressed(std::string id)
 
 }
 
+void UIButtonGroup::setButtonText(std::string id, std::string text)
+{
+    
+    if (buttonMap.count(id) == 0)
+        return;
+
+    buttonMap[id].setText(text);
+
+}
+
 void UIButtonGroup::draw(sf::RenderWindow& window)
 {
 

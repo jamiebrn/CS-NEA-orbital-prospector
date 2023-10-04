@@ -35,11 +35,24 @@ public:
     void draw(sf::RenderWindow& window) override;
 
     void setPosition(sf::Vector2f new_position);
+
     sf::Vector2f getPosition();
+
+    inline int getMaxHealth() {return maxHealth;}
+
+    inline int getHealth() {return health;}
+
+    inline void setMaxHealth(int health) {maxHealth = health;}
+
+    inline void setHealth(int health) {this->health = health;}
+
 
 // Private functions
 private:
+    void damage(int amount);
+    
     void shootBullets();
+
 
 // Private member variables
 private:
@@ -47,7 +60,7 @@ private:
     static constexpr float ACCELERATION = 11;
     static constexpr float DECELERATION = 16;
 
-    static constexpr float SHOOT_COOLDOWN = 0;
+    static constexpr float SHOOT_COOLDOWN = 0.1;
 
     static constexpr float ITEM_PICKUP_RADIUS = 50;
 
@@ -59,8 +72,15 @@ private:
 
     static constexpr float ENGINE_ANIM_TICK_MAX = 0.06;
 
+    static constexpr float HITBOX_RADIUS = 80;
+
+    static constexpr float FLASH_TIME_MAX = 0.3f;
+
     sf::Vector2f position, velocity;
     float direction;
+
+    int maxHealth;
+    int health;
 
     float shootCooldown;
     int currentGunIndex;
@@ -68,6 +88,8 @@ private:
     int engineAnimationIndex;
     float engineAnimTick;
     bool engineActive;
+
+    float flashTime;
 
 };
 

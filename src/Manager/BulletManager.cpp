@@ -80,7 +80,7 @@ void BulletManager::reset()
 
 int BulletManager::getBulletCount()
 {
-    return bullets.size();
+    return bullets.size() + enemyBullets.size();
 }
 
 std::vector<Bullet>& BulletManager::getBullets()

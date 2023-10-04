@@ -10,6 +10,7 @@ std::unordered_map<TextureType, sf::Sprite> TextureManager::spriteMap;
 const std::unordered_map<TextureType, std::string> TextureManager::texturePaths = {
     {TextureType::PlayerShip, "Space Ship Pack/Base/PNGs/Kla'ed - Fighter - Base.png"},
     {TextureType::PlayerShipEngine, "Space Ship Pack/Engine/PNGs/Kla'ed - Fighter - Engine.png"},
+    {TextureType::PlayerShipFlash, "Space Ship Pack/Base/PNGs/Kla'ed - Fighter - Flash.png"},
     
     {TextureType::EnemyShip, "Space Ship Pack/Base/PNGs/Kla'ed - Scout - Base.png"},
     {TextureType::EnemyShipEngine, "Space Ship Pack/Engine/PNGs/Kla'ed - Scout - Engine.png"},

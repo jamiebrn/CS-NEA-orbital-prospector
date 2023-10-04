@@ -108,6 +108,9 @@ void Game::newGame()
     resetGame();
 
     playerShip.setPosition(sf::Vector2f(5000, 5000));
+    playerShip.setHealth(STARTING_MAX_HEALTH);
+    playerShip.setMaxHealth(STARTING_MAX_HEALTH);
+
     Camera::setOffset(sf::Vector2f(4500, 4000));
 
     for (int i = 0; i < ASTEROID_MAX; i++)

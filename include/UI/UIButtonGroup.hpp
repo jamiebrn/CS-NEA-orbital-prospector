@@ -18,6 +18,8 @@ public:
 
     bool isButtonPressed(std::string id);
 
+    void setButtonText(std::string id, std::string text);
+
     void draw(sf::RenderWindow& window);
 
 private:

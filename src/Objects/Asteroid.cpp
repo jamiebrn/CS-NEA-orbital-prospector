@@ -31,6 +31,16 @@ void Asteroid::update(float deltaTime)
                 bullet.kill();
             }
         }
+
+        for (Bullet& bullet : BulletManager::getEnemyBullets())
+        {
+            sf::Vector2f bulletPos = bullet.getPosition();
+            if (isColliding(bulletPos))
+            {
+                damage(1);
+                bullet.kill();
+            }
+        }
         
         return;
     }

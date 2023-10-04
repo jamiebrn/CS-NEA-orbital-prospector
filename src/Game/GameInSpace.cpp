@@ -6,27 +6,6 @@ void Game::inSpaceLoop()
     sf::Vector2i screenMousePosition = sf::Mouse::getPosition(window);
     sf::Vector2f mousePosition = window.mapPixelToCoords(screenMousePosition);
 
-    // Pause menu UI
-    UIButton saveButton;
-    UIButton quitButton;
-    if (paused)
-    {
-        saveButton.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 100, 600));
-        saveButton.setSize(sf::Vector2f(200, 70));
-        saveButton.setText("Save");
-        if (savedSincePause)
-            saveButton.setText("Saved!");
-        saveButton.setColour(sf::Color(245, 175, 15));
-        saveButton.setHoverColour(sf::Color(250, 185, 25));
-        saveButton.update(mousePosition);
-
-        quitButton.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 100, 700));
-        quitButton.setSize(sf::Vector2f(200, 70));
-        quitButton.setText("Quit");
-        quitButton.setColour(sf::Color(190, 15, 15));
-        quitButton.setHoverColour(sf::Color(220, 20, 20));
-        quitButton.update(mousePosition);
-    }
 
     // Event handling
         
@@ -42,7 +21,7 @@ void Game::inSpaceLoop()
             if (event.key.code == sf::Keyboard::Escape)
             {
                 paused = !paused;
-                savedSincePause = false;
+                pauseMenuButtons.setButtonText("save", "Save");
             }
 
             if (event.key.code == sf::Keyboard::E)
@@ -66,12 +45,12 @@ void Game::inSpaceLoop()
         {
             if (event.type == sf::Event::MouseButtonPressed)
             {
-                if (event.mouseButton.button == sf::Mouse::Left && saveButton.isHovering())
+                if (event.mouseButton.button == sf::Mouse::Left && pauseMenuButtons.isButtonPressed("save"))
                 {
                     saveData();
-                    savedSincePause = true;
+                    pauseMenuButtons.setButtonText("save", "Saved!");
                 }
-                if (event.mouseButton.button == sf::Mouse::Left && quitButton.isHovering())
+                if (event.mouseButton.button == sf::Mouse::Left && pauseMenuButtons.isButtonPressed("quit"))
                 {
                     changeState(GameState::MainMenu);
                 }
@@ -121,12 +100,20 @@ void Game::inSpaceLoop()
 
         UIRingManager::update(spaceStationPos, EnemyShipManager::getShips());
 
+        playerHealthBar.setMaxValue(playerShip.getMaxHealth());
+        playerHealthBar.updateValue(playerShip.getHealth());
+        playerHealthBar.update(deltaTime);
+
         levelBar.setMaxValue(InventoryManager::getMaxLevelExp());
         levelBar.updateValue(InventoryManager::getLevelExp());
         levelBar.update(deltaTime);
 
         Camera::update(playerShip.getPosition(), deltaTime);
 
+    }
+    else
+    {
+        pauseMenuButtons.update(mousePosition);
     }
 
 
@@ -156,23 +143,24 @@ void Game::inSpaceLoop()
 
 
     // UI
-    
+
+    playerHealthBar.draw(window);
+    std::string text = std::to_string(playerShip.getHealth()) + " / " + std::to_string(playerShip.getMaxHealth()) + " HP";
+    TextRenderer::drawText(window, {text, sf::Vector2f(50, 55), sf::Color(255, 255, 255), 32, sf::Color(0, 0, 0), 3, false, true});
+
     levelBar.draw(window);
-    std::string text = "Level " + std::to_string(InventoryManager::getCurrentLevel());
+    text = "Level " + std::to_string(InventoryManager::getCurrentLevel());
     text += " - " + std::to_string(static_cast<int>(levelBar.getValue())) + " / " + std::to_string(static_cast<int>(levelBar.getMaxValue())) + " XP";
     TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 55), sf::Color(255, 255, 255), 32, sf::Color(0, 0, 0), 3, true, true});
 
     text = std::to_string(static_cast<int>(1 / deltaTime)) + " FPS";
-    TextRenderer::drawText(window, {text, sf::Vector2f(20, 5), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
+    TextRenderer::drawText(window, {text, sf::Vector2f(20, 155), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
 
     text = std::to_string(BulletManager::getBulletCount()) + " Bullets";
-    TextRenderer::drawText(window, {text, sf::Vector2f(20, 25), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
+    TextRenderer::drawText(window, {text, sf::Vector2f(20, 175), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
 
     text = std::to_string(AsteroidManager::getAsteroids().size()) + " Asteroids";
-    TextRenderer::drawText(window, {text, sf::Vector2f(20, 45), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
-
-    text = std::to_string(drawOffset.x) + ", " + std::to_string(drawOffset.y);
-    TextRenderer::drawText(window, {text, sf::Vector2f(20, 65), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
+    TextRenderer::drawText(window, {text, sf::Vector2f(20, 195), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
 
     if (inStationRange)
     {
@@ -195,8 +183,8 @@ void Game::inSpaceLoop()
         background.setFillColor(sf::Color(20, 20, 20, 150));
 
         window.draw(background);
-        saveButton.draw(window);
-        quitButton.draw(window);
+
+        pauseMenuButtons.draw(window);
 
     }
 
