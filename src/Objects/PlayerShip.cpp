@@ -175,7 +175,7 @@ void PlayerShip::draw(sf::RenderWindow& window)
 
     if (flashTime > 0)
     {
-        float flashAlpha = (flashTime / FLASH_TIME_MAX) * 255;
+        float flashAlpha = (flashTime / FLASH_TIME_MAX) * 210;
 
         TextureDrawData flashDrawData = {
             TextureType::PlayerShipFlash,

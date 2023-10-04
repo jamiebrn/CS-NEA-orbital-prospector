@@ -263,18 +263,22 @@ void EnemyShip::draw(sf::RenderWindow& window)
 
     TextureManager::drawTexture(window, drawData);
 
-    float flashAlpha = 210.0f * (flashTime / MAX_FLASH_TIME);
+    if (flashTime > 0)
+    {
+        float flashAlpha = 210.0f * (flashTime / MAX_FLASH_TIME);
 
-    drawData = {
-        TextureType::EnemyShipFlash,
-        position + drawOffset,
-        rotation,
-        SCALE,
-        true,
-        sf::Color(255, 255, 255, flashAlpha)
-    };
+        drawData = {
+            TextureType::EnemyShipFlash,
+            position + drawOffset,
+            rotation,
+            SCALE,
+            true,
+            sf::Color(255, 255, 255, flashAlpha)
+        };
 
-    TextureManager::drawTexture(window, drawData);
+        TextureManager::drawTexture(window, drawData);
+    }
+
 
     healthBar.setDrawPosition(sf::Vector2f(position.x - 50, position.y - 50) + drawOffset);
     healthBar.draw(window);
