@@ -14,6 +14,8 @@ EnemyShip::EnemyShip(sf::Vector2f position)
     shootCooldown = 0;
 
     hitboxPosition = sf::Vector2f(0, 0);
+    engineFrameIndex = rand() % ENGINE_ANIM_FRAMES;
+    engineFrameTick = 0;
 
     engineActive = false;
 
@@ -38,6 +40,8 @@ EnemyShip::EnemyShip(EnemyShipData data)
     shootCooldown = 0;
 
     hitboxPosition = sf::Vector2f(0, 0);
+    engineFrameIndex = rand() % ENGINE_ANIM_FRAMES;
+    engineFrameTick = 0;
 
     engineActive = false;
 
