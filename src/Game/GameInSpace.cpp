@@ -94,6 +94,7 @@ void Game::inSpaceLoop()
         UIRingManager::update(spaceStationPos, EnemyShipManager::getShips());
 
         playerHealthBar.setMaxValue(playerShip.getMaxHealth());
+        playerHealthBar.setWidth(playerShip.getMaxHealth() * 9);
         playerHealthBar.updateValue(playerShip.getHealth());
         playerHealthBar.update(deltaTime);
 

@@ -26,6 +26,8 @@ public:
 
     void draw(sf::RenderWindow& window) override;
 
+    inline void setWidth(float width) {size.x = width;}
+
     inline float getMaxValue() {return maxValue;}
 
     inline float getValue() {return value;}
