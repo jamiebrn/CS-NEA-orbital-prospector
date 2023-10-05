@@ -8,6 +8,8 @@ void Game::inSpaceLoop()
 
 
     // Event handling
+
+    bool leftMousePressed = false;
         
     sf::Event event;
     while (window.pollEvent(event))
@@ -41,24 +43,27 @@ void Game::inSpaceLoop()
 
         }
 
-        if (paused)
+        if (event.type == sf::Event::MouseButtonPressed)
         {
-            if (event.type == sf::Event::MouseButtonPressed)
-            {
-                if (event.mouseButton.button == sf::Mouse::Left && pauseMenuButtons.isButtonPressed("save"))
-                {
-                    saveData();
-                    pauseMenuButtons.setButtonText("save", "Saved!");
-                }
-                if (event.mouseButton.button == sf::Mouse::Left && pauseMenuButtons.isButtonPressed("quit"))
-                {
-                    changeState(GameState::MainMenu);
-                }
-            }
+            if (event.mouseButton.button == sf::Mouse::Left)
+                leftMousePressed = true;
         }
 
     }
 
+
+    if (paused && leftMousePressed)
+    {
+        if (pauseMenuButtons.isButtonPressed("save"))
+        {
+            saveData();
+            pauseMenuButtons.setButtonText("save", "Saved!");
+        }
+        if (pauseMenuButtons.isButtonPressed("quit"))
+        {
+            changeState(GameState::MainMenu);
+        }
+    }
     
 
     // Logic

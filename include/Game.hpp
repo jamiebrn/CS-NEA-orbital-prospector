@@ -2,7 +2,7 @@
 // Game.hpp
 //
 // An instance of this is created in the main function
-// The whole game is then ran inside this class
+// The whole game is then ran inside of this class
 //
 
 
@@ -83,7 +83,6 @@ private:
     void changeState(GameState newState);
 
     float distanceSqToStation();
-    void sellItem(ItemPickupType type);
 
     LoadDataSuccess loadData();
     void saveData();

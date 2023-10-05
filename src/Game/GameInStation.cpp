@@ -32,6 +32,8 @@ void Game::inStationLoop()
         }
     }
 
+    bool leftMousePressed = false;
+
     sf::Event event;
     while (window.pollEvent(event))
     {
@@ -56,38 +58,47 @@ void Game::inStationLoop()
 
         if (event.type == sf::Event::MouseButtonPressed)
         {
-
             if (event.mouseButton.button == sf::Mouse::Left)
             {
-                switch (stationMenuState)
-                {
-
-                case StationMenuState::Main:
-                    if (stationMenuButtons.isButtonPressed("market"))
-                    {
-                        stationMenuState = StationMenuState::Market;
-                    }
-                    break;
-
-                case StationMenuState::Market:
-                    for (UISellItemBar& sellItemBar : sellItemBars)
-                    {
-                        if (sellItemBar.sellButtonHovering())
-                        {
-                            ItemPickupType itemType = sellItemBar.getPickupType();
-                            int itemCount = InventoryManager::getItemCount(itemType);
-
-                            InventoryManager::sellItems(itemType, itemCount);
-                        }
-                    }
-                    break;
-
-                }
+                leftMousePressed = true;
             }
-
         }
 
     }
+
+
+    if (leftMousePressed)
+    {
+        switch (stationMenuState)
+        {
+
+        case StationMenuState::Main:
+
+            if (stationMenuButtons.isButtonPressed("market"))
+            {
+                stationMenuState = StationMenuState::Market;
+            }
+
+            break;
+
+        case StationMenuState::Market:
+
+            for (UISellItemBar& sellItemBar : sellItemBars)
+            {
+                if (sellItemBar.sellButtonHovering())
+                {
+                    ItemPickupType itemType = sellItemBar.getPickupType();
+                    int itemCount = InventoryManager::getItemCount(itemType);
+
+                    InventoryManager::sellItems(itemType, itemCount);
+                }
+            }
+
+            break;
+
+        }
+    }
+
 
     float deltaTime = clock.restart().asSeconds();
 
@@ -104,6 +115,7 @@ void Game::inStationLoop()
         break;
 
     case StationMenuState::Market:
+
         for (UISellItemBar& sellItemBar : sellItemBars)
         {
             sellItemBar.draw(window);
@@ -121,6 +133,7 @@ void Game::inStationLoop()
 
         text = std::to_string(InventoryManager::getSilverCoins());
         TextRenderer::drawText(window, {text, sf::Vector2f(270, 260), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+        
         break;
 
     }
