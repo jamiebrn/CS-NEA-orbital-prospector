@@ -3,8 +3,6 @@
 void Game::mainLoop()
 {
 
-    SoundManager::playMusic(MusicType::Track1);
-
     while (window.isOpen())
     {
 
@@ -39,6 +37,11 @@ void Game::changeState(GameState newState)
     else if (newState == GameState::MainMenu)
     {
         Camera::setOffset(sf::Vector2f(0, 0));
+        SoundManager::playMusic(MusicType::Menu);
+    }
+    else if (newState == GameState::InSpace && gameState == GameState::MainMenu)
+    {
+        SoundManager::playMusic(MusicType::Track1);
     }
 
     gameState = newState;

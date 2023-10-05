@@ -12,6 +12,7 @@
 #include "Manager/TextureManager.hpp"
 #include "Manager/InventoryManager.hpp"
 #include "Manager/BulletManager.hpp"
+#include "Manager/SoundManager.hpp"
 #include "Objects/HealthBar.hpp"
 
 enum class EnemyShipBehaviour

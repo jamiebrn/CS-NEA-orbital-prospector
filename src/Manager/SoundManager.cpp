@@ -66,5 +66,18 @@ void SoundManager::playMusic(MusicType type)
     if (!loadedSounds)
         return;
     
+    for (auto& music : musicMap)
+    {
+        music.second->stop();
+    }
+    
     musicMap.at(type)->play();
+}
+
+void SoundManager::stopMusic(MusicType type)
+{
+    if (!loadedSounds)
+        return;
+    
+    musicMap.at(type)->stop();
 }

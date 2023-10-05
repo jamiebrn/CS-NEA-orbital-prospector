@@ -10,12 +10,14 @@
 enum class SoundType
 {
     Shoot,
+    EnemyShoot,
     AsteroidExplode,
     ItemPickup
 };
 
 enum class MusicType
 {
+    Menu,
     Track1
 };
 
@@ -32,6 +34,8 @@ public:
 
     static void playMusic(MusicType type);
 
+    static void stopMusic(MusicType type);
+
 private:
     inline static bool loadedSounds = false;
 
@@ -41,6 +45,7 @@ private:
 
     inline static const std::unordered_map<SoundType, std::string> soundPaths = {
         {SoundType::Shoot, "Sfx/shoot.wav"},
+        {SoundType::EnemyShoot, "Sfx/enemyShoot.wav"},
         {SoundType::AsteroidExplode, "Sfx/asteroidExplode.wav"},
         {SoundType::ItemPickup, "Sfx/itemPickup.wav"}
     };
@@ -50,7 +55,8 @@ private:
     static constexpr float MUSIC_VOLUME = 10.0f;
 
     inline static const std::unordered_map<MusicType, std::string> musicPaths = {
-        {MusicType::Track1, "Music/Arthur Vyncke - A few jumps away.flac"}
+        {MusicType::Menu, "Music/Mystery.mp3"},
+        {MusicType::Track1, "Music/Arthur Vyncke - A few jumps away.mp3"}
     };
 
 };

@@ -241,6 +241,8 @@ void EnemyShip::shoot()
 {
     sf::Vector2f offset = sf::Vector2f(0, -6 * SCALE).rotatedBy(rotation);
     BulletManager::createEnemyBullet(position + offset, rotation);
+
+    SoundManager::playSound(SoundType::EnemyShoot);
 }
 
 
