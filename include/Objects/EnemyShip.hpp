@@ -14,6 +14,12 @@
 #include "Manager/BulletManager.hpp"
 #include "Objects/HealthBar.hpp"
 
+enum class EnemyShipBehaviour
+{
+    Idle,
+    Attack
+};
+
 struct EnemyShipData
 {
     float x, y;
@@ -21,6 +27,7 @@ struct EnemyShipData
     float rot;
     int hp;
     unsigned long long id;
+    EnemyShipBehaviour behaviourState;
 
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(
         EnemyShipData,
@@ -28,7 +35,8 @@ struct EnemyShipData
         velx, vely,
         rot,
         hp,
-        id
+        id,
+        behaviourState
     )
 };
 
@@ -55,6 +63,9 @@ public:
     unsigned long long getID() const;
 
 private:
+    void updateIdle(sf::Vector2f playerPos, float deltaTime);
+    void updateAttack(sf::Vector2f playerPos, const std::vector<EnemyShip>& ships, float deltaTime);
+
     void damage(int amount);
 
     void shoot();
@@ -88,6 +99,8 @@ private:
     sf::Vector2f position, velocity;
     sf::Angle rotation;
     sf::Angle destRotation;
+
+    EnemyShipBehaviour behaviourState;
 
     int health;
     HealthBar healthBar;

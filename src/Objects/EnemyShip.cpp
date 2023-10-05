@@ -9,6 +9,8 @@ EnemyShip::EnemyShip(sf::Vector2f position)
     velocity = sf::Vector2f(0, 0);
     rotation = sf::degrees(0);
 
+    behaviourState = EnemyShipBehaviour::Idle;
+
     id = std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1);
 
     shootCooldown = 0;
@@ -17,7 +19,7 @@ EnemyShip::EnemyShip(sf::Vector2f position)
     engineFrameIndex = rand() % ENGINE_ANIM_FRAMES;
     engineFrameTick = 0;
 
-    engineActive = false;
+    engineActive = true;
 
     flashTime = 0;
 
@@ -25,6 +27,7 @@ EnemyShip::EnemyShip(sf::Vector2f position)
     healthBar.updateValue(health);
 
 }
+
 
 EnemyShip::EnemyShip(EnemyShipData data)
     : healthBar(sf::Vector2f(0, 0), sf::Vector2f(100, 30), MAX_HEALTH)
@@ -35,6 +38,8 @@ EnemyShip::EnemyShip(EnemyShipData data)
     rotation = sf::degrees(data.rot);
     health = data.hp;
 
+    behaviourState = data.behaviourState;
+
     id = data.id;
 
     shootCooldown = 0;
@@ -43,7 +48,7 @@ EnemyShip::EnemyShip(EnemyShipData data)
     engineFrameIndex = rand() % ENGINE_ANIM_FRAMES;
     engineFrameTick = 0;
 
-    engineActive = false;
+    engineActive = true;
 
     flashTime = 0;
 
@@ -51,13 +56,79 @@ EnemyShip::EnemyShip(EnemyShipData data)
 
 }
 
+// Update every frame
 void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& ships, float deltaTime)
 {
+
+    // Update based on behaviour state
+
+    switch (behaviourState)
+    {
+        case EnemyShipBehaviour::Idle:
+            updateIdle(playerPos, deltaTime);
+            break;
+        
+        case EnemyShipBehaviour::Attack:
+            updateAttack(playerPos, ships, deltaTime);
+            break;
+    }
+
+
+    // Animation
+
+    if (engineActive)
+    {
+        engineFrameTick += deltaTime;
+        if (engineFrameTick >= ENGINE_ANIM_TICK_MAX)
+        {
+            engineFrameTick = 0;
+            engineFrameIndex = (engineFrameIndex + 1) % ENGINE_ANIM_FRAMES;
+        }
+    }
+
+    
+    // Update variables
+
+    position += velocity * deltaTime;
+
+    sf::Vector2f hitboxOffset = -sf::Vector2f(0, -1).rotatedBy(rotation) * 2.0f * SCALE;
+    hitboxPosition = position + hitboxOffset;
+
+    flashTime = std::max(flashTime - deltaTime, 0.0f);
+
+    healthBar.update(deltaTime);
+
+}
+
+
+void EnemyShip::updateIdle(sf::Vector2f playerPos, float deltaTime)
+{
+
+    // Attack state condition
+    sf::Vector2f size = sf::Vector2f(32, 32) * SCALE;
+    if (Camera::isInView(position - size / 2.0f, size))
+    {
+        behaviourState = EnemyShipBehaviour::Attack;
+    }
+
+};
+
+
+void EnemyShip::updateAttack(sf::Vector2f playerPos, const std::vector<EnemyShip>& ships, float deltaTime)
+{
+
+    // Idle state condition
+    sf::Vector2f size = sf::Vector2f(32, 32) * SCALE;
+    if (!Camera::isInView(position - size / 2.0f, size))
+    {
+        behaviourState = EnemyShipBehaviour::Idle;
+    }
 
     // Rotation
 
     if (velocity.lengthSq() > 0)
         destRotation = (position - playerPos).angle() - sf::degrees(90);
+
 
     // Move towards player
 
@@ -74,7 +145,6 @@ void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& shi
     velocity.x = Helper::lerp(velocity.x, directionVector.x * currentSpeed, ACCELERATION * deltaTime);
     velocity.y = Helper::lerp(velocity.y, directionVector.y * currentSpeed, ACCELERATION * deltaTime);
 
-    engineActive = true;
 
     // Shoot player
 
@@ -123,6 +193,7 @@ void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& shi
 
     }
 
+
     if (closeShipProximity)
     {
         float velocityMagnitude = velocity.length();
@@ -148,32 +219,8 @@ void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& shi
         }
     }
 
-
-    // Animation
-
-    if (engineActive)
-    {
-        engineFrameTick += deltaTime;
-        if (engineFrameTick >= ENGINE_ANIM_TICK_MAX)
-        {
-            engineFrameTick = 0;
-            engineFrameIndex = (engineFrameIndex + 1) % ENGINE_ANIM_FRAMES;
-        }
-    }
-
-    
-    // Update variables
-
-    position += velocity * deltaTime;
-
-    sf::Vector2f hitboxOffset = -sf::Vector2f(0, -1).rotatedBy(rotation) * 2.0f * SCALE;
-    hitboxPosition = position + hitboxOffset;
-
-    flashTime = std::max(flashTime - deltaTime, 0.0f);
-
-    healthBar.update(deltaTime);
-
 }
+
 
 bool EnemyShip::isBulletColliding(sf::Vector2f bulletPos)
 {
@@ -189,11 +236,13 @@ bool EnemyShip::isBulletColliding(sf::Vector2f bulletPos)
 
 }
 
+
 void EnemyShip::shoot()
 {
     sf::Vector2f offset = sf::Vector2f(0, -6 * SCALE).rotatedBy(rotation);
     BulletManager::createEnemyBullet(position + offset, rotation);
 }
+
 
 void EnemyShip::damage(int amount)
 {
@@ -214,10 +263,12 @@ void EnemyShip::damage(int amount)
     }
 }
 
+
 bool EnemyShip::isAlive()
 {
     return (health > 0);
 }
+
 
 EnemyShipData EnemyShip::generateData()
 {
@@ -230,10 +281,12 @@ EnemyShipData EnemyShip::generateData()
     data.rot = rotation.asDegrees();
     data.hp = health;
     data.id = id;
+    data.behaviourState = behaviourState;
 
     return data;
 
 }
+
 
 void EnemyShip::draw(sf::RenderWindow& window)
 {
@@ -285,10 +338,12 @@ void EnemyShip::draw(sf::RenderWindow& window)
 
 }
 
+
 sf::Vector2f EnemyShip::getPosition() const
 {
     return position;
 }
+
 
 unsigned long long EnemyShip::getID() const
 {
