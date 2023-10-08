@@ -9,11 +9,18 @@ void Game::inStationLoop()
 
     std::vector<UISellItemBar> sellItemBars;
 
-    if (stationMenuState == StationMenuState::Main)
+    switch (stationMenuState)
     {
+
+    case StationMenuState::Main:
         stationMenuButtons.update(mousePosition);
-    }
-    else if (stationMenuState == StationMenuState::Market)
+        break;
+    
+    case StationMenuState::Upgrades:
+        stationUpgradeButtons.update(mousePosition);
+        break;
+
+    case StationMenuState::Market:
     {
         int yOffset = 0;
         for (auto itemTypePair : itemTextureMap)
@@ -30,6 +37,17 @@ void Game::inStationLoop()
             yOffset += 125;
 
         }
+        break;
+    }
+    
+    case StationMenuState::Missons:
+        stationMissionButtons.update(mousePosition);
+        break;
+    
+    case StationMenuState::Level:
+        stationLevelButtons.update(mousePosition);
+        break;
+
     }
 
     bool leftMousePressed = false;
@@ -74,9 +92,32 @@ void Game::inStationLoop()
 
         case StationMenuState::Main:
 
-            if (stationMenuButtons.isButtonPressed("market"))
+            if (stationMenuButtons.isButtonPressed("upgrades"))
+            {
+                stationMenuState = StationMenuState::Upgrades;
+            }
+            else if (stationMenuButtons.isButtonPressed("market"))
             {
                 stationMenuState = StationMenuState::Market;
+            }
+            else if (stationMenuButtons.isButtonPressed("missions"))
+            {
+                stationMenuState = StationMenuState::Missons;
+            }
+            else if (stationMenuButtons.isButtonPressed("level"))
+            {
+                stationMenuState = StationMenuState::Level;
+            }
+
+            break;
+        
+        case StationMenuState::Upgrades:
+
+            if (stationUpgradeButtons.isButtonPressed("health"))
+            {
+                int health = playerShip.getMaxHealth() + 5;
+                health = std::min(health, 80);
+                playerShip.setMaxHealth(health);
             }
 
             break;
@@ -93,6 +134,14 @@ void Game::inStationLoop()
                     InventoryManager::sellItems(itemType, itemCount);
                 }
             }
+
+            break;
+        
+        case StationMenuState::Missons:
+
+            break;
+        
+        case StationMenuState::Level:
 
             break;
 
@@ -113,8 +162,13 @@ void Game::inStationLoop()
     case StationMenuState::Main:
         stationMenuButtons.draw(window);
         break;
+    
+    case StationMenuState::Upgrades:
+        stationUpgradeButtons.draw(window);
+        break;
 
     case StationMenuState::Market:
+    {
 
         for (UISellItemBar& sellItemBar : sellItemBars)
         {
@@ -134,6 +188,35 @@ void Game::inStationLoop()
         text = std::to_string(InventoryManager::getSilverCoins());
         TextRenderer::drawText(window, {text, sf::Vector2f(270, 260), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
         
+        break;
+    }
+    
+    case StationMenuState::Missons:
+    {
+        stationMissionButtons.draw(window);
+
+        sf::RectangleShape missionBg(sf::Vector2f(800, 900));
+        missionBg.setPosition(sf::Vector2f(600, WINDOW_HEIGHT / 2 - 450));
+        missionBg.setFillColor(sf::Color(40, 40, 40, 130));
+        window.draw(missionBg);
+
+        TextDrawData missionTitle = {
+            "Mission Info",
+            sf::Vector2f(1000, 160),
+            sf::Color(255, 255, 255),
+            62,
+            sf::Color(0, 0, 0),
+            4,
+            true
+        };
+
+        TextRenderer::drawText(window, missionTitle);
+
+        break;
+    }
+    
+    case StationMenuState::Level:
+        stationLevelButtons.draw(window);
         break;
 
     }

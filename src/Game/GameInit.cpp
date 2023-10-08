@@ -126,4 +126,38 @@ void Game::initUI()
         "Level", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
+    // Space station upgrade buttons
+
+    stationUpgradeButtons.addButton("health", {
+        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 600), sf::Vector2f(200, 70),
+        "Upgrade Health", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    // Space station market buttons (to be added)
+
+
+    // Space station mission buttons
+
+    stationMissionButtons.addButton("mission1", {
+        sf::Vector2f(200, 600), sf::Vector2f(200, 70),
+        "Mission 1", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationMissionButtons.addButton("mission2", {
+        sf::Vector2f(200, 700), sf::Vector2f(200, 70),
+        "Mission 2", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationMissionButtons.addButton("mission3", {
+        sf::Vector2f(200, 800), sf::Vector2f(200, 70),
+        "Mission 3", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    // Space station level buttons
+
+    stationLevelButtons.addButton("levelUp", {
+        sf::Vector2f(200, 800), sf::Vector2f(200, 70),
+        "Level Up", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
 }

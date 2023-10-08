@@ -112,7 +112,12 @@ private:
 
     UIButtonGroup titleButtons;
     UIButtonGroup pauseMenuButtons;
+
     UIButtonGroup stationMenuButtons;
+    UIButtonGroup stationUpgradeButtons;
+    UIButtonGroup stationMarketButtons;
+    UIButtonGroup stationMissionButtons;
+    UIButtonGroup stationLevelButtons;
 
     static constexpr float STATION_MAX_RANGE = 320;
     bool inStationRange;
