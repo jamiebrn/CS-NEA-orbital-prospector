@@ -9,6 +9,7 @@ void UIButtonGroup::addButton(std::string id, UIButtonData data)
     button.setText(data.text);
     button.setColour(data.colour);
     button.setHoverColour(data.hoverColour);
+    button.setFontSize(data.fontSize);
 
     buttonMap[id] = button;
 

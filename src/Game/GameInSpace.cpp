@@ -54,12 +54,16 @@ void Game::inSpaceLoop()
 
     if (paused && leftMousePressed)
     {
-        if (pauseMenuButtons.isButtonPressed("save"))
+        if (pauseMenuButtons.isButtonPressed("resume"))
+        {
+            paused = false;
+        }
+        else if (pauseMenuButtons.isButtonPressed("save"))
         {
             saveData();
             pauseMenuButtons.setButtonText("save", "Saved!");
         }
-        if (pauseMenuButtons.isButtonPressed("quit"))
+        else if (pauseMenuButtons.isButtonPressed("quit"))
         {
             changeState(GameState::MainMenu);
         }

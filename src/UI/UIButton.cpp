@@ -25,6 +25,11 @@ void UIButton::setHoverColour(sf::Color colour)
     hoverColour = colour;
 }
 
+void UIButton::setFontSize(int size)
+{
+    fontSize = size;
+}
+
 
 void UIButton::update(sf::Vector2f mousePos)
 {
@@ -70,7 +75,7 @@ void UIButton::draw(sf::RenderWindow& window)
         text,
         position + sf::Vector2f(size.x / 2.0f, size.y / 2.0f),
         sf::Color(255, 255, 255),
-        32,
+        fontSize,
         sf::Color(0, 0, 0),
         3,
         true,

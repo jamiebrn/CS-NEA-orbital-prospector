@@ -195,14 +195,14 @@ void Game::inStationLoop()
     {
         stationMissionButtons.draw(window);
 
-        sf::RectangleShape missionBg(sf::Vector2f(800, 900));
-        missionBg.setPosition(sf::Vector2f(600, WINDOW_HEIGHT / 2 - 450));
+        sf::RectangleShape missionBg(sf::Vector2f(1260, 800));
+        missionBg.setPosition(sf::Vector2f(595, 220));
         missionBg.setFillColor(sf::Color(40, 40, 40, 130));
         window.draw(missionBg);
 
         TextDrawData missionTitle = {
             "Mission Info",
-            sf::Vector2f(1000, 160),
+            sf::Vector2f(1225, 260),
             sf::Color(255, 255, 255),
             62,
             sf::Color(0, 0, 0),
