@@ -229,7 +229,7 @@ void PlayerShip::setPosition(sf::Vector2f new_position)
 }
 
 // Get player ship position
-sf::Vector2f PlayerShip::getPosition()
+sf::Vector2f PlayerShip::getPosition() const
 {
     return position;
 }

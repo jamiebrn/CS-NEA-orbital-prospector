@@ -19,7 +19,7 @@ EnemyShip::EnemyShip(sf::Vector2f position)
     engineFrameIndex = rand() % ENGINE_ANIM_FRAMES;
     engineFrameTick = 0;
 
-    engineActive = true;
+    engineActive = false;
 
     flashTime = 0;
 
@@ -48,7 +48,7 @@ EnemyShip::EnemyShip(EnemyShipData data)
     engineFrameIndex = rand() % ENGINE_ANIM_FRAMES;
     engineFrameTick = 0;
 
-    engineActive = true;
+    engineActive = false;
 
     flashTime = 0;
 
@@ -57,7 +57,7 @@ EnemyShip::EnemyShip(EnemyShipData data)
 }
 
 // Update every frame
-void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& ships, float deltaTime)
+void EnemyShip::update(const PlayerShip& playerShip, const std::vector<EnemyShip>& ships, float deltaTime)
 {
 
     // Update based on behaviour state
@@ -65,11 +65,11 @@ void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& shi
     switch (behaviourState)
     {
         case EnemyShipBehaviour::Idle:
-            updateIdle(playerPos, deltaTime);
+            updateIdle(playerShip, deltaTime);
             break;
         
         case EnemyShipBehaviour::Attack:
-            updateAttack(playerPos, ships, deltaTime);
+            updateAttack(playerShip, ships, deltaTime);
             break;
     }
 
@@ -101,25 +101,32 @@ void EnemyShip::update(sf::Vector2f playerPos, const std::vector<EnemyShip>& shi
 }
 
 
-void EnemyShip::updateIdle(sf::Vector2f playerPos, float deltaTime)
+void EnemyShip::updateIdle(const PlayerShip& playerShip, float deltaTime)
 {
 
     // Attack state condition
     sf::Vector2f size = sf::Vector2f(32, 32) * SCALE;
-    if (Camera::isInView(position - size / 2.0f, size))
+    if (Camera::isInView(position - size / 2.0f, size) && playerShip.isAlive())
     {
         behaviourState = EnemyShipBehaviour::Attack;
     }
 
+    velocity.x = Helper::lerp(velocity.x, 0, DECELERATION * deltaTime);
+    velocity.y = Helper::lerp(velocity.y, 0, DECELERATION * deltaTime);
+
+    engineActive = false;
+
 };
 
 
-void EnemyShip::updateAttack(sf::Vector2f playerPos, const std::vector<EnemyShip>& ships, float deltaTime)
+void EnemyShip::updateAttack(const PlayerShip& playerShip, const std::vector<EnemyShip>& ships, float deltaTime)
 {
+
+    engineActive = true;
 
     // Idle state condition
     sf::Vector2f size = sf::Vector2f(32, 32) * SCALE;
-    if (!Camera::isInView(position - size / 2.0f, size))
+    if (!Camera::isInView(position - size / 2.0f, size) || !playerShip.isAlive())
     {
         behaviourState = EnemyShipBehaviour::Idle;
     }
@@ -127,12 +134,12 @@ void EnemyShip::updateAttack(sf::Vector2f playerPos, const std::vector<EnemyShip
     // Rotation
 
     if (velocity.lengthSq() > 0)
-        destRotation = (position - playerPos).angle() - sf::degrees(90);
+        destRotation = (position - playerShip.getPosition()).angle() - sf::degrees(90);
 
 
     // Move towards player
 
-    float distanceSq = (position - playerPos).lengthSq();
+    float distanceSq = (position - playerShip.getPosition()).lengthSq();
 
     float inverseDist = (distanceSq / (PLAYER_SPEED_RADIUS * PLAYER_SPEED_RADIUS * SCALE));
     float currentSpeed = SPEED * std::max(1.0f, (1 - inverseDist) * 7);

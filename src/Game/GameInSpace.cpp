@@ -80,7 +80,7 @@ void Game::inSpaceLoop()
 
         playerShip.update(deltaTime, mousePosition);
 
-        EnemyShipManager::updateShips(playerShip.getPosition(), deltaTime);
+        EnemyShipManager::updateShips(playerShip, deltaTime);
 
         BulletManager::updateBullets(deltaTime);
         BulletManager::updateEnemyBullets(deltaTime);

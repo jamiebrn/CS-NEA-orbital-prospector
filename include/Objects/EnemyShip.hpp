@@ -14,6 +14,7 @@
 #include "Manager/BulletManager.hpp"
 #include "Manager/SoundManager.hpp"
 #include "Objects/HealthBar.hpp"
+#include "Objects/PlayerShip.hpp"
 
 enum class EnemyShipBehaviour
 {
@@ -49,7 +50,7 @@ public:
 
     EnemyShip(EnemyShipData data);
 
-    void update(sf::Vector2f playerPos, const std::vector<EnemyShip>& ships, float deltaTime);
+    void update(const PlayerShip& playerShip, const std::vector<EnemyShip>& ships, float deltaTime);
 
     void draw(sf::RenderWindow& window) override;
 
@@ -64,8 +65,8 @@ public:
     unsigned long long getID() const;
 
 private:
-    void updateIdle(sf::Vector2f playerPos, float deltaTime);
-    void updateAttack(sf::Vector2f playerPos, const std::vector<EnemyShip>& ships, float deltaTime);
+    void updateIdle(const PlayerShip& playerShip, float deltaTime);
+    void updateAttack(const PlayerShip& playerShip, const std::vector<EnemyShip>& ships, float deltaTime);
 
     void damage(int amount);
 

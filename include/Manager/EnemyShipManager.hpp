@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Objects/EnemyShip.hpp"
+#include "Objects/PlayerShip.hpp"
 #include "Constants.hpp"
 
 class EnemyShipManager
@@ -17,7 +18,7 @@ private:
 public:
     static void addShip(EnemyShip ship);
 
-    static void updateShips(sf::Vector2f playerPos, float deltaTime);
+    static void updateShips(const PlayerShip& playerShip, float deltaTime);
 
     static void drawShips(sf::RenderWindow& window);
 

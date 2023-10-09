@@ -8,13 +8,13 @@ void EnemyShipManager::addShip(EnemyShip ship)
     enemyShips.push_back(ship);
 }
 
-void EnemyShipManager::updateShips(sf::Vector2f playerPos, float deltaTime)
+void EnemyShipManager::updateShips(const PlayerShip& playerShip, float deltaTime)
 {
 
     for (auto iter = enemyShips.begin(); iter != enemyShips.end();)
     {
 
-        iter->update(playerPos, enemyShips, deltaTime);
+        iter->update(playerShip, enemyShips, deltaTime);
 
         if (!iter->isAlive())
         {
