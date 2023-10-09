@@ -121,6 +121,8 @@ void Game::newGame()
 
     EnemyShipManager::addShip(EnemyShip(sf::Vector2f(5000, 4000)));
 
+    MissionManager::rerollAllMissions();
+
     changeState(GameState::InSpace);
 
 }

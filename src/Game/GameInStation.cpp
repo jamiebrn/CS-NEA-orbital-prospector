@@ -102,6 +102,15 @@ void Game::inStationLoop()
             }
             else if (stationMenuButtons.isButtonPressed("missions"))
             {
+                selectedMissionTitle = "Mission Info";
+                selectedMissionDesc = "Select mission for more info";
+
+                for (int i = 0; i < 3; i++)
+                {
+                    std::string title = MissionManager::getMissionData(i).title;
+                    stationMissionButtons.setButtonText("mission" + std::to_string(i + 1), title);
+                }
+
                 stationMenuState = StationMenuState::Missons;
             }
             else if (stationMenuButtons.isButtonPressed("level"))
@@ -138,6 +147,15 @@ void Game::inStationLoop()
             break;
         
         case StationMenuState::Missons:
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (stationMissionButtons.isButtonPressed("mission" + std::to_string(i + 1)))
+                {
+                    selectedMissionTitle = MissionManager::getMissionData(i).title;
+                    selectedMissionDesc = MissionManager::getMissionData(i).description;
+                }
+            }
 
             break;
         
@@ -201,16 +219,28 @@ void Game::inStationLoop()
         window.draw(missionBg);
 
         TextDrawData missionTitle = {
-            "Mission Info",
+            selectedMissionTitle,
             sf::Vector2f(1225, 260),
             sf::Color(255, 255, 255),
             62,
+            sf::Color(0, 0, 0),
+            6,
+            true
+        };
+
+        TextRenderer::drawText(window, missionTitle);
+
+        TextDrawData missionDesc = {
+            selectedMissionDesc,
+            sf::Vector2f(1225, 560),
+            sf::Color(255, 255, 255),
+            40,
             sf::Color(0, 0, 0),
             4,
             true
         };
 
-        TextRenderer::drawText(window, missionTitle);
+        TextRenderer::drawText(window, missionDesc);
 
         break;
     }

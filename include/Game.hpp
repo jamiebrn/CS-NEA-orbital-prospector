@@ -35,6 +35,7 @@
 #include "Manager/UIRingManager.hpp"
 #include "Manager/EnemyShipManager.hpp"
 #include "Manager/SoundManager.hpp"
+#include "Manager/MissionManager.hpp"
 
 #include "UI/UIButton.hpp"
 #include "UI/UISellItemBar.hpp"
@@ -118,6 +119,8 @@ private:
     UIButtonGroup stationMarketButtons;
     UIButtonGroup stationMissionButtons;
     UIButtonGroup stationLevelButtons;
+
+    std::string selectedMissionTitle, selectedMissionDesc;
 
     static constexpr float STATION_MAX_RANGE = 320;
     bool inStationRange;
