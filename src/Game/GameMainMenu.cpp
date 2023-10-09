@@ -77,7 +77,7 @@ void Game::inMainMenuLoop()
         background.setFillColor(sf::Color(20, 20, 20, 160));
         window.draw(background);
 
-        std::string errorMessage = "None";
+        std::string errorMessage;
         if (loadDataErrorType == LoadDataSuccess::NO_FILE)
         {
             errorMessage = "No save file found";

@@ -147,16 +147,54 @@ void Game::inSpaceLoop()
 
     // UI
 
-    playerHealthBar.draw(window);
-    std::string text = std::to_string(playerShip.getHealth()) + " / " + std::to_string(playerShip.getMaxHealth()) + " HP";
-    TextRenderer::drawText(window, {text, sf::Vector2f(50, 55), sf::Color(255, 255, 255), 32, sf::Color(0, 0, 0), 3, false, true});
+    if (playerShip.isAlive())
+    {
+    
+        playerHealthBar.draw(window);
+        std::string text = std::to_string(playerShip.getHealth()) + " / " + std::to_string(playerShip.getMaxHealth()) + " HP";
+        TextRenderer::drawText(window, {
+            text, sf::Vector2f(50, 55),
+            sf::Color(255, 255, 255), 32, sf::Color(0, 0, 0), 3,
+            false, true
+        });
 
-    levelBar.draw(window);
-    text = "Level " + std::to_string(InventoryManager::getCurrentLevel());
-    text += " - " + std::to_string(static_cast<int>(levelBar.getValue())) + " / " + std::to_string(static_cast<int>(levelBar.getMaxValue())) + " XP";
-    TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 55), sf::Color(255, 255, 255), 32, sf::Color(0, 0, 0), 3, true, true});
+        levelBar.draw(window);
 
-    text = std::to_string(static_cast<int>(1 / deltaTime)) + " FPS";
+        text = ("Level " + std::to_string(InventoryManager::getCurrentLevel())
+            + " - " + std::to_string(static_cast<int>(levelBar.getValue())) + " / " + 
+            std::to_string(static_cast<int>(levelBar.getMaxValue())) + " XP");
+            
+        TextRenderer::drawText(window, {
+            text, sf::Vector2f(WINDOW_WIDTH / 2, 55),
+            sf::Color(255, 255, 255), 32, sf::Color(0, 0, 0), 3,
+            true, true
+        });
+
+        if (inStationRange)
+        {
+            text = "Enter Station (E)";
+            TextRenderer::drawText(window, {
+                text, sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 * 3),
+                sf::Color(255, 255, 255), 50, sf::Color(0, 0, 0), 3, true
+            });
+        }
+
+        if (showUIRing)
+            UIRingManager::draw(window);
+        
+    }
+    else
+    {
+        std::string text = "You died";
+        TextRenderer::drawText(window, {
+            text, sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2),
+            sf::Color(255, 255, 255), 72, sf::Color(0, 0, 0), 4,
+            true, true
+        });
+    }
+
+    
+    std::string text = std::to_string(static_cast<int>(1 / deltaTime)) + " FPS";
     TextRenderer::drawText(window, {text, sf::Vector2f(20, 155), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
 
     text = std::to_string(BulletManager::getBulletCount()) + " Bullets";
@@ -164,16 +202,6 @@ void Game::inSpaceLoop()
 
     text = std::to_string(AsteroidManager::getAsteroids().size()) + " Asteroids";
     TextRenderer::drawText(window, {text, sf::Vector2f(20, 195), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
-
-    if (inStationRange)
-    {
-        text = "Enter Station (E)";
-        TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 * 3), sf::Color(255, 255, 255), 50, sf::Color(0, 0, 0), 3, true});
-    }
-
-    if (showUIRing)
-        UIRingManager::draw(window);
-    
     
 
     // Pause menu

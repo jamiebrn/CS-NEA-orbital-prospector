@@ -34,6 +34,8 @@ public:
 
     void draw(sf::RenderWindow& window) override;
 
+    void respawn();
+
     void setPosition(sf::Vector2f new_position);
 
     sf::Vector2f getPosition();
@@ -45,6 +47,8 @@ public:
     inline void setMaxHealth(int health) {maxHealth = health;}
 
     inline void setHealth(int health) {this->health = health;}
+
+    inline bool isAlive() {return health > 0;}
 
 
 // Private functions
@@ -81,6 +85,8 @@ private:
 
     int maxHealth;
     int health;
+
+    float respawnCount;
 
     float shootCooldown;
     int currentGunIndex;

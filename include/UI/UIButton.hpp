@@ -10,7 +10,7 @@ struct UIButtonData
     sf::Vector2f position, size;
     std::string text;
     sf::Color colour, hoverColour;
-    int fontSize = 32;
+    unsigned int fontSize = 32;
 };
 
 class UIButton
@@ -38,7 +38,7 @@ private:
     sf::Color colour;
     sf::Color hoverColour;
 
-    int fontSize = 32;
+    unsigned int fontSize = 32;
 
     bool hovering;
 

@@ -53,21 +53,59 @@ void PlayerShip::update(float deltaTime, sf::Vector2f mouse_position)
         engineActive = false;
     }
 
-    position += velocity * deltaTime;
-
-
-    // Enemy bullet collision
-
-    for (Bullet& bullet : BulletManager::getEnemyBullets())
+    if (isAlive())
     {
-        float lengthSq = (position - bullet.getPosition()).lengthSq();
-        if (lengthSq <= HITBOX_RADIUS * HITBOX_RADIUS)
+
+        position += velocity * deltaTime;
+
+        // Enemy bullet collision
+
+        for (Bullet& bullet : BulletManager::getEnemyBullets())
         {
-            damage(1);
-            bullet.kill();
+            float lengthSq = (position - bullet.getPosition()).lengthSq();
+            if (lengthSq <= HITBOX_RADIUS * HITBOX_RADIUS)
+            {
+                damage(1);
+                bullet.kill();
+            }
+        }
+
+        // Shooting
+
+        shootCooldown += deltaTime;
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && shootCooldown >= SHOOT_COOLDOWN)
+        {
+            shootCooldown = 0;
+            shootBullets();
+
+            currentGunIndex = (currentGunIndex + 1) % bulletSpawnPos.size();
+        }
+
+        // Item pickups
+
+        std::vector<ItemPickupType> pickedUp = ItemPickupManager::testCollectedPickups(position, ITEM_PICKUP_RADIUS);
+        for (ItemPickupType item : pickedUp)
+        {
+            InventoryManager::addItem(item, 1);
+            InventoryManager::addExperience(InventoryManager::itemPrice(item));
+        }
+        if (pickedUp.size() > 0)
+        {
+            SoundManager::playSound(SoundType::ItemPickup);
+        }
+
+    }
+    else
+    {
+        // When dead
+
+        respawnCount -= deltaTime;
+        if (respawnCount <= 0)
+        {
+            respawn();
         }
     }
-
 
     // Animation
 
@@ -84,40 +122,30 @@ void PlayerShip::update(float deltaTime, sf::Vector2f mouse_position)
     flashTime -= deltaTime;
 
 
-    // Shooting
+}
 
-    shootCooldown += deltaTime;
+void PlayerShip::respawn()
+{
 
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && shootCooldown >= SHOOT_COOLDOWN)
-    {
-        shootCooldown = 0;
-        shootBullets();
-
-        currentGunIndex = (currentGunIndex + 1) % bulletSpawnPos.size();
-    }
-
-
-    // Item pickups
-
-    std::vector<ItemPickupType> pickedUp = ItemPickupManager::testCollectedPickups(position, ITEM_PICKUP_RADIUS);
-    for (ItemPickupType item : pickedUp)
-    {
-        InventoryManager::addItem(item, 1);
-        InventoryManager::addExperience(InventoryManager::itemPrice(item));
-    }
-    if (pickedUp.size() > 0)
-    {
-        SoundManager::playSound(SoundType::ItemPickup);
-    }
+    position = sf::Vector2f(5000, 5000);
+    health = maxHealth;
 
 }
 
 void PlayerShip::damage(int amount)
 {
 
+    if (!isAlive())
+        return;
+
     health -= amount;
 
     flashTime = FLASH_TIME_MAX;
+
+    if (!isAlive())
+    {
+        respawnCount = 5;
+    }
 
 }
 
@@ -138,6 +166,9 @@ void PlayerShip::shootBullets()
 // Draw player ship object at position and rotation through texture manager
 void PlayerShip::draw(sf::RenderWindow& window)
 {
+
+    if (!isAlive())
+        return;
 
     sf::Vector2f drawOffset = Camera::getDrawOffset();
 
