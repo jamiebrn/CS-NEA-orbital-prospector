@@ -110,6 +110,7 @@ private:
 
     HealthBar playerHealthBar;
     HealthBar levelBar;
+    HealthBar missionProgress;
 
     UIButtonGroup titleButtons;
     UIButtonGroup pauseMenuButtons;
@@ -120,7 +121,7 @@ private:
     UIButtonGroup stationMissionButtons;
     UIButtonGroup stationLevelButtons;
 
-    std::string selectedMissionTitle, selectedMissionDesc;
+    int selectedMission;
 
     static constexpr float STATION_MAX_RANGE = 320;
     bool inStationRange;

@@ -5,6 +5,8 @@
 #include <array>
 #include <json.hpp>
 
+#include "Manager/InventoryManager.hpp"
+
 enum class MissionType
 {
     Collect,
@@ -38,8 +40,28 @@ public:
 
     static const Mission& getMissionData(int id);
 
+    static void setMissionData(int id, const Mission& mission);
+
+    static void acceptMission(int id);
+
+    static bool hasAcceptedMission();
+
+    static bool missionCompleted();
+
+    static void completeMission();
+
+    static void addToGoal(MissionType type, int amount);
+
+    static int getAcceptedMissionId();
+
+    static int getGoalProgress();
+
 private:
     static std::array<Mission, 3> missions;
+
+    static int acceptedMission;
+
+    static int goalProgress;
 
 };
 

@@ -13,6 +13,7 @@
 #include "Manager/InventoryManager.hpp"
 #include "Manager/BulletManager.hpp"
 #include "Manager/SoundManager.hpp"
+#include "Manager/MissionManager.hpp"
 #include "Objects/HealthBar.hpp"
 #include "Objects/PlayerShip.hpp"
 

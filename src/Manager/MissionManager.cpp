@@ -1,6 +1,8 @@
 #include "Manager/MissionManager.hpp"
 
 std::array<Mission, 3> MissionManager::missions;
+int MissionManager::acceptedMission = -1;
+int MissionManager::goalProgress = 0;
 
 void MissionManager::generateMission(int id)
 {
@@ -49,4 +51,67 @@ void MissionManager::rerollAllMissions()
 const Mission& MissionManager::getMissionData(int id)
 {
     return missions[id];
+}
+
+void MissionManager::setMissionData(int id, const Mission& mission)
+{
+    missions[id] = mission;
+}
+
+void MissionManager::acceptMission(int id)
+{
+
+    if (hasAcceptedMission())
+        return;
+
+    acceptedMission = id;
+    goalProgress = 0;
+
+}
+
+bool MissionManager::hasAcceptedMission()
+{
+    return (acceptedMission != -1);
+}
+
+bool MissionManager::missionCompleted()
+{
+    if (!hasAcceptedMission())
+        return false;
+
+    return (goalProgress >= missions.at(acceptedMission).goalAmount);
+}
+
+void MissionManager::completeMission()
+{
+    if (!hasAcceptedMission())
+        return;
+
+    if (missionCompleted())
+    {
+        InventoryManager::addSilverCoins(missions.at(acceptedMission).reward);
+        generateMission(acceptedMission);
+        acceptedMission = -1;
+    }
+}
+
+void MissionManager::addToGoal(MissionType type, int amount)
+{
+    if (!hasAcceptedMission())
+        return;
+
+    if (missions.at(acceptedMission).type == type)
+    {
+        goalProgress += amount;
+    }
+}
+
+int MissionManager::getAcceptedMissionId()
+{
+    return acceptedMission;
+}
+
+int MissionManager::getGoalProgress()
+{
+    return goalProgress;
 }

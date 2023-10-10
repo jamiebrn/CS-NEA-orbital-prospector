@@ -182,6 +182,51 @@ void Game::inSpaceLoop()
         if (showUIRing)
             UIRingManager::draw(window);
         
+        if (MissionManager::hasAcceptedMission())
+        {
+            sf::RectangleShape missionBorder(sf::Vector2f(370, 80));
+            missionBorder.setPosition(sf::Vector2f(1550, 165));
+            missionBorder.setFillColor(sf::Color(30, 30, 30, 120));
+            window.draw(missionBorder);
+
+            sf::RectangleShape missionBorderColor(sf::Vector2f(10, 80));
+            missionBorderColor.setPosition(sf::Vector2f(1550, 165));
+            missionBorderColor.setFillColor(sf::Color(24, 176, 231, 200));
+            window.draw(missionBorderColor);
+
+            int missionId = MissionManager::getAcceptedMissionId();
+            const Mission& mission = MissionManager::getMissionData(missionId);
+
+            int goalProgress = MissionManager::getGoalProgress();
+
+            TextRenderer::drawText(window, {
+                mission.title, sf::Vector2f(1735, 185),
+                sf::Color(255, 255, 255), 32, sf::Color(0, 0, 0), 3, true, true
+            });
+
+            if (!MissionManager::missionCompleted())
+            {
+                missionProgress.setMaxValue(mission.goalAmount);
+                missionProgress.updateValue(goalProgress);
+                missionProgress.update(deltaTime);
+                missionProgress.draw(window);
+
+                TextRenderer::drawText(window, {
+                    std::to_string(goalProgress) + " / " + std::to_string(mission.goalAmount),
+                    sf::Vector2f(1735, 223), sf::Color(255, 255, 255), 32, sf::Color(0, 0, 0),
+                    3, true, true
+                });
+            }
+            else
+            {
+                TextRenderer::drawText(window, {
+                    "Completed!", sf::Vector2f(1735, 223), sf::Color(255, 255, 255),
+                    32, sf::Color(0, 0, 0), 3, true, true
+                });
+            }
+
+        }
+        
     }
     else
     {

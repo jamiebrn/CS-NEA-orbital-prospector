@@ -287,6 +287,7 @@ void EnemyShip::damage(int amount)
     {
         // Dead
         InventoryManager::addExperience(15);
+        MissionManager::addToGoal(MissionType::Kill, 1);
         SoundManager::playSound(SoundType::ShipExplode);
     }
 }

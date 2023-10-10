@@ -70,6 +70,11 @@ LoadDataSuccess Game::loadData()
         InventoryManager::setLevelExp(saveData.at("level").at("progress"));
         InventoryManager::setMaxLevelExp(saveData.at("level").at("max"));
 
+        for (int i = 0; i < 3; i++)
+        {
+            MissionManager::setMissionData(i, saveData.at("missions").at(i));
+        }
+
         std::vector<AsteroidData> asteroidDatas = saveData.at("asteroids");
         for (AsteroidData data : asteroidDatas)
         {
@@ -129,6 +134,11 @@ void Game::saveData()
     saveData["level"]["value"] = InventoryManager::getCurrentLevel();
     saveData["level"]["progress"] = InventoryManager::getLevelExp();
     saveData["level"]["max"] = InventoryManager::getMaxLevelExp();
+
+    for (int i = 0; i < 3; i++)
+    {
+        saveData["missions"][i] = MissionManager::getMissionData(i);
+    }
 
 	std::vector<AsteroidData> asteroidDatas;
 	for (Asteroid& asteroid : AsteroidManager::getAsteroids())

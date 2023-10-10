@@ -6,6 +6,7 @@ Game::Game()
     titlePlanetRenderer(PlanetType::Earth),
     mainPlanetRenderer(PlanetType::Earth),
     playerHealthBar(sf::Vector2f(30, 30), sf::Vector2f(600, 50), 50),
+    missionProgress(sf::Vector2f(1600, 200), sf::Vector2f(270, 30), 1),
     levelBar(sf::Vector2f(WINDOW_WIDTH / 2 - 300, 30), sf::Vector2f(600, 50), 50),
     view(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT))
 {}
@@ -60,6 +61,7 @@ bool Game::initialise()
     mainPlanetRenderer.setScale(7);
 
     levelBar.setFillColour(sf::Color(255, 239, 1));
+    missionProgress.setFillColour(sf::Color(14, 166, 221));
 
     inStationRange = false;
 

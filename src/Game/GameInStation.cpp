@@ -8,6 +8,7 @@ void Game::inStationLoop()
     sf::Vector2f mousePosition = window.mapPixelToCoords(screenMousePosition);
 
     std::vector<UISellItemBar> sellItemBars;
+    UIButton acceptCompleteMissionButton;
 
     switch (stationMenuState)
     {
@@ -42,6 +43,16 @@ void Game::inStationLoop()
     
     case StationMenuState::Missons:
         stationMissionButtons.update(mousePosition);
+
+        acceptCompleteMissionButton.setPosition(sf::Vector2f(1125, 850));
+        acceptCompleteMissionButton.setSize(sf::Vector2f(200, 70));
+        acceptCompleteMissionButton.setText("Accept mission");
+        if (MissionManager::missionCompleted())
+            acceptCompleteMissionButton.setText("Complete mission");
+        acceptCompleteMissionButton.setColour(sf::Color(15, 190, 15));
+        acceptCompleteMissionButton.setHoverColour(sf::Color(20, 220, 20));
+        acceptCompleteMissionButton.update(mousePosition);
+
         break;
     
     case StationMenuState::Level:
@@ -102,8 +113,7 @@ void Game::inStationLoop()
             }
             else if (stationMenuButtons.isButtonPressed("missions"))
             {
-                selectedMissionTitle = "Mission Info";
-                selectedMissionDesc = "Select mission for more info";
+                selectedMission = -1;
 
                 for (int i = 0; i < 3; i++)
                 {
@@ -152,9 +162,28 @@ void Game::inStationLoop()
             {
                 if (stationMissionButtons.isButtonPressed("mission" + std::to_string(i + 1)))
                 {
-                    selectedMissionTitle = MissionManager::getMissionData(i).title;
-                    selectedMissionDesc = MissionManager::getMissionData(i).description;
+                    selectedMission = i;
                 }
+            }
+
+            if (acceptCompleteMissionButton.isHovering() && !MissionManager::hasAcceptedMission())
+            {
+                if (selectedMission != -1)
+                {
+                    MissionManager::acceptMission(selectedMission);
+                }
+            }
+            if (acceptCompleteMissionButton.isHovering() && MissionManager::missionCompleted())
+            {
+                MissionManager::completeMission();
+
+                for (int i = 0; i < 3; i++)
+                {
+                    std::string title = MissionManager::getMissionData(i).title;
+                    stationMissionButtons.setButtonText("mission" + std::to_string(i + 1), title);
+                }
+
+                selectedMission = -1;
             }
 
             break;
@@ -218,8 +247,16 @@ void Game::inStationLoop()
         missionBg.setFillColor(sf::Color(40, 40, 40, 130));
         window.draw(missionBg);
 
-        TextDrawData missionTitle = {
-            selectedMissionTitle,
+        std::string missionTitle = "Mission Info";
+        std::string missionDesc = "Select mission for more info";
+        if (selectedMission != -1)
+        {
+            missionTitle = MissionManager::getMissionData(selectedMission).title;
+            missionDesc = MissionManager::getMissionData(selectedMission).description;
+        }
+
+        TextDrawData missionTitleData = {
+            missionTitle,
             sf::Vector2f(1225, 260),
             sf::Color(255, 255, 255),
             62,
@@ -228,10 +265,10 @@ void Game::inStationLoop()
             true
         };
 
-        TextRenderer::drawText(window, missionTitle);
+        TextRenderer::drawText(window, missionTitleData);
 
-        TextDrawData missionDesc = {
-            selectedMissionDesc,
+        TextDrawData missionDescData = {
+            missionDesc,
             sf::Vector2f(1225, 560),
             sf::Color(255, 255, 255),
             40,
@@ -240,7 +277,11 @@ void Game::inStationLoop()
             true
         };
 
-        TextRenderer::drawText(window, missionDesc);
+        TextRenderer::drawText(window, missionDescData);
+
+        if ((selectedMission != -1 && !MissionManager::hasAcceptedMission()) ||
+            (MissionManager::missionCompleted() && selectedMission == MissionManager::getAcceptedMissionId()))
+            acceptCompleteMissionButton.draw(window);
 
         break;
     }

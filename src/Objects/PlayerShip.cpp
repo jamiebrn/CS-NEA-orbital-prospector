@@ -89,6 +89,7 @@ void PlayerShip::update(float deltaTime, sf::Vector2f mouse_position)
         {
             InventoryManager::addItem(item, 1);
             InventoryManager::addExperience(InventoryManager::itemPrice(item));
+            MissionManager::addToGoal(MissionType::Collect, 1);
         }
         if (pickedUp.size() > 0)
         {
