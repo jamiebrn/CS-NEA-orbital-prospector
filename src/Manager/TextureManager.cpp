@@ -15,6 +15,7 @@ const std::unordered_map<TextureType, std::string> TextureManager::texturePaths 
     {TextureType::EnemyShip, "Space Ship Pack/Base/PNGs/Kla'ed - Scout - Base.png"},
     {TextureType::EnemyShipEngine, "Space Ship Pack/Engine/PNGs/Kla'ed - Scout - Engine.png"},
     {TextureType::EnemyShipFlash, "Space Ship Pack/Base/PNGs/Kla'ed - Scout - Flash.png"},
+    {TextureType::EnemyShipDestroyed, "Space Ship Pack/Destruction/PNGs/Kla'ed - Scout - Destruction.png"},
 
     {TextureType::Bullet, "Space Ship Pack/Projectiles/PNGs/Kla'ed - Bullet.png"},
     

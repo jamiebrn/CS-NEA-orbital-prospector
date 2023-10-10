@@ -21,6 +21,7 @@ enum class TextureType
     EnemyShip,
     EnemyShipEngine,
     EnemyShipFlash,
+    EnemyShipDestroyed,
 
     Bullet,
 

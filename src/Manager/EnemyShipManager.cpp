@@ -16,7 +16,7 @@ void EnemyShipManager::updateShips(const PlayerShip& playerShip, float deltaTime
 
         iter->update(playerShip, enemyShips, deltaTime);
 
-        if (!iter->isAlive())
+        if (iter->canRemove())
         {
             iter = enemyShips.erase(iter);
             continue;

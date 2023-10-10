@@ -19,7 +19,7 @@
 enum class EnemyShipBehaviour
 {
     Idle,
-    Attack
+    Attack,
 };
 
 struct EnemyShipData
@@ -57,6 +57,8 @@ public:
     bool isBulletColliding(sf::Vector2f bulletPos);
 
     bool isAlive();
+    bool isDestroyed();
+    bool canRemove();
 
     EnemyShipData generateData();
 
@@ -71,6 +73,9 @@ private:
     void damage(int amount);
 
     void shoot();
+
+    void drawAlive(sf::RenderWindow& window);
+    void drawDestroyed(sf::RenderWindow& window);
 
 private:
     static constexpr float SCALE = 6;
@@ -94,6 +99,9 @@ private:
     static constexpr int ENGINE_ANIM_FRAMES = 10;
     static constexpr float ENGINE_ANIM_TICK_MAX = 0.06;
 
+    static constexpr int DESTROYED_ANIM_FRAMES = 10;
+    static constexpr float DESTROYED_ANIM_TICK_MAX = 0.06;
+
     static constexpr float MAX_FLASH_TIME = 0.2;
 
     unsigned long long id;
@@ -114,6 +122,9 @@ private:
     bool engineActive;
     float engineFrameTick;
     int engineFrameIndex;
+
+    float destroyedFrameTick;
+    int destroyedFrameIndex;
 
     float flashTime;
 

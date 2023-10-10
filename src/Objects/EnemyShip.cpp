@@ -19,6 +19,9 @@ EnemyShip::EnemyShip(sf::Vector2f position)
     engineFrameIndex = rand() % ENGINE_ANIM_FRAMES;
     engineFrameTick = 0;
 
+    destroyedFrameTick = 0;
+    destroyedFrameIndex = 0;
+
     engineActive = false;
 
     flashTime = 0;
@@ -48,6 +51,9 @@ EnemyShip::EnemyShip(EnemyShipData data)
     engineFrameIndex = rand() % ENGINE_ANIM_FRAMES;
     engineFrameTick = 0;
 
+    destroyedFrameTick = 0;
+    destroyedFrameIndex = 0;
+
     engineActive = false;
 
     flashTime = 0;
@@ -60,29 +66,54 @@ EnemyShip::EnemyShip(EnemyShipData data)
 void EnemyShip::update(const PlayerShip& playerShip, const std::vector<EnemyShip>& ships, float deltaTime)
 {
 
-    // Update based on behaviour state
-
-    switch (behaviourState)
+    
+    if (isAlive())
     {
-        case EnemyShipBehaviour::Idle:
-            updateIdle(playerShip, deltaTime);
-            break;
-        
-        case EnemyShipBehaviour::Attack:
-            updateAttack(playerShip, ships, deltaTime);
-            break;
-    }
 
+        // Update based on behaviour state
 
-    // Animation
-
-    if (engineActive)
-    {
-        engineFrameTick += deltaTime;
-        if (engineFrameTick >= ENGINE_ANIM_TICK_MAX)
+        switch (behaviourState)
         {
-            engineFrameTick = 0;
-            engineFrameIndex = (engineFrameIndex + 1) % ENGINE_ANIM_FRAMES;
+            case EnemyShipBehaviour::Idle:
+                updateIdle(playerShip, deltaTime);
+                break;
+            
+            case EnemyShipBehaviour::Attack:
+                updateAttack(playerShip, ships, deltaTime);
+                break;
+        }
+
+        // Animation
+
+        if (engineActive)
+        {
+            engineFrameTick += deltaTime;
+            if (engineFrameTick >= ENGINE_ANIM_TICK_MAX)
+            {
+                engineFrameTick = 0;
+                engineFrameIndex = (engineFrameIndex + 1) % ENGINE_ANIM_FRAMES;
+            }
+        }
+
+        // Check bullet collision
+        for (Bullet& bullet : BulletManager::getBullets())
+        {
+            sf::Vector2f bulletPos = bullet.getPosition();
+            if (isBulletColliding(bulletPos))
+            {
+                damage(1);
+                bullet.kill();
+            }
+        }
+
+    }
+    else
+    {
+        destroyedFrameTick += deltaTime;
+        if (destroyedFrameTick >= DESTROYED_ANIM_TICK_MAX)
+        {
+            destroyedFrameTick = 0;
+            destroyedFrameIndex++;
         }
     }
 
@@ -213,19 +244,6 @@ void EnemyShip::updateAttack(const PlayerShip& playerShip, const std::vector<Ene
         velocity = velocity.normalized() * velocityMagnitude;
     }
 
-
-    // Check bullet collision
-    
-    for (Bullet& bullet : BulletManager::getBullets())
-    {
-        sf::Vector2f bulletPos = bullet.getPosition();
-        if (isBulletColliding(bulletPos))
-        {
-            damage(1);
-            bullet.kill();
-        }
-    }
-
 }
 
 
@@ -256,19 +274,20 @@ void EnemyShip::shoot()
 void EnemyShip::damage(int amount)
 {
 
-    if (health <= 0)
+    if (!isAlive())
         return;
 
     flashTime = MAX_FLASH_TIME;
 
     health -= amount;
 
-    if (health > 0)
+    if (isAlive())
         healthBar.updateValue(health);
     else
     {
         // Dead
         InventoryManager::addExperience(15);
+        SoundManager::playSound(SoundType::ShipExplode);
     }
 }
 
@@ -276,6 +295,16 @@ void EnemyShip::damage(int amount)
 bool EnemyShip::isAlive()
 {
     return (health > 0);
+}
+
+bool EnemyShip::isDestroyed()
+{
+    return (destroyedFrameIndex >= DESTROYED_ANIM_FRAMES - 1);
+}
+
+bool EnemyShip::canRemove()
+{
+    return (!isAlive() && isDestroyed());
 }
 
 
@@ -298,6 +327,21 @@ EnemyShipData EnemyShip::generateData()
 
 
 void EnemyShip::draw(sf::RenderWindow& window)
+{
+
+    if (isAlive())
+    {
+        drawAlive(window);
+    }
+    else
+    {
+        drawDestroyed(window);
+    }
+
+}
+
+
+void EnemyShip::drawAlive(sf::RenderWindow& window)
 {
 
     sf::Vector2f drawOffset = Camera::getDrawOffset();
@@ -341,9 +385,27 @@ void EnemyShip::draw(sf::RenderWindow& window)
         TextureManager::drawTexture(window, drawData);
     }
 
-
     healthBar.setDrawPosition(sf::Vector2f(position.x - 50, position.y - 50) + drawOffset);
     healthBar.draw(window);
+
+}
+
+
+void EnemyShip::drawDestroyed(sf::RenderWindow& window)
+{
+
+    sf::Vector2f drawOffset = Camera::getDrawOffset();
+
+    TextureDrawData destroyedDrawData = {
+        TextureType::EnemyShipDestroyed,
+        position + drawOffset,
+        rotation,
+        SCALE
+    };
+
+    sf::IntRect destroyedSubRect = sf::IntRect(sf::Vector2i(64 * destroyedFrameIndex, 0), sf::Vector2i(64, 64));
+
+    TextureManager::drawSubTexture(window, destroyedDrawData, destroyedSubRect);
 
 }
 

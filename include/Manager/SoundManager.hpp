@@ -12,6 +12,7 @@ enum class SoundType
     Shoot,
     EnemyShoot,
     AsteroidExplode,
+    ShipExplode,
     ItemPickup
 };
 
@@ -47,6 +48,7 @@ private:
         {SoundType::Shoot, "Sfx/shoot.wav"},
         {SoundType::EnemyShoot, "Sfx/enemyShoot.wav"},
         {SoundType::AsteroidExplode, "Sfx/asteroidExplode.wav"},
+        {SoundType::ShipExplode, "Sfx/shipExplosion.wav"},
         {SoundType::ItemPickup, "Sfx/itemPickup.wav"}
     };
 
