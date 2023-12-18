@@ -84,6 +84,7 @@ private:
     void changeState(GameState newState);
 
     float distanceSqToStation();
+    void drawMissionProgress(float deltaTime);
 
     LoadDataSuccess loadData();
     void saveData();
