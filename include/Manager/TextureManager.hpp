@@ -40,7 +40,10 @@ enum class TextureType
     PickupIronChunk,
 
     SymbolSpaceStation,
-    SymbolEnemyMarker
+    SymbolEnemyMarker,
+
+    SpaceStationMenuBackground,
+    SpaceStationSubmenuBackground
 };
 
 // Struct containing data required to draw texture

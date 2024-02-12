@@ -114,29 +114,34 @@ void Game::initUI()
     // Space station menu buttons
 
     stationMenuButtons.addButton("upgrades", {
-        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 500), sf::Vector2f(200, 70),
+        sf::Vector2f(128, 208), sf::Vector2f(820, 100),
         "Upgrades", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
     stationMenuButtons.addButton("market", {
-        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 600), sf::Vector2f(200, 70),
+        sf::Vector2f(128, 318), sf::Vector2f(820, 100),
         "Market", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
     stationMenuButtons.addButton("missions", {
-        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 700), sf::Vector2f(200, 70),
+        sf::Vector2f(128, 436), sf::Vector2f(820, 100),
         "Missions", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
     stationMenuButtons.addButton("level", {
-        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 800), sf::Vector2f(200, 70),
+        sf::Vector2f(128, 554), sf::Vector2f(820, 100),
         "Level", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationMenuButtons.addButton("return", {
+        sf::Vector2f(128, 662), sf::Vector2f(820, 100),
+        "Return to Space", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
     // Space station upgrade buttons
 
     stationUpgradeButtons.addButton("health", {
-        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 600), sf::Vector2f(200, 70),
+        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 600), sf::Vector2f(820, 100),
         "Upgrade Health", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 

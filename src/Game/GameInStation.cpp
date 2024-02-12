@@ -7,60 +7,6 @@ void Game::inStationLoop()
     sf::Vector2i screenMousePosition = sf::Mouse::getPosition(window);
     sf::Vector2f mousePosition = window.mapPixelToCoords(screenMousePosition);
 
-    std::vector<UISellItemBar> sellItemBars;
-    UIButton acceptCompleteMissionButton;
-
-    switch (stationMenuState)
-    {
-
-    case StationMenuState::Main:
-        stationMenuButtons.update(mousePosition);
-        break;
-    
-    case StationMenuState::Upgrades:
-        stationUpgradeButtons.update(mousePosition);
-        break;
-
-    case StationMenuState::Market:
-    {
-        int yOffset = 0;
-        for (auto itemTypePair : itemTextureMap)
-        {
-
-            ItemPickupType itemType = itemTypePair.first;
-
-            UISellItemBar sellItemBar(itemType);
-            sellItemBar.setPosition(sf::Vector2f(400, 300 + yOffset));
-            sellItemBar.update(mousePosition);
-
-            sellItemBars.push_back(sellItemBar);
-
-            yOffset += 125;
-
-        }
-        break;
-    }
-    
-    case StationMenuState::Missons:
-        stationMissionButtons.update(mousePosition);
-
-        acceptCompleteMissionButton.setPosition(sf::Vector2f(1125, 850));
-        acceptCompleteMissionButton.setSize(sf::Vector2f(200, 70));
-        acceptCompleteMissionButton.setText("Accept mission");
-        if (MissionManager::missionCompleted())
-            acceptCompleteMissionButton.setText("Complete mission");
-        acceptCompleteMissionButton.setColour(sf::Color(15, 190, 15));
-        acceptCompleteMissionButton.setHoverColour(sf::Color(20, 220, 20));
-        acceptCompleteMissionButton.update(mousePosition);
-
-        break;
-    
-    case StationMenuState::Level:
-        stationLevelButtons.update(mousePosition);
-        break;
-
-    }
-
     bool leftMousePressed = false;
 
     sf::Event event;
@@ -74,14 +20,7 @@ void Game::inStationLoop()
         {
             if (event.key.code == sf::Keyboard::Escape)
             {
-                if (stationMenuState == StationMenuState::Main)
-                {
-                    changeState(GameState::InSpace);
-                }
-                else
-                {
-                    stationMenuState = StationMenuState::Main;
-                }
+                stationMenuState = StationMenuState::Main;
             }
         }
 
@@ -96,13 +35,19 @@ void Game::inStationLoop()
     }
 
 
-    if (leftMousePressed)
+    float deltaTime = clock.restart().asSeconds();
+
+    window.clear();
+
+    switch (stationMenuState)
     {
-        switch (stationMenuState)
+    
+    case StationMenuState::Main:
+    {
+        stationMenuButtons.update(mousePosition);
+
+        if (leftMousePressed)
         {
-
-        case StationMenuState::Main:
-
             if (stationMenuButtons.isButtonPressed("upgrades"))
             {
                 stationMenuState = StationMenuState::Upgrades;
@@ -127,22 +72,77 @@ void Game::inStationLoop()
             {
                 stationMenuState = StationMenuState::Level;
             }
+            else if (stationMenuButtons.isButtonPressed("return"))
+            {
+                changeState(GameState::InSpace);
+            }
+        }
 
-            break;
-        
-        case StationMenuState::Upgrades:
+        TextureDrawData backgroundData = {
+            TextureType::SpaceStationMenuBackground,
+            sf::Vector2f(0, 0),
+            sf::degrees(0),
+            1,
+            false
+        };
 
+        TextureManager::drawTexture(window, backgroundData);
+
+        stationMenuButtons.draw(window);
+        break;
+    }
+    
+    case StationMenuState::Upgrades:
+    {
+        stationUpgradeButtons.update(mousePosition);
+
+        if (leftMousePressed)
+        {
             if (stationUpgradeButtons.isButtonPressed("health"))
             {
                 int health = playerShip.getMaxHealth() + 5;
                 health = std::min(health, 80);
                 playerShip.setMaxHealth(health);
             }
+        }
 
-            break;
+        TextureDrawData backgroundData = {
+            TextureType::SpaceStationSubmenuBackground,
+            sf::Vector2f(0, 0),
+            sf::degrees(0),
+            1,
+            false
+        };
 
-        case StationMenuState::Market:
+        TextureManager::drawTexture(window, backgroundData);
 
+        stationUpgradeButtons.draw(window);
+        break;
+    }
+
+    case StationMenuState::Market:
+    {
+
+        std::vector<UISellItemBar> sellItemBars;
+
+        int yOffset = 0;
+        for (auto itemTypePair : itemTextureMap)
+        {
+
+            ItemPickupType itemType = itemTypePair.first;
+
+            UISellItemBar sellItemBar(itemType);
+            sellItemBar.setPosition(sf::Vector2f(400, 300 + yOffset));
+            sellItemBar.update(mousePosition);
+
+            sellItemBars.push_back(sellItemBar);
+
+            yOffset += 125;
+
+        }
+
+        if (leftMousePressed)
+        {
             for (UISellItemBar& sellItemBar : sellItemBars)
             {
                 if (sellItemBar.sellButtonHovering())
@@ -153,11 +153,57 @@ void Game::inStationLoop()
                     InventoryManager::sellItems(itemType, itemCount);
                 }
             }
+        }
 
-            break;
+        TextureDrawData backgroundData = {
+            TextureType::SpaceStationSubmenuBackground,
+            sf::Vector2f(0, 0),
+            sf::degrees(0),
+            1,
+            false
+        };
+
+        TextureManager::drawTexture(window, backgroundData);
+
+        for (UISellItemBar& sellItemBar : sellItemBars)
+        {
+            sellItemBar.draw(window);
+        }
+
+        TextureDrawData drawData = {
+            TextureType::SilverCoin,
+            sf::Vector2f(200, 250),
+            sf::degrees(0),
+            5,
+            false
+        };
+
+        TextureManager::drawTexture(window, drawData);
+
+        std::string text = std::to_string(InventoryManager::getSilverCoins());
+        TextRenderer::drawText(window, {text, sf::Vector2f(270, 260), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
         
-        case StationMenuState::Missons:
+        break;
+    }
+    
+    case StationMenuState::Missons:
+    {
 
+        UIButton acceptCompleteMissionButton;
+
+        stationMissionButtons.update(mousePosition);
+
+        acceptCompleteMissionButton.setPosition(sf::Vector2f(1125, 850));
+        acceptCompleteMissionButton.setSize(sf::Vector2f(200, 70));
+        acceptCompleteMissionButton.setText("Accept mission");
+        if (MissionManager::missionCompleted())
+            acceptCompleteMissionButton.setText("Complete mission");
+        acceptCompleteMissionButton.setColour(sf::Color(15, 190, 15));
+        acceptCompleteMissionButton.setHoverColour(sf::Color(20, 220, 20));
+        acceptCompleteMissionButton.update(mousePosition);
+
+        if (leftMousePressed)
+        {
             for (int i = 0; i < 3; i++)
             {
                 if (stationMissionButtons.isButtonPressed("mission" + std::to_string(i + 1)))
@@ -185,61 +231,18 @@ void Game::inStationLoop()
 
                 selectedMission = -1;
             }
-
-            break;
-        
-        case StationMenuState::Level:
-
-            break;
-
-        }
-    }
-
-
-    float deltaTime = clock.restart().asSeconds();
-
-    window.clear(sf::Color(40, 40, 220));
-
-    std::string text = "Space Station";
-    TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 80), sf::Color(255, 255, 255), 100, sf::Color(0, 0, 0), 4, true});
-
-    switch (stationMenuState)
-    {
-    
-    case StationMenuState::Main:
-        stationMenuButtons.draw(window);
-        break;
-    
-    case StationMenuState::Upgrades:
-        stationUpgradeButtons.draw(window);
-        break;
-
-    case StationMenuState::Market:
-    {
-
-        for (UISellItemBar& sellItemBar : sellItemBars)
-        {
-            sellItemBar.draw(window);
         }
 
-        TextureDrawData drawData = {
-            TextureType::SilverCoin,
-            sf::Vector2f(200, 250),
+        TextureDrawData backgroundData = {
+            TextureType::SpaceStationSubmenuBackground,
+            sf::Vector2f(0, 0),
             sf::degrees(0),
-            5,
+            1,
             false
         };
 
-        TextureManager::drawTexture(window, drawData);
+        TextureManager::drawTexture(window, backgroundData);
 
-        text = std::to_string(InventoryManager::getSilverCoins());
-        TextRenderer::drawText(window, {text, sf::Vector2f(270, 260), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
-        
-        break;
-    }
-    
-    case StationMenuState::Missons:
-    {
         stationMissionButtons.draw(window);
 
         sf::RectangleShape missionBg(sf::Vector2f(1260, 800));
@@ -287,14 +290,26 @@ void Game::inStationLoop()
     }
     
     case StationMenuState::Level:
+    {
+        stationLevelButtons.update(mousePosition);
+
+        TextureDrawData backgroundData = {
+            TextureType::SpaceStationSubmenuBackground,
+            sf::Vector2f(0, 0),
+            sf::degrees(0),
+            1,
+            false
+        };
+
+        TextureManager::drawTexture(window, backgroundData);
+
         stationLevelButtons.draw(window);
         break;
+    }
 
     }
 
-
-    text = "Exit (ESC)";
-    TextRenderer::drawText(window, {text, sf::Vector2f(20, 980), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+    TextRenderer::drawText(window, {"Space Station", sf::Vector2f(WINDOW_WIDTH / 2, 80), sf::Color(255, 255, 255), 100, sf::Color(0, 0, 0), 4, true});
 
     window.display();
 
