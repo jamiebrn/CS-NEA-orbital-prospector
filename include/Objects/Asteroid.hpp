@@ -20,9 +20,10 @@ struct AsteroidData
     float x, y;
     float rot;
     float scale;
+    float depth;
     int hp;
 
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(AsteroidData, x, y, rot, scale, hp)
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(AsteroidData, x, y, rot, scale, depth, hp)
 };
 
 class Asteroid : public DrawableObject
@@ -38,9 +39,12 @@ public:
     bool isColliding(sf::Vector2f bulletTip);
 
     bool isAlive();
+    sf::Vector2f getNormalisedPosition();
+    inline float getDepth() const {return depth;}
 
     AsteroidData generateData();
     void setData(AsteroidData data);
+
 
 private:
     void damage(int amount);
@@ -61,6 +65,7 @@ private:
     sf::Vector2f position;
     sf::Angle rotation;
     float scale;
+    float depth;
 
     float flashTime;
     int health;

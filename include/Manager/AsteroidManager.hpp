@@ -2,6 +2,7 @@
 #define ASTEROID_MANAGER_HPP
 
 #include <vector>
+#include <memory>
 
 #include <SFML/Graphics.hpp>
 
@@ -17,7 +18,7 @@ private:
 public:
     static void createAsteroid(sf::Vector2f position);
 
-    static void insertAsteroid(Asteroid asteroid);
+    static void insertAsteroid(std::unique_ptr<Asteroid> asteroid);
 
     static void updateAsteroids(float deltaTime);
 
@@ -25,10 +26,10 @@ public:
 
     static void reset();
 
-    static std::vector<Asteroid>& getAsteroids();
+    static std::vector<std::unique_ptr<Asteroid>>& getAsteroids();
 
 private:
-    static std::vector<Asteroid> asteroids;
+    static std::vector<std::unique_ptr<Asteroid>> asteroids;
 
     static constexpr float SPAWN_COOLDOWN = 10;
 

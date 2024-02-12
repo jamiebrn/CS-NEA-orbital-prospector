@@ -5,6 +5,7 @@ Asteroid::Asteroid(sf::Vector2f position)
     this->position = position;
     rotation = sf::degrees(rand() % 360);
     scale = 4.5f + (rand() % 2);
+    depth = 1.0f + (static_cast<float>(rand() % 700) / 500.0f) - 0.2f;
 
     flashTime = 0;
     health = MAX_HEALTH;
@@ -66,12 +67,12 @@ void Asteroid::spawnPickups()
     int pickupCount = rand() % 3;
     for (int i = 0; i <= pickupCount; i++)
     {
-        int radius = 18 * scale;
+        int radius = (18 * scale) / depth;
         float projection = rand() % radius;
         sf::Angle rotation = sf::degrees(rand() % 360);
 
         sf::Vector2f spawnPos = sf::Vector2f(0, -1).rotatedBy(rotation) * projection;
-        spawnPos += position;
+        spawnPos += getNormalisedPosition();
 
         ItemPickupType pickupType;
         int typeRand = rand() % 101;
@@ -98,7 +99,7 @@ bool Asteroid::isColliding(sf::Vector2f bulletTip)
     if (exploding)
         return false;
 
-    float distanceSq = (position - bulletTip).lengthSq();
+    float distanceSq = (getNormalisedPosition() - bulletTip).lengthSq();
 
     float radius = 18 * scale;
 
@@ -145,14 +146,15 @@ void Asteroid::draw(sf::RenderWindow& window)
 void Asteroid::drawAsteroid(sf::RenderWindow& window)
 {
 
-    if (!Camera::isInView(position, sf::Vector2f(200, 200)))
+
+    if (!Camera::isInView(getNormalisedPosition(), sf::Vector2f(200, 200)))
         return;
 
     sf::Vector2f drawOffset = Camera::getDrawOffset();
-
+    
     TextureDrawData drawData = {
         TextureType::AsteroidCrack,
-        position + drawOffset,
+        position + drawOffset / depth,
         rotation,
         scale
     };
@@ -170,7 +172,7 @@ void Asteroid::drawAsteroid(sf::RenderWindow& window)
 
         drawData = {
             TextureType::AsteroidFlash,
-            position + drawOffset,
+            position + drawOffset / depth,
             rotation,
             scale,
             true,
@@ -189,7 +191,7 @@ void Asteroid::drawExplosion(sf::RenderWindow& window)
 
     TextureDrawData drawData = {
         TextureType::AsteroidExplode,
-        position + drawOffset,
+        position + drawOffset / depth,
         rotation,
         scale
     };
@@ -205,6 +207,17 @@ bool Asteroid::isAlive()
     return alive;
 }
 
+sf::Vector2f Asteroid::getNormalisedPosition()
+{
+
+    sf::Vector2f drawOffset = Camera::getDrawOffset();
+
+    sf::Vector2f normalisedPosition = position + drawOffset * Helper::unprojectDepthMultipier(depth, 1);
+
+    return normalisedPosition;
+
+}
+
 AsteroidData Asteroid::generateData()
 {
 
@@ -213,6 +226,7 @@ AsteroidData Asteroid::generateData()
     data.y = position.y;
     data.rot = rotation.asDegrees();
     data.scale = scale;
+    data.depth = depth;
     data.hp = health;
 
     return data;
@@ -224,5 +238,6 @@ void Asteroid::setData(AsteroidData data)
     position = sf::Vector2f(data.x, data.y);
     rotation = sf::degrees(data.rot);
     scale = data.scale;
+    depth = data.depth;
     health = data.hp;
 }

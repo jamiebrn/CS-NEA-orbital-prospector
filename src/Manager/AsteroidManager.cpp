@@ -1,18 +1,18 @@
 #include "Manager/AsteroidManager.hpp"
 
-std::vector<Asteroid> AsteroidManager::asteroids;
+std::vector<std::unique_ptr<Asteroid>> AsteroidManager::asteroids;
 float AsteroidManager::lastSpawn = 0;
 
 void AsteroidManager::createAsteroid(sf::Vector2f position)
 {
-    Asteroid asteroid(position);
+    std::unique_ptr<Asteroid> asteroid = std::make_unique<Asteroid>(position);
 
-    asteroids.push_back(asteroid);   
+    asteroids.push_back(std::move(asteroid));
 }
 
-void AsteroidManager::insertAsteroid(Asteroid asteroid)
+void AsteroidManager::insertAsteroid(std::unique_ptr<Asteroid> asteroid)
 {
-    asteroids.push_back(asteroid);   
+    asteroids.push_back(std::move(asteroid));
 }
 
 void AsteroidManager::updateAsteroids(float deltaTime)
@@ -42,14 +42,14 @@ void AsteroidManager::updateAsteroids(float deltaTime)
         }
     }
 
-    for (Asteroid& asteroid : asteroids)
+    for (std::unique_ptr<Asteroid>& asteroid : asteroids)
     {
-        asteroid.update(deltaTime);
+        asteroid->update(deltaTime);
     }
 
     for (auto asteroidIter = asteroids.begin(); asteroidIter != asteroids.end();)
     {
-        if (!asteroidIter->isAlive())
+        if (!asteroidIter->get()->isAlive())
         {
             asteroidIter = asteroids.erase(asteroidIter);
         }
@@ -58,13 +58,22 @@ void AsteroidManager::updateAsteroids(float deltaTime)
             asteroidIter++;
         }
     }
+
+    std::sort(asteroids.begin(), asteroids.end(),
+        [](std::unique_ptr<Asteroid> const& asteroid, std::unique_ptr<Asteroid> const& asteroid2)
+        {
+            return asteroid->getDepth() > asteroid2->getDepth();
+        }
+    );
+
+
 }
 
 void AsteroidManager::drawAsteroids(sf::RenderWindow& window)
 {
-    for (Asteroid& asteroid : asteroids)
+    for (std::unique_ptr<Asteroid>& asteroid : asteroids)
     {
-        asteroid.draw(window);
+        asteroid->draw(window);
     }
 }
 
@@ -73,7 +82,7 @@ void AsteroidManager::reset()
     asteroids.clear();
 }
 
-std::vector<Asteroid>& AsteroidManager::getAsteroids()
+std::vector<std::unique_ptr<Asteroid>>& AsteroidManager::getAsteroids()
 {
     return asteroids;
 }

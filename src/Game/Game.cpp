@@ -78,9 +78,9 @@ LoadDataSuccess Game::loadData()
         std::vector<AsteroidData> asteroidDatas = saveData.at("asteroids");
         for (AsteroidData data : asteroidDatas)
         {
-            Asteroid asteroid(sf::Vector2f(data.x, data.y));
-            asteroid.setData(data);
-            AsteroidManager::insertAsteroid(asteroid);
+            std::unique_ptr<Asteroid> asteroid = std::make_unique<Asteroid>(sf::Vector2f(data.x, data.y));
+            asteroid->setData(data);
+            AsteroidManager::insertAsteroid(std::move(asteroid));
         }
 
         std::vector<EnemyShipData> enemyShipDatas = saveData.at("enemyShips");
@@ -141,9 +141,9 @@ void Game::saveData()
     }
 
 	std::vector<AsteroidData> asteroidDatas;
-	for (Asteroid& asteroid : AsteroidManager::getAsteroids())
+	for (std::unique_ptr<Asteroid>& asteroid : AsteroidManager::getAsteroids())
 	{
-		AsteroidData asteroidData = asteroid.generateData();
+		AsteroidData asteroidData = asteroid->generateData();
 		asteroidDatas.push_back(asteroidData);
 	}
 	saveData["asteroids"] = asteroidDatas;

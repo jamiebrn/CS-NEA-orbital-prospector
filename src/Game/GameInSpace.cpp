@@ -132,9 +132,9 @@ void Game::inSpaceLoop()
 
     spaceStation.draw(window);
 
-    ItemPickupManager::drawPickups(window);
-
     AsteroidManager::drawAsteroids(window);
+    
+    ItemPickupManager::drawPickups(window);
 
     BulletManager::drawBullets(window);
     BulletManager::drawEnemyBullets(window);
