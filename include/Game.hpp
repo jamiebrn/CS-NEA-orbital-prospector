@@ -79,7 +79,13 @@ private:
 
     void inMainMenuLoop();
     void inSpaceLoop();
+
     void inStationLoop();
+    void inStationMainSubloop(sf::Vector2f mousePos, bool leftMousePressed);
+    void inStationUpgradesSubloop(sf::Vector2f mousePos, bool leftMousePressed);
+    void inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed);
+    void inStationMissionsSubloop(sf::Vector2f mousePos, bool leftMousePressed);
+    void inStationLevelSubloop(sf::Vector2f mousePos, bool leftMousePressed);
 
     void changeState(GameState newState);
 
