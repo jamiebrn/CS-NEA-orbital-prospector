@@ -51,7 +51,7 @@ void Game::changeState(GameState newState)
 LoadDataSuccess Game::loadData()
 {
 
-    std::ifstream file("save.json");
+    std::ifstream file("Data/save.json");
     if (file.fail())
         return LoadDataSuccess::NO_FILE;
 
@@ -164,7 +164,7 @@ void Game::saveData()
     }
     saveData["itemPickups"] = itemDatas;
 
-	std::ofstream file("save.json");
+	std::ofstream file("Data/save.json");
 	file << saveData << std::endl;
 
 }

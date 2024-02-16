@@ -8,45 +8,45 @@ std::unordered_map<TextureType, sf::Texture> TextureManager::textureMap;
 std::unordered_map<TextureType, sf::Sprite> TextureManager::spriteMap;
 
 const std::unordered_map<TextureType, std::string> TextureManager::texturePaths = {
-    {TextureType::PlayerShip, "Space Ship Pack/Base/PNGs/Kla'ed - Fighter - Base.png"},
-    {TextureType::PlayerShipEngine, "Space Ship Pack/Engine/PNGs/Kla'ed - Fighter - Engine.png"},
-    {TextureType::PlayerShipFlash, "Space Ship Pack/Base/PNGs/Kla'ed - Fighter - Flash.png"},
+    {TextureType::PlayerShip, "Data/Space Ship Pack/Base/PNGs/Kla'ed - Fighter - Base.png"},
+    {TextureType::PlayerShipEngine, "Data/Space Ship Pack/Engine/PNGs/Kla'ed - Fighter - Engine.png"},
+    {TextureType::PlayerShipFlash, "Data/Space Ship Pack/Base/PNGs/Kla'ed - Fighter - Flash.png"},
     
-    {TextureType::EnemyShip, "Space Ship Pack/Base/PNGs/Kla'ed - Scout - Base.png"},
-    {TextureType::EnemyShipEngine, "Space Ship Pack/Engine/PNGs/Kla'ed - Scout - Engine.png"},
-    {TextureType::EnemyShipFlash, "Space Ship Pack/Base/PNGs/Kla'ed - Scout - Flash.png"},
-    {TextureType::EnemyShipDestroyed, "Space Ship Pack/Destruction/PNGs/Kla'ed - Scout - Destruction.png"},
+    {TextureType::EnemyShip, "Data/Space Ship Pack/Base/PNGs/Kla'ed - Scout - Base.png"},
+    {TextureType::EnemyShipEngine, "Data/Space Ship Pack/Engine/PNGs/Kla'ed - Scout - Engine.png"},
+    {TextureType::EnemyShipFlash, "Data/Space Ship Pack/Base/PNGs/Kla'ed - Scout - Flash.png"},
+    {TextureType::EnemyShipDestroyed, "Data/Space Ship Pack/Destruction/PNGs/Kla'ed - Scout - Destruction.png"},
 
-    {TextureType::Bullet, "Space Ship Pack/Projectiles/PNGs/Kla'ed - Bullet.png"},
+    {TextureType::Bullet, "Data/Space Ship Pack/Projectiles/PNGs/Kla'ed - Bullet.png"},
     
-    {TextureType::AsteroidCrack, "Environment/Asteroids/PNGs/Asteroid 01 - Crack.png"},
-    {TextureType::AsteroidExplode, "Environment/Asteroids/PNGs/Asteroid 01 - Explode.png"},
-    {TextureType::AsteroidFlash, "Environment/Asteroids/PNGs/Asteroid 01 - Flash.png"},
+    {TextureType::AsteroidCrack, "Data/Environment/Asteroids/PNGs/Asteroid 01 - Crack.png"},
+    {TextureType::AsteroidExplode, "Data/Environment/Asteroids/PNGs/Asteroid 01 - Explode.png"},
+    {TextureType::AsteroidFlash, "Data/Environment/Asteroids/PNGs/Asteroid 01 - Flash.png"},
 
-    {TextureType::SpaceStation, "Space Ship Pack/Base/PNGs/Space Station.png"},
+    {TextureType::SpaceStation, "Data/Space Ship Pack/Base/PNGs/Space Station.png"},
 
-    {TextureType::Mercury, "Planets/Mercury.png"},
-    {TextureType::Venus, "Planets/Venus.png"},
-    {TextureType::Earth, "Planets/Earth.png"},
-    {TextureType::EarthBackground, "Backgrounds/Earth Background.png"},
-    {TextureType::Moon, "Planets/Moon.png"},
-    {TextureType::Mars, "Planets/Mars.png"},
-    {TextureType::Jupiter, "Planets/Jupiter.png"},
-    {TextureType::Saturn, "Planets/Saturn.png"},
-    {TextureType::Uranus, "Planets/Uranus.png"},
-    {TextureType::Neptune, "Planets/Neptune.png"},
+    {TextureType::Mercury, "Data/Planets/Mercury.png"},
+    {TextureType::Venus, "Data/Planets/Venus.png"},
+    {TextureType::Earth, "Data/Planets/Earth.png"},
+    {TextureType::EarthBackground, "Data/Backgrounds/Earth Background.png"},
+    {TextureType::Moon, "Data/Planets/Moon.png"},
+    {TextureType::Mars, "Data/Planets/Mars.png"},
+    {TextureType::Jupiter, "Data/Planets/Jupiter.png"},
+    {TextureType::Saturn, "Data/Planets/Saturn.png"},
+    {TextureType::Uranus, "Data/Planets/Uranus.png"},
+    {TextureType::Neptune, "Data/Planets/Neptune.png"},
 
-    {TextureType::SilverCoin, "UI/SilverCoin.png"},
-    {TextureType::PickupRock, "Pickups/Rock.png"},
-    {TextureType::PickupCopperChunk, "Pickups/CopperChunk.png"},
-    {TextureType::PickupIronChunk, "Pickups/IronChunk.png"},
-    {TextureType::CopperBar, "Pickups/CopperBar.png"},
+    {TextureType::SilverCoin, "Data/UI/SilverCoin.png"},
+    {TextureType::PickupRock, "Data/Pickups/Rock.png"},
+    {TextureType::PickupCopperChunk, "Data/Pickups/CopperChunk.png"},
+    {TextureType::PickupIronChunk, "Data/Pickups/IronChunk.png"},
+    {TextureType::CopperBar, "Data/Pickups/CopperBar.png"},
 
-    {TextureType::SymbolSpaceStation, "UI/SpaceStationSymbol.png"},
-    {TextureType::SymbolEnemyMarker, "UI/EnemyMarkerSymbol.png"},
+    {TextureType::SymbolSpaceStation, "Data/UI/SpaceStationSymbol.png"},
+    {TextureType::SymbolEnemyMarker, "Data/UI/EnemyMarkerSymbol.png"},
 
-    {TextureType::SpaceStationMenuBackground, "UI/SpaceStationBackground.png"},
-    {TextureType::SpaceStationSubmenuBackground, "UI/SpaceStationSubmenuBackground.png"}
+    {TextureType::SpaceStationMenuBackground, "Data/UI/SpaceStationBackground.png"},
+    {TextureType::SpaceStationSubmenuBackground, "Data/UI/SpaceStationSubmenuBackground.png"}
 };
 
 // Loads all textures from paths specified into texture map
