@@ -286,3 +286,10 @@ float Game::distanceSqToStation()
     return distanceSq;
 
 }
+
+void Game::travelToPlanet(PlanetType planet)
+{
+
+    mainPlanetRenderer.setPlanetType(planet);
+
+}

@@ -40,7 +40,11 @@ void PlanetRenderer::draw(sf::RenderWindow& window)
         scale
     };
 
-    sf::IntRect subRect = sf::IntRect(sf::Vector2i(200 * animationXIndex, 200 * animationYIndex), sf::Vector2i(200, 200));
+    sf::Vector2u frameSize = TextureManager::getTextureSize(textureType);
+    frameSize.x /= ANIMATION_X_FRAMES;
+    frameSize.y /= ANIMATION_Y_FRAMES;
+
+    sf::IntRect subRect = sf::IntRect(sf::Vector2i(frameSize.x * animationXIndex, frameSize.y * animationYIndex), sf::Vector2i(frameSize.x, frameSize.y));
 
     TextureManager::drawSubTexture(window, drawData, subRect);
 

@@ -61,6 +61,10 @@ void Game::inStationLoop()
     case StationMenuState::Level:
         inStationLevelSubloop(mousePosition, leftMousePressed);
         break;
+    
+    case StationMenuState::Travel:
+        inStationTravelSubloop(mousePosition, leftMousePressed);
+        break;
 
     }
 
@@ -100,6 +104,10 @@ void Game::inStationMainSubloop(sf::Vector2f mousePos, bool leftMousePressed)
         else if (stationMenuButtons.isButtonPressed("level"))
         {
             stationMenuState = StationMenuState::Level;
+        }
+        else if (stationMenuButtons.isButtonPressed("travel"))
+        {
+            stationMenuState = StationMenuState::Travel;    
         }
         else if (stationMenuButtons.isButtonPressed("return"))
         {
@@ -360,4 +368,44 @@ void Game::inStationLevelSubloop(sf::Vector2f mousePos, bool leftMousePressed)
     TextureManager::drawTexture(window, backgroundData);
 
     stationLevelButtons.draw(window);
+}
+
+void Game::inStationTravelSubloop(sf::Vector2f mousePos, bool leftMousePressed)
+{
+
+    stationTravelButtons.update(mousePos);
+
+    if (leftMousePressed)
+    {
+        static const std::unordered_map<PlanetType, std::string> planetTypeStringMap = {
+            {PlanetType::Mercury, "mercury"},
+            {PlanetType::Venus, "venus"},
+            {PlanetType::Earth, "earth"},
+            {PlanetType::Moon, "moon"},
+            {PlanetType::Mars, "mars"},
+            {PlanetType::Jupiter, "jupiter"},
+            {PlanetType::Saturn, "saturn"},
+            {PlanetType::Uranus, "uranus"},
+            {PlanetType::Neptune, "neptune"},
+        };
+
+        for (std::pair<PlanetType, std::string> planetTypeStringPair : planetTypeStringMap)
+        {
+            if (stationTravelButtons.isButtonPressed(planetTypeStringPair.second))
+                travelToPlanet(planetTypeStringPair.first);
+        }
+    }
+
+    TextureDrawData backgroundData = {
+        TextureType::SpaceStationSubmenuBackground,
+        sf::Vector2f(0, 0),
+        sf::degrees(0),
+        1,
+        false
+    };
+
+    TextureManager::drawTexture(window, backgroundData);
+
+    stationTravelButtons.draw(window);
+
 }

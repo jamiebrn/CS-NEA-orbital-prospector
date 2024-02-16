@@ -55,7 +55,8 @@ enum class StationMenuState
     Upgrades,
     Market,
     Missons,
-    Level
+    Level,
+    Travel
 };
 
 enum class LoadDataSuccess
@@ -87,8 +88,11 @@ private:
     void inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed);
     void inStationMissionsSubloop(sf::Vector2f mousePos, bool leftMousePressed);
     void inStationLevelSubloop(sf::Vector2f mousePos, bool leftMousePressed);
+    void inStationTravelSubloop(sf::Vector2f mousePos, bool leftMousePressed);
 
     void changeState(GameState newState);
+
+    void travelToPlanet(PlanetType planet);
 
     void drawMissionProgress(float deltaTime);
     float distanceSqToStation();
@@ -128,6 +132,7 @@ private:
     UIButtonGroup stationMarketButtons;
     UIButtonGroup stationMissionButtons;
     UIButtonGroup stationLevelButtons;
+    UIButtonGroup stationTravelButtons;
 
     int selectedMission;
 

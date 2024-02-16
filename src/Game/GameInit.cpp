@@ -124,18 +124,23 @@ void Game::initUI()
     });
 
     stationMenuButtons.addButton("missions", {
-        sf::Vector2f(128, 436), sf::Vector2f(820, 100),
+        sf::Vector2f(128, 428), sf::Vector2f(820, 100),
         "Missions", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
     stationMenuButtons.addButton("level", {
-        sf::Vector2f(128, 554), sf::Vector2f(820, 100),
+        sf::Vector2f(128, 538), sf::Vector2f(820, 100),
         "Level", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
+    stationMenuButtons.addButton("travel", {
+        sf::Vector2f(128, 648), sf::Vector2f(820, 100),
+        "Travel", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
     stationMenuButtons.addButton("return", {
-        sf::Vector2f(128, 662), sf::Vector2f(820, 100),
-        "Return to Space", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+        sf::Vector2f(128, 758), sf::Vector2f(820, 100),
+        "Return to space", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
     // Space station upgrade buttons
@@ -173,6 +178,53 @@ void Game::initUI()
     stationLevelButtons.addButton("levelUp", {
         sf::Vector2f(200, 800), sf::Vector2f(200, 70),
         "Level Up", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    // Space station travel buttons
+
+    stationTravelButtons.addButton("mercury", {
+        sf::Vector2f(300, 200 - 120), sf::Vector2f(700, 100),
+        "Mercury", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationTravelButtons.addButton("venus", {
+        sf::Vector2f(300, 310 - 120), sf::Vector2f(700, 100),
+        "Venus", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationTravelButtons.addButton("earth", {
+        sf::Vector2f(300, 420 - 120), sf::Vector2f(700, 100),
+        "Earth", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationTravelButtons.addButton("moon", {
+        sf::Vector2f(300, 530 - 120), sf::Vector2f(700, 100),
+        "Moon", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationTravelButtons.addButton("mars", {
+        sf::Vector2f(300, 640 - 120), sf::Vector2f(700, 100),
+        "Mars", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationTravelButtons.addButton("jupiter", {
+        sf::Vector2f(300, 750 - 120), sf::Vector2f(700, 100),
+        "Jupiter", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationTravelButtons.addButton("saturn", {
+        sf::Vector2f(300, 860 - 120), sf::Vector2f(700, 100),
+        "Saturn", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationTravelButtons.addButton("uranus", {
+        sf::Vector2f(300, 970 - 120), sf::Vector2f(700, 100),
+        "Uranus", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationTravelButtons.addButton("neptune", {
+        sf::Vector2f(300, 1080 - 120), sf::Vector2f(700, 100),
+        "Neptune", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
 }

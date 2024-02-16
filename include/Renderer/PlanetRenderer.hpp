@@ -12,7 +12,17 @@
 
 enum class PlanetType
 {
-    Earth
+    Mercury,
+    Venus,
+
+    Earth,
+    Moon,
+
+    Mars,
+    Jupiter,
+    Saturn,
+    Uranus,
+    Neptune
 };
 
 class PlanetRenderer
@@ -45,7 +55,15 @@ private:
     float animationTick;
 
     inline static const std::unordered_map<PlanetType, TextureType> planetTextureMap = {
-        {PlanetType::Earth, TextureType::Earth}
+        {PlanetType::Mercury, TextureType::Mercury},
+        {PlanetType::Venus, TextureType:: Venus},
+        {PlanetType::Earth, TextureType::Earth},
+        {PlanetType::Moon, TextureType::Moon},
+        {PlanetType::Mars, TextureType::Mars},
+        {PlanetType::Jupiter, TextureType::Jupiter},
+        {PlanetType::Saturn, TextureType::Saturn},
+        {PlanetType::Uranus, TextureType::Uranus},
+        {PlanetType::Neptune, TextureType::Neptune}
     };
 
 };

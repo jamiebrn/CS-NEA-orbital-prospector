@@ -25,8 +25,16 @@ const std::unordered_map<TextureType, std::string> TextureManager::texturePaths 
 
     {TextureType::SpaceStation, "Space Ship Pack/Base/PNGs/Space Station.png"},
 
+    {TextureType::Mercury, "Planets/Mercury.png"},
+    {TextureType::Venus, "Planets/Venus.png"},
     {TextureType::Earth, "Planets/Earth.png"},
     {TextureType::EarthBackground, "Backgrounds/Earth Background.png"},
+    {TextureType::Moon, "Planets/Moon.png"},
+    {TextureType::Mars, "Planets/Mars.png"},
+    {TextureType::Jupiter, "Planets/Jupiter.png"},
+    {TextureType::Saturn, "Planets/Saturn.png"},
+    {TextureType::Uranus, "Planets/Uranus.png"},
+    {TextureType::Neptune, "Planets/Neptune.png"},
 
     {TextureType::SilverCoin, "UI/SilverCoin.png"},
     {TextureType::PickupRock, "Pickups/Rock.png"},

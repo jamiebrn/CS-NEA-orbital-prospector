@@ -31,8 +31,16 @@ enum class TextureType
 
     SpaceStation,
 
+    Mercury,
+    Venus,
     Earth,
     EarthBackground,
+    Moon,
+    Mars,
+    Jupiter,
+    Saturn,
+    Uranus,
+    Neptune,
 
     SilverCoin,
     PickupRock,
@@ -74,6 +82,8 @@ public:
     static void drawTexture(sf::RenderWindow& window, TextureDrawData drawData);
 
     static void drawSubTexture(sf::RenderWindow& window, TextureDrawData drawData, sf::IntRect boundRect);
+
+    inline static sf::Vector2u getTextureSize(TextureType type) {return textureMap.at(type).getSize();}
 
 // Private functions
 private:
