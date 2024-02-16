@@ -38,6 +38,7 @@ enum class TextureType
     PickupRock,
     PickupCopperChunk,
     PickupIronChunk,
+    CopperBar,
 
     SymbolSpaceStation,
     SymbolEnemyMarker,

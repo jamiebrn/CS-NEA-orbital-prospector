@@ -55,7 +55,8 @@ private:
     inline static const std::unordered_map<ItemPickupType, int> itemBasePrice = {
         {ItemPickupType::Rock, 2},
         {ItemPickupType::CopperChunk, 4},
-        {ItemPickupType::IronChunk, 5}
+        {ItemPickupType::IronChunk, 5},
+        {ItemPickupType::CopperBar, 12}
     };
 
     static int silverCoins;

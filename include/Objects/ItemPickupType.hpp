@@ -10,7 +10,11 @@ enum ItemPickupType
 {
     Rock,
     CopperChunk,
-    IronChunk
+    IronChunk,
+
+    CopperBar,
+
+    NONE
 };
 
 NLOHMANN_JSON_SERIALIZE_ENUM(ItemPickupType, {
@@ -22,7 +26,8 @@ NLOHMANN_JSON_SERIALIZE_ENUM(ItemPickupType, {
 const std::map<ItemPickupType, TextureType> itemTextureMap = {
     {ItemPickupType::Rock, TextureType::PickupRock},
     {ItemPickupType::CopperChunk, TextureType::PickupCopperChunk},
-    {ItemPickupType::IronChunk, TextureType::PickupIronChunk}
+    {ItemPickupType::IronChunk, TextureType::PickupIronChunk},
+    {ItemPickupType::CopperBar, TextureType::CopperBar}
 };
 
 #endif

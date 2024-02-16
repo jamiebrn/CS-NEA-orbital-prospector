@@ -39,6 +39,7 @@
 
 #include "UI/UIButton.hpp"
 #include "UI/UISellItemBar.hpp"
+#include "UI/UITradeItemBar.hpp"
 #include "UI/UIButtonGroup.hpp"
 
 enum class GameState

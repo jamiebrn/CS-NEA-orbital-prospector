@@ -151,37 +151,41 @@ void Game::inStationUpgradesSubloop(sf::Vector2f mousePos, bool leftMousePressed
 
 void Game::inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed)
 {
-    std::vector<UISellItemBar> sellItemBars;
+    std::vector<UITradeItemBar> tradeItemBars;
 
     int yOffset = 0;
-    for (auto itemTypePair : itemTextureMap)
+    for (std::pair<ItemPickupType, TextureType> itemTexturePair : itemTextureMap)
     {
 
-        ItemPickupType itemType = itemTypePair.first;
+        ItemPickupType itemType = itemTexturePair.first;
 
-        UISellItemBar sellItemBar(itemType);
-        sellItemBar.setPosition(sf::Vector2f(400, 300 + yOffset));
-        sellItemBar.update(mousePos);
+        if (InventoryManager::getItemCount(itemType) <= 0)
+            continue;
 
-        sellItemBars.push_back(sellItemBar);
+        UITradeItemBar tradeItemBar;
 
-        yOffset += 125;
+        tradeItemBar.setTradeActionText("Sell");
+        tradeItemBar.addRequiredItems(itemType, InventoryManager::getItemCount(itemType));
+        tradeItemBar.setOfferCoins(InventoryManager::itemPrice(itemType) * InventoryManager::getItemCount(itemType));
+
+        tradeItemBar.setPosition(sf::Vector2f(400, 300 + yOffset));
+        tradeItemBar.update(mousePos);
+
+        tradeItemBars.push_back(tradeItemBar);
+
+        yOffset += tradeItemBar.getBarHeight() + 25;
 
     }
 
     if (leftMousePressed)
     {
-        for (UISellItemBar& sellItemBar : sellItemBars)
+        for (UITradeItemBar& tradeItemBar : tradeItemBars)
         {
-            if (sellItemBar.sellButtonHovering())
-            {
-                ItemPickupType itemType = sellItemBar.getPickupType();
-                int itemCount = InventoryManager::getItemCount(itemType);
-
-                InventoryManager::sellItems(itemType, itemCount);
-            }
+            if (tradeItemBar.tradeButtonHovering())
+                tradeItemBar.acceptTrade();
         }
     }
+
 
     TextureDrawData backgroundData = {
         TextureType::SpaceStationSubmenuBackground,
@@ -193,23 +197,50 @@ void Game::inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed)
 
     TextureManager::drawTexture(window, backgroundData);
 
-    for (UISellItemBar& sellItemBar : sellItemBars)
+    for (UITradeItemBar& tradeItemBar : tradeItemBars)
     {
-        sellItemBar.draw(window);
+        tradeItemBar.draw(window);
+    }
+
+    if (tradeItemBars.size() <= 0)
+    {
+        TextRenderer::drawText(window, {"You have no items to sell", sf::Vector2f(400, 500), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3, false, true});
     }
 
     TextureDrawData drawData = {
         TextureType::SilverCoin,
         sf::Vector2f(200, 250),
         sf::degrees(0),
-        5,
-        false
+        5
     };
 
     TextureManager::drawTexture(window, drawData);
 
     std::string text = std::to_string(InventoryManager::getSilverCoins());
-    TextRenderer::drawText(window, {text, sf::Vector2f(270, 260), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3});
+    TextRenderer::drawText(window, {text, sf::Vector2f(240, 250), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3, false, true});
+
+    if (InventoryManager::getItemCount(ItemPickupType::CopperChunk) > 0)
+    {
+        UITradeItemBar copperBarSmeltBar;
+
+        copperBarSmeltBar.setTradeActionText("Smelt");
+        copperBarSmeltBar.addRequiredItems(ItemPickupType::CopperChunk, 2);
+        copperBarSmeltBar.setRequiredCoins(1);
+        copperBarSmeltBar.setOfferItem(ItemPickupType::CopperBar);
+
+        copperBarSmeltBar.setPosition(sf::Vector2f(1000, 300));
+        copperBarSmeltBar.update(mousePos);
+
+        if (leftMousePressed)
+        {
+            if (copperBarSmeltBar.tradeButtonHovering())
+                copperBarSmeltBar.acceptTrade();
+        }
+
+        copperBarSmeltBar.draw(window);
+
+    }
+
 }
 
 
