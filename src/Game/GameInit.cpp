@@ -123,23 +123,28 @@ void Game::initUI()
         "Market", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
-    stationMenuButtons.addButton("missions", {
+    stationMenuButtons.addButton("forge", {
         sf::Vector2f(128, 428), sf::Vector2f(820, 100),
+        "Forge", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationMenuButtons.addButton("missions", {
+        sf::Vector2f(128, 538), sf::Vector2f(820, 100),
         "Missions", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
     stationMenuButtons.addButton("level", {
-        sf::Vector2f(128, 538), sf::Vector2f(820, 100),
+        sf::Vector2f(128, 648), sf::Vector2f(820, 100),
         "Level", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
     stationMenuButtons.addButton("travel", {
-        sf::Vector2f(128, 648), sf::Vector2f(820, 100),
+        sf::Vector2f(128, 758), sf::Vector2f(820, 100),
         "Travel", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
     stationMenuButtons.addButton("return", {
-        sf::Vector2f(128, 758), sf::Vector2f(820, 100),
+        sf::Vector2f(128, 868), sf::Vector2f(820, 100),
         "Return to space", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 

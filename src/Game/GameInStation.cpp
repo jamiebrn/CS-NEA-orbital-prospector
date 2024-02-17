@@ -54,6 +54,10 @@ void Game::inStationLoop()
         inStationMarketSubloop(mousePosition, leftMousePressed);
         break;
     
+    case StationMenuState::Forge:
+        inStationForgeSubloop(mousePosition, leftMousePressed);
+        break;
+    
     case StationMenuState::Missons:
         inStationMissionsSubloop(mousePosition, leftMousePressed);
         break;
@@ -88,6 +92,10 @@ void Game::inStationMainSubloop(sf::Vector2f mousePos, bool leftMousePressed)
         else if (stationMenuButtons.isButtonPressed("market"))
         {
             stationMenuState = StationMenuState::Market;
+        }
+        else if (stationMenuButtons.isButtonPressed("forge"))
+        {
+            stationMenuState = StationMenuState::Forge;
         }
         else if (stationMenuButtons.isButtonPressed("missions"))
         {
@@ -227,27 +235,88 @@ void Game::inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed)
     std::string text = std::to_string(InventoryManager::getSilverCoins());
     TextRenderer::drawText(window, {text, sf::Vector2f(240, 250), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3, false, true});
 
-    if (InventoryManager::getItemCount(ItemPickupType::CopperChunk) > 0)
+}
+
+void Game::inStationForgeSubloop(sf::Vector2f mousePos, bool leftMousePressed)
+{
+
+    std::vector<UITradeItemBar> smeltItemBars;
+
+    int yOffset = 0;
+    for (Recipes::SmeltData smeltData : Recipes::smelting)
     {
-        UITradeItemBar copperBarSmeltBar;
 
-        copperBarSmeltBar.setTradeActionText("Smelt");
-        copperBarSmeltBar.addRequiredItems(ItemPickupType::CopperChunk, 2);
-        copperBarSmeltBar.setRequiredCoins(1);
-        copperBarSmeltBar.setOfferItem(ItemPickupType::CopperBar);
+        UITradeItemBar smeltItemBar;
+        smeltItemBar.setTradeActionText("Smelt");
 
-        copperBarSmeltBar.setPosition(sf::Vector2f(1000, 300));
-        copperBarSmeltBar.update(mousePos);
+        if (smeltData.requiredCoins > InventoryManager::getSilverCoins())
+            continue;
 
-        if (leftMousePressed)
+        smeltItemBar.setRequiredCoins(smeltData.requiredCoins);
+        smeltItemBar.setOfferItem(smeltData.product);
+
+        bool hasRequiredItems = true;
+        for (std::pair<ItemPickupType, int> itemCount : smeltData.requiredItems)
         {
-            if (copperBarSmeltBar.tradeButtonHovering())
-                copperBarSmeltBar.acceptTrade();
+            smeltItemBar.addRequiredItems(itemCount.first, itemCount.second);
+
+            if (InventoryManager::getItemCount(itemCount.first) < itemCount.second)
+                hasRequiredItems = false;
+                break;
         }
 
-        copperBarSmeltBar.draw(window);
+        if (!hasRequiredItems)
+            continue;
+
+        smeltItemBar.setPosition(sf::Vector2f(400, 300 + yOffset));
+        smeltItemBar.update(mousePos);
+
+        smeltItemBars.push_back(smeltItemBar);
+
+        yOffset += smeltItemBar.getBarHeight() + 25;
 
     }
+
+    if (leftMousePressed)
+    {
+        for (UITradeItemBar& smeltItemBar : smeltItemBars)
+        {
+            if (smeltItemBar.tradeButtonHovering())
+                smeltItemBar.acceptTrade();
+        }
+    }
+
+    TextureDrawData backgroundData = {
+        TextureType::SpaceStationSubmenuBackground,
+        sf::Vector2f(0, 0),
+        sf::degrees(0),
+        1,
+        false
+    };
+
+    TextureManager::drawTexture(window, backgroundData);
+
+    for (UITradeItemBar& smeltItemBar : smeltItemBars)
+    {
+        smeltItemBar.draw(window);
+    }
+
+    if (smeltItemBars.size() <= 0)
+    {
+        TextRenderer::drawText(window, {"No items are available to be forged", sf::Vector2f(400, 500), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3, false, true});
+    }
+
+    TextureDrawData drawData = {
+        TextureType::SilverCoin,
+        sf::Vector2f(200, 250),
+        sf::degrees(0),
+        5
+    };
+
+    TextureManager::drawTexture(window, drawData);
+
+    std::string text = std::to_string(InventoryManager::getSilverCoins());
+    TextRenderer::drawText(window, {text, sf::Vector2f(240, 250), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3, false, true});
 
 }
 

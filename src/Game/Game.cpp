@@ -121,6 +121,9 @@ void Game::saveData()
 	saveData["rock"] = InventoryManager::getItemCount(ItemPickupType::Rock);
 	saveData["copper"] = InventoryManager::getItemCount(ItemPickupType::CopperChunk);
 	saveData["iron"] = InventoryManager::getItemCount(ItemPickupType::IronChunk);
+    saveData["copperbar"] = InventoryManager::getItemCount(ItemPickupType::CopperBar);
+    saveData["ironbar"] = InventoryManager::getItemCount(ItemPickupType::IronBar);
+
 	saveData["coins"] = InventoryManager::getSilverCoins();
 
 	saveData["pos"]["x"] = playerShip.getPosition().x;

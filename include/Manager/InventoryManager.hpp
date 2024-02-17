@@ -56,7 +56,8 @@ private:
         {ItemPickupType::Rock, 2},
         {ItemPickupType::CopperChunk, 4},
         {ItemPickupType::IronChunk, 5},
-        {ItemPickupType::CopperBar, 12}
+        {ItemPickupType::CopperBar, 12},
+        {ItemPickupType::IronBar, 20}
     };
 
     static int silverCoins;

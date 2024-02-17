@@ -18,6 +18,7 @@
 
 #include "Constants.hpp"
 #include "Camera.hpp"
+#include "Recipes.hpp"
 
 #include "Objects/PlayerShip.hpp"
 #include "Objects/SpaceStation.hpp"
@@ -54,6 +55,7 @@ enum class StationMenuState
     Main,
     Upgrades,
     Market,
+    Forge,
     Missons,
     Level,
     Travel
@@ -86,6 +88,7 @@ private:
     void inStationMainSubloop(sf::Vector2f mousePos, bool leftMousePressed);
     void inStationUpgradesSubloop(sf::Vector2f mousePos, bool leftMousePressed);
     void inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed);
+    void inStationForgeSubloop(sf::Vector2f mousePos, bool leftMousePressed);
     void inStationMissionsSubloop(sf::Vector2f mousePos, bool leftMousePressed);
     void inStationLevelSubloop(sf::Vector2f mousePos, bool leftMousePressed);
     void inStationTravelSubloop(sf::Vector2f mousePos, bool leftMousePressed);
