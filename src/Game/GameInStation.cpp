@@ -281,8 +281,10 @@ void Game::inStationForgeSubloop(sf::Vector2f mousePos, bool leftMousePressed)
             smeltItemBar.addRequiredItems(itemCount.first, itemCount.second);
 
             if (InventoryManager::getItemCount(itemCount.first) < itemCount.second)
+            {
                 hasRequiredItems = false;
                 break;
+            }
         }
 
         if (!hasRequiredItems)

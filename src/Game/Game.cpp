@@ -66,6 +66,7 @@ LoadDataSuccess Game::loadData()
         InventoryManager::addItem(ItemPickupType::IronChunk, saveData.at("iron"));
         InventoryManager::addItem(ItemPickupType::CopperBar, saveData.at("copperbar"));
         InventoryManager::addItem(ItemPickupType::IronBar, saveData.at("ironbar"));
+        InventoryManager::addItem(ItemPickupType::CopronBar, saveData.at("copronbar"));
 
         InventoryManager::addSilverCoins(saveData.at("coins"));
 
@@ -126,6 +127,7 @@ void Game::saveData()
 	saveData["iron"] = InventoryManager::getItemCount(ItemPickupType::IronChunk);
     saveData["copperbar"] = InventoryManager::getItemCount(ItemPickupType::CopperBar);
     saveData["ironbar"] = InventoryManager::getItemCount(ItemPickupType::IronBar);
+    saveData["copronbar"] = InventoryManager::getItemCount(ItemPickupType::CopronBar);
 
 	saveData["coins"] = InventoryManager::getSilverCoins();
 

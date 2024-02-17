@@ -42,6 +42,7 @@ const std::unordered_map<TextureType, std::string> TextureManager::texturePaths 
     {TextureType::PickupIronChunk, "Data/Pickups/IronChunk.png"},
     {TextureType::CopperBar, "Data/Pickups/CopperBar.png"},
     {TextureType::IronBar, "Data/Pickups/IronBar.png"},
+    {TextureType::CopronBar, "Data/Pickups/CopronBar.png"},
 
     {TextureType::SymbolSpaceStation, "Data/UI/SpaceStationSymbol.png"},
     {TextureType::SymbolEnemyMarker, "Data/UI/EnemyMarkerSymbol.png"},

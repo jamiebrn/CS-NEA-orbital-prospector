@@ -51,6 +51,7 @@ enum class TextureType
     PickupIronChunk,
     CopperBar,
     IronBar,
+    CopronBar,
 
     SymbolSpaceStation,
     SymbolEnemyMarker,

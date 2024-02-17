@@ -19,7 +19,8 @@ struct SmeltData
 inline const std::vector<SmeltData> smelting =
 {
     {ItemPickupType::CopperBar, {{ItemPickupType::CopperChunk, 2}}, 1},
-    {ItemPickupType::IronBar, {{ItemPickupType::IronChunk, 3}}, 2}
+    {ItemPickupType::IronBar, {{ItemPickupType::IronChunk, 3}}, 2},
+    {ItemPickupType::CopronBar, {{ItemPickupType::CopperBar, 1}, {ItemPickupType::IronBar, 1}}, 5}
 };
 
 }
