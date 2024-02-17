@@ -72,7 +72,7 @@ void Game::inStationLoop()
 
     }
 
-    TextRenderer::drawText(window, {"Space Station", sf::Vector2f(WINDOW_WIDTH / 2, 80), sf::Color(255, 255, 255), 100, sf::Color(0, 0, 0), 4, true});
+    TextRenderer::drawText(window, {"Space Station", sf::Vector2f(WINDOW_WIDTH / 2, 10), sf::Color(255, 255, 255), 100, sf::Color(0, 0, 0), 4, true});
 
     window.display();
 
@@ -167,6 +167,18 @@ void Game::inStationUpgradesSubloop(sf::Vector2f mousePos, bool leftMousePressed
 
 void Game::inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed)
 {
+
+    stationMarketButtons.update(mousePos);
+
+    if (leftMousePressed)
+    {
+        if (stationMarketButtons.isButtonPressed("sell1")) stationMarketButtons.generalData["sellAmount"] = 0;
+        else if (stationMarketButtons.isButtonPressed("sell25%")) stationMarketButtons.generalData["sellAmount"] = 25;
+        else if (stationMarketButtons.isButtonPressed("sell50%")) stationMarketButtons.generalData["sellAmount"] = 50;
+        else if (stationMarketButtons.isButtonPressed("sell75%")) stationMarketButtons.generalData["sellAmount"] = 75;
+        else if (stationMarketButtons.isButtonPressed("sell100%")) stationMarketButtons.generalData["sellAmount"] = 100;
+    }
+
     std::vector<UITradeItemBar> tradeItemBars;
 
     int yOffset = 0;
@@ -181,8 +193,13 @@ void Game::inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed)
         UITradeItemBar tradeItemBar;
 
         tradeItemBar.setTradeActionText("Sell");
-        tradeItemBar.addRequiredItems(itemType, InventoryManager::getItemCount(itemType));
-        tradeItemBar.setOfferCoins(InventoryManager::itemPrice(itemType) * InventoryManager::getItemCount(itemType));
+        tradeItemBar.setTradeActionSound(SoundType::Coins);
+
+        int itemCount = std::max(1, static_cast<int>(InventoryManager::getItemCount(itemType) * (static_cast<float>(stationMarketButtons.generalData["sellAmount"]) / 100)));
+        if (stationMarketButtons.generalData["sellAmount"] == 0) itemCount = 1;
+
+        tradeItemBar.addRequiredItems(itemType, itemCount);
+        tradeItemBar.setOfferCoins(InventoryManager::itemPrice(itemType) * itemCount);
 
         tradeItemBar.setPosition(sf::Vector2f(400, 300 + yOffset));
         tradeItemBar.update(mousePos);
@@ -212,6 +229,8 @@ void Game::inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed)
     };
 
     TextureManager::drawTexture(window, backgroundData);
+
+    stationMarketButtons.draw(window);
 
     for (UITradeItemBar& tradeItemBar : tradeItemBars)
     {
@@ -248,6 +267,7 @@ void Game::inStationForgeSubloop(sf::Vector2f mousePos, bool leftMousePressed)
 
         UITradeItemBar smeltItemBar;
         smeltItemBar.setTradeActionText("Smelt");
+        smeltItemBar.setTradeActionSound(SoundType::Forge);
 
         if (smeltData.requiredCoins > InventoryManager::getSilverCoins())
             continue;

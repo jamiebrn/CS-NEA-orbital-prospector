@@ -3,11 +3,13 @@
 
 #include <SFML/Graphics.hpp>
 #include <map>
+#include <optional>
 
 #include "UI/UIButton.hpp"
 #include "Objects/ItemPickupType.hpp"
 #include "Renderer/TextRenderer.hpp"
 #include "Manager/InventoryManager.hpp"
+#include "Manager/SoundManager.hpp"
 
 class UITradeItemBar
 {
@@ -22,6 +24,7 @@ public:
     void setOfferCoins(int amount);
 
     void setTradeActionText(std::string text);
+    void setTradeActionSound(SoundType type);
 
     void setPosition(sf::Vector2f position);
     void update(sf::Vector2f mousePos);
@@ -42,6 +45,8 @@ private:
     int offerCoins;
 
     UIButton tradeButton;
+
+    std::optional<SoundType> tradeSound;
 
 };
 

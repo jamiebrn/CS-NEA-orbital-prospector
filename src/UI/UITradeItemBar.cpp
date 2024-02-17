@@ -9,6 +9,8 @@ UITradeItemBar::UITradeItemBar()
     offerItem = ItemPickupType::NONE;
     offerCoins = 0;
 
+    tradeSound.reset();
+
     tradeButton.setText("Trade");
     tradeButton.setSize(sf::Vector2f(150, 75));
     tradeButton.setColour(sf::Color(20, 190, 20));
@@ -41,10 +43,15 @@ void UITradeItemBar::setTradeActionText(std::string text)
     tradeButton.setText(text);
 }
 
+void UITradeItemBar::setTradeActionSound(SoundType type)
+{
+    tradeSound.emplace(type);
+}
+
 void UITradeItemBar::setPosition(sf::Vector2f position)
 {
     this->position = position;
-    tradeButton.setPosition(position + sf::Vector2f(400, 12));
+    tradeButton.setPosition(position + sf::Vector2f(610, 12));
 }
 
 void UITradeItemBar::update(sf::Vector2f mousePos)
@@ -70,12 +77,15 @@ void UITradeItemBar::acceptTrade()
         InventoryManager::addItem(offerItem, 1);
     
     InventoryManager::addSilverCoins(offerCoins);
+
+    if (tradeSound.has_value())
+        SoundManager::playSound(tradeSound.value());
 }
 
 void UITradeItemBar::draw(sf::RenderWindow& window)
 {
 
-    sf::RectangleShape background(sf::Vector2f(600, getBarHeight()));
+    sf::RectangleShape background(sf::Vector2f(800, getBarHeight()));
     background.setPosition(position);
     background.setFillColor(sf::Color(20, 20, 20, 100));
     window.draw(background);
@@ -136,7 +146,7 @@ void UITradeItemBar::draw(sf::RenderWindow& window)
         TextureManager::drawTexture(window, drawData);
 
         TextDrawData quantityLabel = {
-            std::to_string(item.second),
+            std::to_string(item.second) + "/" + std::to_string(InventoryManager::getItemCount(item.first)),
             position + sf::Vector2f(340, requiredItemYOffset),
             sf::Color(255, 255, 255),
             40,

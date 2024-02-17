@@ -1,14 +1,31 @@
 #include "Manager/SoundManager.hpp"
 
-bool SoundManager::loadSounds()
+bool SoundManager::loadSounds(sf::RenderWindow& window)
 {
     if (loadedSounds)
         return true;
     
     loadedSounds = true;
 
+    TextDrawData loadText = {
+        "Loading sounds",
+        sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2),
+        sf::Color(255, 255, 255),
+        32,
+        sf::Color(0, 0, 0),
+        4,
+        true,
+        true
+    };
+
+    float soundsLoaded = 0;
     for (std::pair<SoundType, std::string> soundPair : soundPaths)
     {
+        window.clear();
+        loadText.text = "Loading sounds (" + std::to_string(static_cast<int>((soundsLoaded / (soundPaths.size() + musicPaths.size())) * 100)) + "%)";
+        TextRenderer::drawText(window, loadText);
+        window.display();
+
         SoundType soundType = soundPair.first;
         std::string soundPath = soundPair.second;
 
@@ -25,10 +42,17 @@ bool SoundManager::loadSounds()
         sound.setBuffer(soundBufferMap[soundType]);
 
         soundMap[soundType] = sound;
+
+        soundsLoaded++;
     }
 
     for (std::pair<MusicType, std::string> musicPair : musicPaths)
     {
+
+        window.clear();
+        loadText.text = "Loading sounds (" + std::to_string(static_cast<int>((soundsLoaded / (soundPaths.size() + musicPaths.size()) * 100))) + "%)";
+        TextRenderer::drawText(window, loadText);
+        window.display();
 
         MusicType musicType = musicPair.first;
         std::string musicPath = musicPair.second;
@@ -45,6 +69,7 @@ bool SoundManager::loadSounds()
 
         musicMap[musicType] = std::move(music);
 
+        soundsLoaded++;
     }
 
     if (!loadedSounds)

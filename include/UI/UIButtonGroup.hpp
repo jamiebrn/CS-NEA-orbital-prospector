@@ -25,6 +25,9 @@ public:
 private:
     std::unordered_map<std::string, UIButton> buttonMap;
 
+public:
+    std::unordered_map<std::string, int> generalData;
+
 };
 
 #endif

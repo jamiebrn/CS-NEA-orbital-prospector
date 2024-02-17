@@ -51,15 +51,34 @@ const std::unordered_map<TextureType, std::string> TextureManager::texturePaths 
 };
 
 // Loads all textures from paths specified into texture map
-bool TextureManager::loadTextures()
+bool TextureManager::loadTextures(sf::RenderWindow& window)
 {
     if (loadedTextures)
         return true;
     
     loadedTextures = true;
 
+    TextDrawData loadText = {
+        "Loading textures",
+        sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2),
+        sf::Color(255, 255, 255),
+        32,
+        sf::Color(0, 0, 0),
+        4,
+        true,
+        true
+    };
+
+    float texturesLoaded = 0;
     for (std::pair<TextureType, std::string> texturePair : texturePaths)
     {
+
+        loadText.text = "Loading textures (" + std::to_string(static_cast<int>((texturesLoaded / texturePaths.size()) * 100)) + "%)";
+
+        window.clear();
+        TextRenderer::drawText(window, loadText);
+        window.display();
+
         TextureType textureType = texturePair.first;
         std::string texturePath = texturePair.second;
 
@@ -78,6 +97,8 @@ bool TextureManager::loadTextures()
         sprite.setTexture(textureMap[textureType]);
 
         spriteMap[textureType] = sprite;
+
+        texturesLoaded++;
     }
 
     if (!loadedTextures)

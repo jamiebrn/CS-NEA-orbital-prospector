@@ -30,23 +30,24 @@ bool Game::initialise()
 
     window.setView(view);
 
-    if (!TextureManager::loadTextures())
-    {
-        std::cout << "ERROR: Textures have not been loaded correctly" << std::endl;
-        return false;
-    }
-
-    if (!SoundManager::loadSounds())
-    {
-        std::cout << "ERROR: Sounds have not been loaded correctly" << std::endl;
-        return false;
-    }
-
     if (!TextRenderer::loadFont(FONT_PATH))
     {
         std::cout << "ERROR: Font has not been loaded correctly" << std::endl;
         return false;
     }
+
+    if (!TextureManager::loadTextures(window))
+    {
+        std::cout << "ERROR: Textures have not been loaded correctly" << std::endl;
+        return false;
+    }
+
+    if (!SoundManager::loadSounds(window))
+    {
+        std::cout << "ERROR: Sounds have not been loaded correctly" << std::endl;
+        return false;
+    }
+
 
     initUI();
 
@@ -155,8 +156,34 @@ void Game::initUI()
         "Upgrade Health", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
-    // Space station market buttons (to be added)
+    // Space station market buttons
 
+    stationMarketButtons.addButton("sell1", {
+        sf::Vector2f(400, 200), sf::Vector2f(100, 50),
+        "x1", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationMarketButtons.addButton("sell25%", {
+        sf::Vector2f(510, 200), sf::Vector2f(100, 50),
+        "25%", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationMarketButtons.addButton("sell50%", {
+        sf::Vector2f(620, 200), sf::Vector2f(100, 50),
+        "50%", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationMarketButtons.addButton("sell75%", {
+        sf::Vector2f(730, 200), sf::Vector2f(100, 50),
+        "75%", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationMarketButtons.addButton("sell100%", {
+        sf::Vector2f(840, 200), sf::Vector2f(100, 50),
+        "100%", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
+    stationMarketButtons.generalData["sellAmount"] = 0;
 
     // Space station mission buttons
 

@@ -64,6 +64,9 @@ LoadDataSuccess Game::loadData()
         InventoryManager::addItem(ItemPickupType::Rock, saveData.at("rock"));
         InventoryManager::addItem(ItemPickupType::CopperChunk, saveData.at("copper"));
         InventoryManager::addItem(ItemPickupType::IronChunk, saveData.at("iron"));
+        InventoryManager::addItem(ItemPickupType::CopperBar, saveData.at("copperbar"));
+        InventoryManager::addItem(ItemPickupType::IronBar, saveData.at("ironbar"));
+
         InventoryManager::addSilverCoins(saveData.at("coins"));
 
         InventoryManager::setCurrentLevel(saveData.at("level").at("value"));

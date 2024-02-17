@@ -7,13 +7,18 @@
 #include <string>
 #include <memory>
 
+#include "Renderer/TextRenderer.hpp"
+#include "Constants.hpp"
+
 enum class SoundType
 {
     Shoot,
     EnemyShoot,
     AsteroidExplode,
     ShipExplode,
-    ItemPickup
+    ItemPickup,
+    Coins,
+    Forge
 };
 
 enum class MusicType
@@ -29,7 +34,7 @@ private:
     SoundManager() = delete;
 
 public:
-    static bool loadSounds();
+    static bool loadSounds(sf::RenderWindow& window);
 
     static void playSound(SoundType type);
 
@@ -49,7 +54,9 @@ private:
         {SoundType::EnemyShoot, "Data/Sfx/enemyShoot.wav"},
         {SoundType::AsteroidExplode, "Data/Sfx/asteroidExplode.wav"},
         {SoundType::ShipExplode, "Data/Sfx/shipExplosion.wav"},
-        {SoundType::ItemPickup, "Data/Sfx/itemPickup.wav"}
+        {SoundType::ItemPickup, "Data/Sfx/itemPickup.wav"},
+        {SoundType::Coins, "Data/Sfx/coins.wav"},
+        {SoundType::Forge, "Data/Sfx/forge.wav"}
     };
 
     inline static std::unordered_map<MusicType, std::unique_ptr<sf::Music>> musicMap;

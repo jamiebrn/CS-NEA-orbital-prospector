@@ -11,6 +11,9 @@
 #include <unordered_map>
 #include <string>
 
+#include "Renderer/TextRenderer.hpp"
+#include "Constants.hpp"
+
 // Enum allowing textures to be referenced as types throughout the program
 enum class TextureType
 {
@@ -78,7 +81,7 @@ private:
 
 // Public functions
 public:
-    static bool loadTextures();
+    static bool loadTextures(sf::RenderWindow& window);
 
     static void drawTexture(sf::RenderWindow& window, TextureDrawData drawData);
 
