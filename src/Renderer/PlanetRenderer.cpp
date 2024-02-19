@@ -9,21 +9,29 @@ PlanetRenderer::PlanetRenderer(PlanetType type)
 
     animationXIndex = 0;
     animationYIndex = 0;
+    animationSheet = 0;
     animationTick = 0;
 }
 
 
 void PlanetRenderer::update(float deltaTime)
 {
+    PlanetSheetData sheetData = planetTextureMap.at(type);
+
     animationTick += deltaTime;
     if (animationTick >= ANIMATION_TICK_MAX)
     {
         animationTick = 0;
         animationXIndex++;
-        if (animationXIndex >= ANIMATION_X_FRAMES)
+        if (animationXIndex >= sheetData.xFrames)
         {
             animationXIndex = 0;
-            animationYIndex = (animationYIndex + 1) % ANIMATION_Y_FRAMES;
+            animationSheet++;
+            if (animationSheet >= sheetData.sheets.size())
+            {
+                animationSheet = 0;
+                animationYIndex = (animationYIndex + 1) % sheetData.yFrames;
+            }
         }
     }
 }
@@ -31,7 +39,8 @@ void PlanetRenderer::update(float deltaTime)
 void PlanetRenderer::draw(sf::RenderWindow& window)
 {
 
-    TextureType textureType = planetTextureMap.at(type);
+    PlanetSheetData sheetData = planetTextureMap.at(type);
+    TextureType textureType = sheetData.sheets.at(animationSheet);
 
     TextureDrawData drawData = {
         textureType,
@@ -41,8 +50,8 @@ void PlanetRenderer::draw(sf::RenderWindow& window)
     };
 
     sf::Vector2u frameSize = TextureManager::getTextureSize(textureType);
-    frameSize.x /= ANIMATION_X_FRAMES;
-    frameSize.y /= ANIMATION_Y_FRAMES;
+    frameSize.x /= sheetData.xFrames;
+    frameSize.y /= sheetData.yFrames;
 
     sf::IntRect subRect = sf::IntRect(sf::Vector2i(frameSize.x * animationXIndex, frameSize.y * animationYIndex), sf::Vector2i(frameSize.x, frameSize.y));
 
@@ -53,6 +62,10 @@ void PlanetRenderer::draw(sf::RenderWindow& window)
 void PlanetRenderer::setPlanetType(PlanetType newType)
 {
     type = newType;
+    animationXIndex = 0;
+    animationYIndex = 0;
+    animationSheet = 0;
+    animationTick = 0;
 }
 
 void PlanetRenderer::setPosition(sf::Vector2f newPosition)

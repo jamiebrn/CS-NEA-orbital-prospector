@@ -25,16 +25,35 @@ const std::unordered_map<TextureType, std::string> TextureManager::texturePaths 
 
     {TextureType::SpaceStation, "Data/Space Ship Pack/Base/PNGs/Space Station.png"},
 
-    {TextureType::Mercury, "Data/Planets/Mercury.png"},
-    {TextureType::Venus, "Data/Planets/Venus.png"},
-    {TextureType::Earth, "Data/Planets/Earth.png"},
+    {TextureType::MercurySheet0, "Data/Planets/Mercury0.png"},
+    {TextureType::MercurySheet1, "Data/Planets/Mercury1.png"},
+    {TextureType::MercurySheet2, "Data/Planets/Mercury2.png"},
+    {TextureType::VenusSheet0, "Data/Planets/Venus0.png"},
+    {TextureType::VenusSheet1, "Data/Planets/Venus1.png"},
+    {TextureType::VenusSheet2, "Data/Planets/Venus2.png"},
+    {TextureType::EarthSheet0, "Data/Planets/Earth0.png"},
+    {TextureType::EarthSheet1, "Data/Planets/Earth1.png"},
+    {TextureType::EarthSheet2, "Data/Planets/Earth2.png"},
     {TextureType::EarthBackground, "Data/Backgrounds/Earth Background.png"},
-    {TextureType::Moon, "Data/Planets/Moon.png"},
-    {TextureType::Mars, "Data/Planets/Mars.png"},
-    {TextureType::Jupiter, "Data/Planets/Jupiter.png"},
-    {TextureType::Saturn, "Data/Planets/Saturn.png"},
-    {TextureType::Uranus, "Data/Planets/Uranus.png"},
-    {TextureType::Neptune, "Data/Planets/Neptune.png"},
+    {TextureType::MoonSheet0, "Data/Planets/Moon0.png"},
+    {TextureType::MoonSheet1, "Data/Planets/Moon1.png"},
+    {TextureType::MoonSheet2, "Data/Planets/Moon2.png"},
+    {TextureType::MarsSheet0, "Data/Planets/Mars0.png"},
+    {TextureType::MarsSheet1, "Data/Planets/Mars1.png"},
+    {TextureType::MarsSheet2, "Data/Planets/Mars2.png"},
+    {TextureType::JupiterSheet0, "Data/Planets/Jupiter0.png"},
+    {TextureType::JupiterSheet1, "Data/Planets/Jupiter1.png"},
+    {TextureType::JupiterSheet2, "Data/Planets/Jupiter2.png"},
+    {TextureType::SaturnSheet0, "Data/Planets/Saturn0.png"},
+    {TextureType::SaturnSheet1, "Data/Planets/Saturn1.png"},
+    {TextureType::SaturnSheet2, "Data/Planets/Saturn2.png"},
+    {TextureType::SaturnSheet3, "Data/Planets/Saturn3.png"},
+    {TextureType::UranusSheet0, "Data/Planets/Uranus0.png"},
+    {TextureType::UranusSheet1, "Data/Planets/Uranus1.png"},
+    {TextureType::UranusSheet2, "Data/Planets/Uranus2.png"},
+    {TextureType::NeptuneSheet0, "Data/Planets/Neptune0.png"},
+    {TextureType::NeptuneSheet1, "Data/Planets/Neptune1.png"},
+    {TextureType::NeptuneSheet2, "Data/Planets/Neptune2.png"},
 
     {TextureType::SilverCoin, "Data/UI/SilverCoin.png"},
     {TextureType::PickupRock, "Data/Pickups/Rock.png"},
@@ -77,7 +96,12 @@ bool TextureManager::loadTextures(sf::RenderWindow& window)
         loadText.text = "Loading textures (" + std::to_string(static_cast<int>((texturesLoaded / texturePaths.size()) * 100)) + "%)";
 
         window.clear();
+
+        std::string text = "Orbital Prospector";
+        TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 150), sf::Color(255, 255, 255), 130, sf::Color(0, 0, 0), 4, true});
+
         TextRenderer::drawText(window, loadText);
+
         window.display();
 
         TextureType textureType = texturePair.first;

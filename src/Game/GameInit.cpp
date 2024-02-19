@@ -36,11 +36,17 @@ bool Game::initialise()
         return false;
     }
 
+    auto start = std::chrono::system_clock::now();
+
     if (!TextureManager::loadTextures(window))
     {
         std::cout << "ERROR: Textures have not been loaded correctly" << std::endl;
         return false;
     }
+
+    auto end = std::chrono::system_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);;
+    std::cout << "Loaded all textures in " << elapsed.count() << "ms" << '\n';
 
     if (!SoundManager::loadSounds(window))
     {

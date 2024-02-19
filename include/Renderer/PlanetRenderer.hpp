@@ -2,6 +2,7 @@
 #define PLANET_RENDERER_HPP
 
 #include <unordered_map>
+#include <vector>
 
 #include <SFML/Graphics.hpp>
 
@@ -25,6 +26,12 @@ enum class PlanetType
     Neptune
 };
 
+struct PlanetSheetData
+{
+    std::vector<TextureType> sheets;
+    int xFrames, yFrames;
+};
+
 class PlanetRenderer
 {
 
@@ -42,8 +49,6 @@ public:
     sf::Vector2f getPosition();
 
 private:
-    static constexpr int ANIMATION_X_FRAMES = 60;
-    static constexpr int ANIMATION_Y_FRAMES = 10;
     static constexpr float ANIMATION_TICK_MAX = 0.09;
 
     PlanetType type;
@@ -52,18 +57,19 @@ private:
     float scale;
 
     int animationXIndex, animationYIndex;
+    int animationSheet;
     float animationTick;
 
-    inline static const std::unordered_map<PlanetType, TextureType> planetTextureMap = {
-        {PlanetType::Mercury, TextureType::Mercury},
-        {PlanetType::Venus, TextureType:: Venus},
-        {PlanetType::Earth, TextureType::Earth},
-        {PlanetType::Moon, TextureType::Moon},
-        {PlanetType::Mars, TextureType::Mars},
-        {PlanetType::Jupiter, TextureType::Jupiter},
-        {PlanetType::Saturn, TextureType::Saturn},
-        {PlanetType::Uranus, TextureType::Uranus},
-        {PlanetType::Neptune, TextureType::Neptune}
+    inline static const std::unordered_map<PlanetType, PlanetSheetData> planetTextureMap = {
+        {PlanetType::Mercury, {{TextureType::MercurySheet0, TextureType::MercurySheet1, TextureType::MercurySheet2}, 20, 10}},
+        {PlanetType::Venus, {{TextureType:: VenusSheet0, TextureType:: VenusSheet1, TextureType:: VenusSheet2}, 20, 10}},
+        {PlanetType::Earth, {{TextureType::EarthSheet0, TextureType::EarthSheet1, TextureType::EarthSheet2}, 20, 10}},
+        {PlanetType::Moon, {{TextureType::MoonSheet0, TextureType::MoonSheet1, TextureType::MoonSheet2}, 20, 10}},
+        {PlanetType::Mars, {{TextureType::MarsSheet0, TextureType::MarsSheet1, TextureType::MarsSheet2}, 20, 10}},
+        {PlanetType::Jupiter, {{TextureType::JupiterSheet0, TextureType::JupiterSheet1, TextureType::JupiterSheet2}, 20, 10}},
+        {PlanetType::Saturn, {{TextureType::SaturnSheet0, TextureType::SaturnSheet1, TextureType::SaturnSheet2, TextureType::SaturnSheet3}, 15, 10}},
+        {PlanetType::Uranus, {{TextureType::UranusSheet0, TextureType::UranusSheet1, TextureType::UranusSheet2}, 20, 10}},
+        {PlanetType::Neptune, {{TextureType::NeptuneSheet0, TextureType::NeptuneSheet1, TextureType::NeptuneSheet2}, 20, 10}}
     };
 
 };

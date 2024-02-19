@@ -22,8 +22,13 @@ bool SoundManager::loadSounds(sf::RenderWindow& window)
     for (std::pair<SoundType, std::string> soundPair : soundPaths)
     {
         window.clear();
+
+        std::string text = "Orbital Prospector";
+        TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 150), sf::Color(255, 255, 255), 130, sf::Color(0, 0, 0), 4, true});
+
         loadText.text = "Loading sounds (" + std::to_string(static_cast<int>((soundsLoaded / (soundPaths.size() + musicPaths.size())) * 100)) + "%)";
         TextRenderer::drawText(window, loadText);
+
         window.display();
 
         SoundType soundType = soundPair.first;
@@ -50,8 +55,13 @@ bool SoundManager::loadSounds(sf::RenderWindow& window)
     {
 
         window.clear();
+
+        std::string text = "Orbital Prospector";
+        TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 150), sf::Color(255, 255, 255), 130, sf::Color(0, 0, 0), 4, true});
+
         loadText.text = "Loading sounds (" + std::to_string(static_cast<int>((soundsLoaded / (soundPaths.size() + musicPaths.size()) * 100))) + "%)";
         TextRenderer::drawText(window, loadText);
+        
         window.display();
 
         MusicType musicType = musicPair.first;
