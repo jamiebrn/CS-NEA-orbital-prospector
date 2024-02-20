@@ -11,6 +11,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <json.hpp>
+#include <magic_enum.hpp>
 #include <fstream>
 #include <cmath>
 #include <iostream>

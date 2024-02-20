@@ -61,12 +61,11 @@ LoadDataSuccess Game::loadData()
         nlohmann::json saveData;
         file >> saveData;
 
-        InventoryManager::addItem(ItemPickupType::Rock, saveData.at("rock"));
-        InventoryManager::addItem(ItemPickupType::CopperChunk, saveData.at("copper"));
-        InventoryManager::addItem(ItemPickupType::IronChunk, saveData.at("iron"));
-        InventoryManager::addItem(ItemPickupType::CopperBar, saveData.at("copperbar"));
-        InventoryManager::addItem(ItemPickupType::IronBar, saveData.at("ironbar"));
-        InventoryManager::addItem(ItemPickupType::CopronBar, saveData.at("copronbar"));
+        for (auto itemPair : itemTextureMap)
+        {
+            ItemPickupType type = itemPair.first;
+            InventoryManager::addItem(type, saveData.at("inventory").at(magic_enum::enum_name(type)));
+        }
 
         InventoryManager::addSilverCoins(saveData.at("coins"));
 
@@ -121,13 +120,12 @@ void Game::saveData()
 {
 
 	nlohmann::json saveData;
-    
-	saveData["rock"] = InventoryManager::getItemCount(ItemPickupType::Rock);
-	saveData["copper"] = InventoryManager::getItemCount(ItemPickupType::CopperChunk);
-	saveData["iron"] = InventoryManager::getItemCount(ItemPickupType::IronChunk);
-    saveData["copperbar"] = InventoryManager::getItemCount(ItemPickupType::CopperBar);
-    saveData["ironbar"] = InventoryManager::getItemCount(ItemPickupType::IronBar);
-    saveData["copronbar"] = InventoryManager::getItemCount(ItemPickupType::CopronBar);
+
+    for (auto itemPair : itemTextureMap)
+    {
+        ItemPickupType type = itemPair.first;
+        saveData["inventory"][magic_enum::enum_name(type)] = InventoryManager::getItemCount(type);
+    }
 
 	saveData["coins"] = InventoryManager::getSilverCoins();
 
