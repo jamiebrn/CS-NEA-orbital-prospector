@@ -54,6 +54,11 @@ enum class TextureType
     CopronBar,
 
     PrototypeEngine,
+    InterplanetaryEngine,
+    InterplanetaryEngine2,
+    InterplanetaryEngine3,
+    UltimateInterplanetaryEngine,
+    ShipCoolingSystem,
 
     SymbolSpaceStation,
     SymbolEnemyMarker,

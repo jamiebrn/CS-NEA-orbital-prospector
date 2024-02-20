@@ -41,7 +41,13 @@ private:
 
 inline const std::unordered_map<UpgradeType, TextureType> upgradeTextureMap =
 {
-    {UpgradeType::PrototypeEngine, TextureType::PrototypeEngine}
+    {UpgradeType::PrototypeEngine, TextureType::PrototypeEngine},
+    {UpgradeType::InterplanetaryEngine, TextureType::InterplanetaryEngine},
+    {UpgradeType::InterplanetaryEngine2, TextureType::InterplanetaryEngine2},
+    {UpgradeType::InterplanetaryEngine3, TextureType::InterplanetaryEngine3},
+    {UpgradeType::UltimateInterplanetaryEngine, TextureType::UltimateInterplanetaryEngine},
+
+    {UpgradeType::ShipCoolingSystem, TextureType::ShipCoolingSystem}
 };
 
 #endif

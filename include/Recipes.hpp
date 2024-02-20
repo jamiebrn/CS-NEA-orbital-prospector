@@ -23,6 +23,7 @@ struct UpgradeData
     int requiredCoins;
 
     UpgradeType upgrade;
+    UpgradeType prerequisiteUpgrade = UpgradeType::NONE;
 };
 
 inline const std::vector<SmeltData> smelting =
@@ -34,7 +35,13 @@ inline const std::vector<SmeltData> smelting =
 
 inline const std::vector<UpgradeData> upgrades =
 {
-    {{{ItemPickupType::CopperBar, 1}, {ItemPickupType::IronBar, 1}}, 10, UpgradeType::PrototypeEngine}
+    {{{ItemPickupType::CopperBar, 1}, {ItemPickupType::IronBar, 1}}, 10, UpgradeType::PrototypeEngine},
+    {{{ItemPickupType::CopperBar, 1}, {ItemPickupType::IronBar, 1}}, 10, UpgradeType::InterplanetaryEngine, UpgradeType::PrototypeEngine},
+    {{{ItemPickupType::CopperBar, 1}, {ItemPickupType::IronBar, 1}}, 10, UpgradeType::InterplanetaryEngine2, UpgradeType::InterplanetaryEngine},
+    {{{ItemPickupType::CopperBar, 1}, {ItemPickupType::IronBar, 1}}, 10, UpgradeType::InterplanetaryEngine3, UpgradeType::InterplanetaryEngine2},
+    {{{ItemPickupType::CopperBar, 1}, {ItemPickupType::IronBar, 1}}, 10, UpgradeType::UltimateInterplanetaryEngine, UpgradeType::InterplanetaryEngine3},
+
+    {{{ItemPickupType::CopperBar, 1}, {ItemPickupType::IronBar, 1}}, 10, UpgradeType::ShipCoolingSystem}
 };
 
 }

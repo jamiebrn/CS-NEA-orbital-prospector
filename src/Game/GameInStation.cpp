@@ -150,6 +150,9 @@ void Game::inStationUpgradesSubloop(sf::Vector2f mousePos, bool leftMousePressed
 
         if (UpgradeManager::hasUpgrade(upgradeData.upgrade))
             continue;
+        
+        if (upgradeData.prerequisiteUpgrade != UpgradeType::NONE && !UpgradeManager::hasUpgrade(upgradeData.prerequisiteUpgrade))
+            continue;
 
         UITradeItemBar upgradeBar;
         upgradeBar.setTradeActionText("Upgrade");
