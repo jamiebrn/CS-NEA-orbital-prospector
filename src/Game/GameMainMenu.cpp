@@ -156,6 +156,9 @@ void Game::resetGame()
     ItemPickupManager::reset();
     EnemyShipManager::reset();
     InventoryManager::reset();
+    UpgradeManager::reset();
+
+    currentPlanet = PlanetType::Earth;
 
     levelBar.reset();
     levelBar.setMaxValue(InventoryManager::getMaxLevelExp());

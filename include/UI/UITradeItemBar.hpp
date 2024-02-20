@@ -9,6 +9,7 @@
 #include "Objects/ItemPickupType.hpp"
 #include "Renderer/TextRenderer.hpp"
 #include "Manager/InventoryManager.hpp"
+#include "Manager/UpgradeManager.hpp"
 #include "Manager/SoundManager.hpp"
 
 class UITradeItemBar
@@ -22,6 +23,7 @@ public:
 
     void setOfferItem(ItemPickupType itemType);
     void setOfferCoins(int amount);
+    void setOfferUpgrade(UpgradeType upgrade);
 
     void setTradeActionText(std::string text);
     void setTradeActionSound(SoundType type);
@@ -43,6 +45,7 @@ private:
 
     ItemPickupType offerItem;
     int offerCoins;
+    UpgradeType offerUpgrade;
 
     UIButton tradeButton;
 

@@ -53,6 +53,8 @@ enum class TextureType
     IronBar,
     CopronBar,
 
+    PrototypeEngine,
+
     SymbolSpaceStation,
     SymbolEnemyMarker,
 

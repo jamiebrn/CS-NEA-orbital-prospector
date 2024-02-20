@@ -14,6 +14,10 @@ public:
 
     void addButton(std::string id, UIButtonData data);
 
+    inline void clear() {buttonMap.clear();}
+
+    inline const std::unordered_map<std::string, UIButton>& getButtonMap() {return buttonMap;}
+
     void update(sf::Vector2f mousePos);
 
     bool isButtonPressed(std::string id);

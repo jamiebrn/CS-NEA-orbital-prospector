@@ -290,6 +290,10 @@ float Game::distanceSqToStation()
 void Game::travelToPlanet(PlanetType planet)
 {
 
-    mainPlanetRenderer.setPlanetType(planet);
+    currentPlanet = planet;
+    mainPlanetRenderer.setPlanetType(currentPlanet);
+
+    playerShip.setPosition(sf::Vector2f(5000, 5000));
+    changeState(GameState::InSpace);
 
 }

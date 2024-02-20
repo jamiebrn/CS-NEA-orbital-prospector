@@ -51,21 +51,29 @@ void Game::changeState(GameState newState)
 LoadDataSuccess Game::loadData()
 {
 
-    std::ifstream file("Data/save.json");
+    std::ifstream file("Data/save.data", std::ios::binary);
     if (file.fail())
         return LoadDataSuccess::NO_FILE;
 
     try
     {
 
-        nlohmann::json saveData;
-        file >> saveData;
+        nlohmann::json saveData = nlohmann::json::from_bson(file);
 
         for (auto itemPair : itemTextureMap)
         {
             ItemPickupType type = itemPair.first;
             InventoryManager::addItem(type, saveData.at("inventory").at(magic_enum::enum_name(type)));
         }
+
+        std::vector<std::string> currentUpgrades = saveData.at("upgrades");
+        for (std::string upgradeName : currentUpgrades)
+        {
+            UpgradeType upgrade = magic_enum::enum_cast<UpgradeType>(upgradeName).value();
+            UpgradeManager::unlockUpgrade(upgrade);
+        }
+
+        currentPlanet = magic_enum::enum_cast<PlanetType>(static_cast<std::string>(saveData.at("currentPlanet"))).value();
 
         InventoryManager::addSilverCoins(saveData.at("coins"));
 
@@ -127,6 +135,17 @@ void Game::saveData()
         saveData["inventory"][magic_enum::enum_name(type)] = InventoryManager::getItemCount(type);
     }
 
+    std::vector<std::string> currentUpgrades;
+    for (UpgradeType upgrade : UpgradeManager::getUpgrades())
+    {
+        std::string_view upgradeName = magic_enum::enum_name(upgrade);
+        currentUpgrades.push_back(static_cast<std::string>(upgradeName));
+    }
+
+    saveData["currentPlanet"] = static_cast<std::string>(magic_enum::enum_name(currentPlanet));
+
+    saveData["upgrades"] = currentUpgrades;
+
 	saveData["coins"] = InventoryManager::getSilverCoins();
 
 	saveData["pos"]["x"] = playerShip.getPosition().x;
@@ -170,7 +189,9 @@ void Game::saveData()
     }
     saveData["itemPickups"] = itemDatas;
 
-	std::ofstream file("Data/save.json");
-	file << saveData << std::endl;
+	std::ofstream file("Data/save.data", std::ios::binary);
+    std::vector<std::uint8_t> bson_save = nlohmann::json::to_bson(saveData);
+    file.write(reinterpret_cast<const char*>(bson_save.data()), bson_save.size());
+    file.close();
 
 }

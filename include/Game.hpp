@@ -20,6 +20,7 @@
 #include "Constants.hpp"
 #include "Camera.hpp"
 #include "Recipes.hpp"
+#include "PlanetTravelData.hpp"
 
 #include "Objects/PlayerShip.hpp"
 #include "Objects/SpaceStation.hpp"
@@ -34,6 +35,7 @@
 #include "Manager/AsteroidManager.hpp"
 #include "Manager/ItemPickupManager.hpp"
 #include "Manager/InventoryManager.hpp"
+#include "Manager/UpgradeManager.hpp"
 #include "Manager/UIRingManager.hpp"
 #include "Manager/EnemyShipManager.hpp"
 #include "Manager/SoundManager.hpp"
@@ -48,7 +50,8 @@ enum class GameState
 {
     MainMenu,
     InSpace,
-    InStation
+    InStation,
+    Travelling
 };
 
 enum class StationMenuState
@@ -96,6 +99,7 @@ private:
 
     void changeState(GameState newState);
 
+    void updatePlanetSelection();
     void travelToPlanet(PlanetType planet);
 
     void drawMissionProgress(float deltaTime);
@@ -123,6 +127,7 @@ private:
     PlanetRenderer mainPlanetRenderer;
     SpaceStation spaceStation;
     PlayerShip playerShip;
+    PlanetType currentPlanet;
 
     HealthBar playerHealthBar;
     HealthBar levelBar;

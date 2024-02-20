@@ -23,7 +23,9 @@ enum class PlanetType
     Jupiter,
     Saturn,
     Uranus,
-    Neptune
+    Neptune,
+
+    NONE
 };
 
 struct PlanetSheetData

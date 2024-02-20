@@ -7,6 +7,7 @@ UITradeItemBar::UITradeItemBar()
     requiredCoins = 0;
 
     offerItem = ItemPickupType::NONE;
+    offerUpgrade = UpgradeType::NONE;
     offerCoins = 0;
 
     tradeSound.reset();
@@ -36,6 +37,11 @@ void UITradeItemBar::setOfferItem(ItemPickupType itemType)
 void UITradeItemBar::setOfferCoins(int amount)
 {
     offerCoins = amount;
+}
+
+void UITradeItemBar::setOfferUpgrade(UpgradeType upgrade)
+{
+    offerUpgrade = upgrade;
 }
 
 void UITradeItemBar::setTradeActionText(std::string text)
@@ -76,6 +82,9 @@ void UITradeItemBar::acceptTrade()
     if (offerItem != ItemPickupType::NONE)
         InventoryManager::addItem(offerItem, 1);
     
+    if (offerUpgrade != UpgradeType::NONE)
+        UpgradeManager::unlockUpgrade(offerUpgrade);
+    
     InventoryManager::addSilverCoins(offerCoins);
 
     if (tradeSound.has_value())
@@ -102,6 +111,20 @@ void UITradeItemBar::draw(sf::RenderWindow& window)
 
         TextureManager::drawTexture(window, drawData);
         
+    }
+
+    if (offerUpgrade != UpgradeType::NONE)
+    {
+
+        TextureDrawData drawData = {
+            upgradeTextureMap.at(offerUpgrade),
+            position + sf::Vector2f(50, 50),
+            sf::degrees(0),
+            5
+        };
+
+        TextureManager::drawTexture(window, drawData);
+
     }
 
     if (offerCoins > 0)

@@ -115,6 +115,7 @@ void Game::inStationMainSubloop(sf::Vector2f mousePos, bool leftMousePressed)
         }
         else if (stationMenuButtons.isButtonPressed("travel"))
         {
+            updatePlanetSelection();
             stationMenuState = StationMenuState::Travel;    
         }
         else if (stationMenuButtons.isButtonPressed("return"))
@@ -141,13 +142,55 @@ void Game::inStationUpgradesSubloop(sf::Vector2f mousePos, bool leftMousePressed
 {
     stationUpgradeButtons.update(mousePos);
 
+    std::vector<UITradeItemBar> upgradeBars;
+
+    int yOffset = 0;
+    for (Recipes::UpgradeData upgradeData : Recipes::upgrades)
+    {
+
+        if (UpgradeManager::hasUpgrade(upgradeData.upgrade))
+            continue;
+
+        UITradeItemBar upgradeBar;
+        upgradeBar.setTradeActionText("Upgrade");
+        upgradeBar.setTradeActionSound(SoundType::Forge);
+
+        if (upgradeData.requiredCoins > InventoryManager::getSilverCoins())
+            continue;
+
+        upgradeBar.setRequiredCoins(upgradeData.requiredCoins);
+        upgradeBar.setOfferUpgrade(upgradeData.upgrade);
+
+        bool hasRequiredItems = true;
+        for (std::pair<ItemPickupType, int> itemCount : upgradeData.requiredItems)
+        {
+            upgradeBar.addRequiredItems(itemCount.first, itemCount.second);
+
+            if (InventoryManager::getItemCount(itemCount.first) < itemCount.second)
+            {
+                hasRequiredItems = false;
+                break;
+            }
+        }
+
+        if (!hasRequiredItems)
+            continue;
+
+        upgradeBar.setPosition(sf::Vector2f(400, 300 + yOffset));
+        upgradeBar.update(mousePos);
+
+        upgradeBars.push_back(upgradeBar);
+
+        yOffset += upgradeBar.getBarHeight() + 25;
+
+    }
+
     if (leftMousePressed)
     {
-        if (stationUpgradeButtons.isButtonPressed("health"))
+        for (UITradeItemBar& upgradeBar : upgradeBars)
         {
-            int health = playerShip.getMaxHealth() + 5;
-            health = std::min(health, 80);
-            playerShip.setMaxHealth(health);
+            if (upgradeBar.tradeButtonHovering())
+                upgradeBar.acceptTrade();
         }
     }
 
@@ -160,6 +203,28 @@ void Game::inStationUpgradesSubloop(sf::Vector2f mousePos, bool leftMousePressed
     };
 
     TextureManager::drawTexture(window, backgroundData);
+
+    for (UITradeItemBar& upgradeBar : upgradeBars)
+    {
+        upgradeBar.draw(window);
+    }
+
+    if (upgradeBars.size() <= 0)
+    {
+        TextRenderer::drawText(window, {"No upgrades available", sf::Vector2f(400, 500), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3, false, true});
+    }
+
+    TextureDrawData drawData = {
+        TextureType::SilverCoin,
+        sf::Vector2f(200, 250),
+        sf::degrees(0),
+        5
+    };
+
+    TextureManager::drawTexture(window, drawData);
+
+    std::string text = std::to_string(InventoryManager::getSilverCoins());
+    TextRenderer::drawText(window, {text, sf::Vector2f(240, 250), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3, false, true});
 
     stationUpgradeButtons.draw(window);
 }
@@ -468,22 +533,13 @@ void Game::inStationTravelSubloop(sf::Vector2f mousePos, bool leftMousePressed)
 
     if (leftMousePressed)
     {
-        static const std::unordered_map<PlanetType, std::string> planetTypeStringMap = {
-            {PlanetType::Mercury, "mercury"},
-            {PlanetType::Venus, "venus"},
-            {PlanetType::Earth, "earth"},
-            {PlanetType::Moon, "moon"},
-            {PlanetType::Mars, "mars"},
-            {PlanetType::Jupiter, "jupiter"},
-            {PlanetType::Saturn, "saturn"},
-            {PlanetType::Uranus, "uranus"},
-            {PlanetType::Neptune, "neptune"},
-        };
 
-        for (std::pair<PlanetType, std::string> planetTypeStringPair : planetTypeStringMap)
+        for (auto buttonPair : stationTravelButtons.getButtonMap())
         {
-            if (stationTravelButtons.isButtonPressed(planetTypeStringPair.second))
-                travelToPlanet(planetTypeStringPair.first);
+            std::string planetName = buttonPair.first;
+
+            if (stationTravelButtons.isButtonPressed(planetName))
+                travelToPlanet(planetTravelDataMap.at(planetName).planetType);
         }
     }
 
@@ -497,6 +553,49 @@ void Game::inStationTravelSubloop(sf::Vector2f mousePos, bool leftMousePressed)
 
     TextureManager::drawTexture(window, backgroundData);
 
+    if (stationTravelButtons.getButtonMap().size() <= 0)
+    {
+        TextRenderer::drawText(window, {"You do not have the technology to travel", sf::Vector2f(400, 500), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3, false, true});
+    }
+
     stationTravelButtons.draw(window);
+
+}
+
+void Game::updatePlanetSelection()
+{
+
+    stationTravelButtons.clear();
+    
+    int yOffset = 200;
+
+    // Space station travel buttons
+    
+    for (auto planetTravelDataPair : planetTravelDataMap)
+    {
+
+        PlanetTravelData travelData = planetTravelDataPair.second;
+
+        if (travelData.planetType == currentPlanet)
+            continue;
+
+        if (!UpgradeManager::hasUpgrade(travelData.requiredUpgrade))
+            continue;
+        
+        if (travelData.prerequisitePlanet != PlanetType::NONE && currentPlanet != travelData.prerequisitePlanet)
+            continue;
+        
+        std::string planetName = planetTravelDataPair.first;
+
+        std::cout << planetName << std::endl;
+
+        stationTravelButtons.addButton(planetName, {
+            sf::Vector2f(300, yOffset), sf::Vector2f(700, 100),
+            planetName, sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+        });
+
+        yOffset += 110;
+        
+    }
 
 }

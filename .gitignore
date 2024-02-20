@@ -9,3 +9,4 @@ out
 *.exe
 *.dll
 *.json
+*.data
