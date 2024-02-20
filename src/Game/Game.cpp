@@ -21,6 +21,10 @@ void Game::mainLoop()
 			inStationLoop();
 			break;
 
+        case GameState::Travelling:
+            travellingLoop();
+            break;
+
         }
 
     }
@@ -74,6 +78,7 @@ LoadDataSuccess Game::loadData()
         }
 
         currentPlanet = magic_enum::enum_cast<PlanetType>(static_cast<std::string>(saveData.at("currentPlanet"))).value();
+        mainPlanetRenderer.setPlanetType(currentPlanet);
 
         InventoryManager::addSilverCoins(saveData.at("coins"));
 

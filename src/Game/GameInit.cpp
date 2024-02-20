@@ -72,6 +72,8 @@ bool Game::initialise()
 
     inStationRange = false;
 
+    travelTime = 0;
+
     showUIRing = true;
     paused = false;
 

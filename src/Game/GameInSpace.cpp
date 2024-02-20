@@ -294,6 +294,21 @@ void Game::travelToPlanet(PlanetType planet)
     mainPlanetRenderer.setPlanetType(currentPlanet);
 
     playerShip.setPosition(sf::Vector2f(5000, 5000));
-    changeState(GameState::InSpace);
+    Camera::setOffset(sf::Vector2f(5000, 5000));
+
+    AsteroidManager::reset();
+    BulletManager::reset();
+    ItemPickupManager::reset();
+    EnemyShipManager::reset();
+
+    for (int i = 0; i < ASTEROID_MAX; i++)
+    {
+        sf::Vector2f position(rand() % static_cast<int>(WORLD_WIDTH), rand() % static_cast<int>(WORLD_HEIGHT));
+        AsteroidManager::createAsteroid(position);
+    }
+
+    travelTime = TRAVEL_TIME;
+
+    changeState(GameState::Travelling);
 
 }

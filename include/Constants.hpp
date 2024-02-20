@@ -17,6 +17,7 @@
 
 #define ASTEROID_MAX 1000
 #define STARTING_MAX_HEALTH 20
+#define TRAVEL_TIME 3.0f
 
 #define PI 3.14159
 

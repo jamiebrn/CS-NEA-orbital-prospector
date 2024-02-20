@@ -97,6 +97,8 @@ private:
     void inStationLevelSubloop(sf::Vector2f mousePos, bool leftMousePressed);
     void inStationTravelSubloop(sf::Vector2f mousePos, bool leftMousePressed);
 
+    void travellingLoop();
+
     void changeState(GameState newState);
 
     void updatePlanetSelection();
@@ -147,6 +149,8 @@ private:
 
     static constexpr float STATION_MAX_RANGE = 320;
     bool inStationRange;
+
+    float travelTime;
 
     bool showUIRing;
     bool paused;
