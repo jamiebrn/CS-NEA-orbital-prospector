@@ -35,7 +35,7 @@ inline const std::vector<SmeltData> smelting =
 
 inline const std::vector<UpgradeData> upgrades =
 {
-    {{{ItemPickupType::CopperBar, 1}, {ItemPickupType::IronBar, 1}}, 10, UpgradeType::PrototypeEngine},
+    {{{ItemPickupType::CopperBar, 9}, {ItemPickupType::IronBar, 6}}, 60, UpgradeType::PrototypeEngine},
     {{{ItemPickupType::CopperBar, 1}, {ItemPickupType::IronBar, 1}}, 10, UpgradeType::InterplanetaryEngine, UpgradeType::PrototypeEngine},
     {{{ItemPickupType::CopperBar, 1}, {ItemPickupType::IronBar, 1}}, 10, UpgradeType::InterplanetaryEngine2, UpgradeType::InterplanetaryEngine},
     {{{ItemPickupType::CopperBar, 1}, {ItemPickupType::IronBar, 1}}, 10, UpgradeType::InterplanetaryEngine3, UpgradeType::InterplanetaryEngine2},

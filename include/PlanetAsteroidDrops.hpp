@@ -12,7 +12,7 @@ static const std::unordered_map<PlanetType, std::vector<std::pair<ItemPickupType
     {PlanetType::Mercury, {{ItemPickupType::CopperBar, 0.6}, {ItemPickupType::IronBar, 0.4}}},
     {PlanetType::Venus, {{ItemPickupType::Rock, 0.3}, {ItemPickupType::CopperChunk, 0.3}, {ItemPickupType::IronChunk, 0.2}}},
     {PlanetType::Earth, {{ItemPickupType::Rock, 0.3}, {ItemPickupType::CopperChunk, 0.3}, {ItemPickupType::IronChunk, 0.2}}},
-    {PlanetType::Moon, {{ItemPickupType::Rock, 0.3}, {ItemPickupType::CopperChunk, 0.3}, {ItemPickupType::IronChunk, 0.2}}},
+    {PlanetType::Moon, {{ItemPickupType::Rock, 0.1}, {ItemPickupType::CopperChunk, 0.5}, {ItemPickupType::IronChunk, 0.4}}},
     {PlanetType::Mars, {{ItemPickupType::Rock, 0.3}, {ItemPickupType::CopperChunk, 0.3}, {ItemPickupType::IronChunk, 0.2}}},
     {PlanetType::Jupiter, {{ItemPickupType::Rock, 0.3}, {ItemPickupType::CopperChunk, 0.3}, {ItemPickupType::IronChunk, 0.2}}},
     {PlanetType::Saturn, {{ItemPickupType::Rock, 0.3}, {ItemPickupType::CopperChunk, 0.3}, {ItemPickupType::IronChunk, 0.2}}},

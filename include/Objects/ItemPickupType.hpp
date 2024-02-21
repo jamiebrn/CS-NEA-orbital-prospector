@@ -14,6 +14,10 @@ enum ItemPickupType
     CopperBar,
     IronBar,
     CopronBar,
+    TungstenChunk,
+    TungstenBar,
+    AluminiumChunk,
+    AluminiumBar,
 
     NONE
 };
