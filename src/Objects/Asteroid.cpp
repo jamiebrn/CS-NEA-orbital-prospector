@@ -76,7 +76,7 @@ void Asteroid::spawnPickups(PlanetType currentPlanet)
         spawnPos += getNormalisedPosition();
 
         ItemPickupType pickupType;
-        float typeRand = (rand() % 101) / 100;
+        float typeRand = static_cast<float>((rand() % 101)) / 100.0f;
 
         float cumulativeChance = 0.0f;
         for (std::pair<ItemPickupType, float> pickupChance : asteroidDropRates.at(currentPlanet))

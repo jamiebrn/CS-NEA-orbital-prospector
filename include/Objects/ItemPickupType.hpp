@@ -28,7 +28,11 @@ const std::map<ItemPickupType, TextureType> itemTextureMap = {
     {ItemPickupType::IronChunk, TextureType::PickupIronChunk},
     {ItemPickupType::CopperBar, TextureType::CopperBar},
     {ItemPickupType::IronBar, TextureType::IronBar},
-    {ItemPickupType::CopronBar, TextureType::CopronBar}
+    {ItemPickupType::CopronBar, TextureType::CopronBar},
+    {ItemPickupType::TungstenChunk, TextureType::TungstenChunk},
+    {ItemPickupType::TungstenBar, TextureType::TungstenBar},
+    {ItemPickupType::AluminiumChunk, TextureType::AluminiumChunk},
+    {ItemPickupType::AluminiumBar, TextureType::AluminiumBar}
 };
 
 #endif

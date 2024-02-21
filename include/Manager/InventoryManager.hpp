@@ -58,7 +58,11 @@ private:
         {ItemPickupType::IronChunk, 5},
         {ItemPickupType::CopperBar, 12},
         {ItemPickupType::IronBar, 20},
-        {ItemPickupType::CopronBar, 45}
+        {ItemPickupType::CopronBar, 45},
+        {ItemPickupType::TungstenChunk, 9},
+        {ItemPickupType::TungstenBar, 20},
+        {ItemPickupType::AluminiumChunk, 11},
+        {ItemPickupType::AluminiumBar, 25}
     };
 
     static int silverCoins;
