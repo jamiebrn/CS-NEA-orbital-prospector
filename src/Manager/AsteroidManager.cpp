@@ -15,7 +15,7 @@ void AsteroidManager::insertAsteroid(std::unique_ptr<Asteroid> asteroid)
     asteroids.push_back(std::move(asteroid));
 }
 
-void AsteroidManager::updateAsteroids(float deltaTime)
+void AsteroidManager::updateAsteroids(PlanetType currentPlanet, float deltaTime)
 {
 
     lastSpawn += deltaTime;
@@ -44,7 +44,7 @@ void AsteroidManager::updateAsteroids(float deltaTime)
 
     for (std::unique_ptr<Asteroid>& asteroid : asteroids)
     {
-        asteroid->update(deltaTime);
+        asteroid->update(currentPlanet, deltaTime);
     }
 
     for (auto asteroidIter = asteroids.begin(); asteroidIter != asteroids.end();)

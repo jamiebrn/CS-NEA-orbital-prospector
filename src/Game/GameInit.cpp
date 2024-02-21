@@ -46,13 +46,19 @@ bool Game::initialise()
 
     auto end = std::chrono::system_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);;
-    std::cout << "Loaded all textures in " << elapsed.count() << "ms" << '\n';
+    std::cout << "Loaded textures in " << elapsed.count() << "ms" << '\n';
+
+    start = std::chrono::system_clock::now();
 
     if (!SoundManager::loadSounds(window))
     {
         std::cout << "ERROR: Sounds have not been loaded correctly" << std::endl;
         return false;
     }
+
+    end = std::chrono::system_clock::now();
+    elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);;
+    std::cout << "Loaded sounds in " << elapsed.count() << "ms" << '\n';
 
 
     initUI();
@@ -158,11 +164,6 @@ void Game::initUI()
     });
 
     // Space station upgrade buttons
-
-    stationUpgradeButtons.addButton("health", {
-        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 600), sf::Vector2f(820, 100),
-        "Upgrade Health", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
-    });
 
     // Space station market buttons
 

@@ -14,6 +14,8 @@
 #include "Manager/BulletManager.hpp"
 #include "Objects/ItemPickupType.hpp"
 #include "Objects/DrawableObject.hpp"
+#include "Renderer/PlanetRenderer.hpp"
+#include "PlanetAsteroidDrops.hpp"
 
 struct AsteroidData
 {
@@ -32,7 +34,7 @@ class Asteroid : public DrawableObject
 public:
     Asteroid(sf::Vector2f position);
 
-    void update(float deltaTime);
+    void update(PlanetType currentPlanet, float deltaTime);
 
     void draw(sf::RenderWindow& window) override;
 
@@ -52,7 +54,7 @@ private:
     void drawAsteroid(sf::RenderWindow& window);
     void drawExplosion(sf::RenderWindow& window);
 
-    void spawnPickups();
+    void spawnPickups(PlanetType currentPlanet);
 
 private:
     static constexpr float FLASH_TIME = 0.15f;

@@ -85,7 +85,7 @@ void Game::inSpaceLoop()
         BulletManager::updateBullets(deltaTime);
         BulletManager::updateEnemyBullets(deltaTime);
 
-        AsteroidManager::updateAsteroids(deltaTime);
+        AsteroidManager::updateAsteroids(currentPlanet, deltaTime);
 
         float unprojectMult = Helper::unprojectDepthMultipier(PLANET_DEPTH_DIVIDE, SPACE_STATION_DEPTH_DIVIDE);
         sf::Vector2f planetCentre = mainPlanetRenderer.getPosition();

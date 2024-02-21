@@ -15,7 +15,7 @@ Asteroid::Asteroid(sf::Vector2f position)
     alive = true;
 }
 
-void Asteroid::update(float deltaTime)
+void Asteroid::update(PlanetType currentPlanet, float deltaTime)
 {
 
     if (!exploding)
@@ -55,18 +55,19 @@ void Asteroid::update(float deltaTime)
         explosionFrame++;
         if (explosionFrame >= EXPLOSION_FRAMES)
         {
-            spawnPickups();
+            spawnPickups(currentPlanet);
             alive = false;
         }
     }
 
 }
 
-void Asteroid::spawnPickups()
+void Asteroid::spawnPickups(PlanetType currentPlanet)
 {
     int pickupCount = rand() % 3;
     for (int i = 0; i <= pickupCount; i++)
     {
+        
         int radius = (18 * scale) / depth;
         float projection = rand() % radius;
         sf::Angle rotation = sf::degrees(rand() % 360);
@@ -75,21 +76,19 @@ void Asteroid::spawnPickups()
         spawnPos += getNormalisedPosition();
 
         ItemPickupType pickupType;
-        int typeRand = rand() % 101;
-        if (typeRand < 60)
+        float typeRand = (rand() % 101) / 100;
+
+        float cumulativeChance = 0.0f;
+        for (std::pair<ItemPickupType, float> pickupChance : asteroidDropRates.at(currentPlanet))
         {
-            pickupType = ItemPickupType::Rock;
-        }
-        else if (typeRand < 90)
-        {
-            pickupType = ItemPickupType::CopperChunk;
-        }
-        else
-        {
-            pickupType = ItemPickupType::IronChunk;
+            cumulativeChance += pickupChance.second;
+            if (typeRand <= cumulativeChance)
+            {
+                ItemPickupManager::addItem(pickupChance.first, spawnPos);
+                break;
+            }
         }
 
-        ItemPickupManager::addItem(pickupType, spawnPos);
     }
 }
 

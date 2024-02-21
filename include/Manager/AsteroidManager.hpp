@@ -20,7 +20,7 @@ public:
 
     static void insertAsteroid(std::unique_ptr<Asteroid> asteroid);
 
-    static void updateAsteroids(float deltaTime);
+    static void updateAsteroids(PlanetType currentPlanet, float deltaTime);
 
     static void drawAsteroids(sf::RenderWindow& window);
 

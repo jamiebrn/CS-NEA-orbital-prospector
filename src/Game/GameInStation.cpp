@@ -228,8 +228,6 @@ void Game::inStationUpgradesSubloop(sf::Vector2f mousePos, bool leftMousePressed
 
     std::string text = std::to_string(InventoryManager::getSilverCoins());
     TextRenderer::drawText(window, {text, sf::Vector2f(240, 250), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3, false, true});
-
-    stationUpgradeButtons.draw(window);
 }
 
 
@@ -589,8 +587,6 @@ void Game::updatePlanetSelection()
             continue;
         
         std::string planetName = planetTravelDataPair.first;
-
-        std::cout << planetName << std::endl;
 
         stationTravelButtons.addButton(planetName, {
             sf::Vector2f(300, yOffset), sf::Vector2f(700, 100),
