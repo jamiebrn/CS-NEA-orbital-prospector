@@ -35,6 +35,7 @@ add_executable(OrbitalProspector ${SRC_FILES})
 target_link_libraries(OrbitalProspector PRIVATE sfml-graphics)
 target_link_libraries(OrbitalProspector PRIVATE sfml-audio)
 target_link_libraries(OrbitalProspector PRIVATE physfs-static)
+target_link_options(OrbitalProspector PRIVATE -static)
 target_compile_features(OrbitalProspector PRIVATE cxx_std_17)
 target_sources(OrbitalProspector PRIVATE "dev_resources/icon_data.rc")
 
