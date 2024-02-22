@@ -1,8 +1,12 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.18)
 project(OrbitalProspector LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+option(PHYSFS_BUILD_DOCS OFF)
+option(PHYSFS_BUILD_SHARED OFF)
+option(PHYSFS_DISABLE_INSTALL "Disable installing PhysFS" ON)
+option(PHYSFS_BUILD_TEST OFF)
 
 include(FetchContent)
 
@@ -41,5 +45,18 @@ if(WIN32)
         PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:OrbitalProspector>
         VERBATIM)
 endif()
+
+#file(ARCHIVE_CREATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/data.bin
+ #   PATHS ${CMAKE_CURRENT_SOURCE_DIR}/dev_resources/Data
+ #   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dev_resources/Data
+ #   FORMAT zip
+#)
+
+ADD_CUSTOM_COMMAND(
+    TARGET OrbitalProspector
+    PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E tar cvf ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/data.bin --format=zip -- .
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dev_resources/Data
+)
 
 install(TARGETS OrbitalProspector)

@@ -51,13 +51,13 @@ private:
     inline static std::unordered_map<SoundType, sf::Sound> soundMap;
 
     inline static const std::unordered_map<SoundType, std::string> soundPaths = {
-        {SoundType::Shoot, "Data/Sfx/shoot.wav"},
-        {SoundType::EnemyShoot, "Data/Sfx/enemyShoot.wav"},
-        {SoundType::AsteroidExplode, "Data/Sfx/asteroidExplode.wav"},
-        {SoundType::ShipExplode, "Data/Sfx/shipExplosion.wav"},
-        {SoundType::ItemPickup, "Data/Sfx/itemPickup.wav"},
-        {SoundType::Coins, "Data/Sfx/coins.wav"},
-        {SoundType::Forge, "Data/Sfx/forge.wav"}
+        {SoundType::Shoot, "Sfx/shoot.wav"},
+        {SoundType::EnemyShoot, "Sfx/enemyShoot.wav"},
+        {SoundType::AsteroidExplode, "Sfx/asteroidExplode.wav"},
+        {SoundType::ShipExplode, "Sfx/shipExplosion.wav"},
+        {SoundType::ItemPickup, "Sfx/itemPickup.wav"},
+        {SoundType::Coins, "Sfx/coins.wav"},
+        {SoundType::Forge, "Sfx/forge.wav"}
     };
 
     inline static std::unordered_map<MusicType, PhysFsStream> musicStreamMap;
@@ -67,8 +67,8 @@ private:
     static constexpr float MUSIC_VOLUME = 10.0f;
 
     inline static const std::unordered_map<MusicType, std::string> musicPaths = {
-        {MusicType::Menu, "Data/Music/Mystery.mp3"},
-        {MusicType::Track1, "Data/Music/Arthur Vyncke - A few jumps away.mp3"}
+        {MusicType::Menu, "Music/Mystery.mp3"},
+        {MusicType::Track1, "Music/Arthur Vyncke - A few jumps away.mp3"}
     };
 
 };
