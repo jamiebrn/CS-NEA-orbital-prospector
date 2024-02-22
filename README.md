@@ -4,6 +4,7 @@ Game made for A-Level Computer Science NEA.
 ### Libraries used
  - [SFML](https://github.com/SFML/SFML)
  - [Nlohmann's JSON](https://github.com/nlohmann/json)
+ - [PhysFS](https://github.com/icculus/physfs)
 
 ### Assets used
 #### Textures
