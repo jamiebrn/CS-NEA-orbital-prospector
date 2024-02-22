@@ -34,8 +34,15 @@ bool SoundManager::loadSounds(sf::RenderWindow& window)
         SoundType soundType = soundPair.first;
         std::string soundPath = soundPair.second;
 
+        PhysFsStream soundStream;
+        if (!soundStream.open(soundPath.c_str()))
+        {
+            loadedSounds = false;
+            break;
+        }
+
         sf::SoundBuffer soundBuffer;
-        if (!soundBuffer.loadFromFile(soundPath))
+        if (!soundBuffer.loadFromStream(soundStream))
         {
             loadedSounds = false;
             break;
@@ -67,8 +74,16 @@ bool SoundManager::loadSounds(sf::RenderWindow& window)
         MusicType musicType = musicPair.first;
         std::string musicPath = musicPair.second;
 
+        musicStreamMap.emplace(musicType, PhysFsStream());
+        if (!musicStreamMap.at(musicType).open(musicPath.c_str()))
+        {
+            loadedSounds = false;
+            break;
+        }
+
+
         std::unique_ptr<sf::Music> music = std::make_unique<sf::Music>();
-        if (!music->openFromFile(musicPath))
+        if (!music->openFromStream(musicStreamMap.at(musicType)))
         {
             loadedSounds = false;
             break;

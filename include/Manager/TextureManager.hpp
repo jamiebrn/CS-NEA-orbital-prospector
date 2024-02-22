@@ -8,6 +8,7 @@
 #define TEXTURE_MANAGER_HPP
 
 #include <SFML/Graphics.hpp>
+#include <PhysFsStream.hpp>
 #include <unordered_map>
 #include <string>
 

@@ -2,6 +2,7 @@
 #define SOUND_MANAGER_HPP
 
 #include <SFML/Audio.hpp>
+#include <PhysFsStream.hpp>
 
 #include <unordered_map>
 #include <string>
@@ -58,6 +59,8 @@ private:
         {SoundType::Coins, "Data/Sfx/coins.wav"},
         {SoundType::Forge, "Data/Sfx/forge.wav"}
     };
+
+    inline static std::unordered_map<MusicType, PhysFsStream> musicStreamMap;
 
     inline static std::unordered_map<MusicType, std::unique_ptr<sf::Music>> musicMap;
 

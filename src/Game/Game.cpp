@@ -55,7 +55,7 @@ void Game::changeState(GameState newState)
 LoadDataSuccess Game::loadData()
 {
 
-    std::ifstream file("Data/save.data", std::ios::binary);
+    std::ifstream file("save.data", std::ios::binary);
     if (file.fail())
         return LoadDataSuccess::NO_FILE;
 
@@ -194,7 +194,7 @@ void Game::saveData()
     }
     saveData["itemPickups"] = itemDatas;
 
-	std::ofstream file("Data/save.data", std::ios::binary);
+	std::ofstream file("save.data", std::ios::binary);
     std::vector<std::uint8_t> bson_save = nlohmann::json::to_bson(saveData);
     file.write(reinterpret_cast<const char*>(bson_save.data()), bson_save.size());
     file.close();

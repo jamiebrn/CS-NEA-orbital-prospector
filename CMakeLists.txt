@@ -11,12 +11,15 @@ FetchContent_Declare(SFML
 FetchContent_MakeAvailable(SFML)
 
 include_directories(include/)
+include_directories(C:/Users/jamzp/Dev/physfs-release-3.2.0/src/)
+link_directories(C:/Users/jamzp/Dev/physfs-release-3.2.0/bin/)
 
 file(GLOB_RECURSE SRC_FILES src/*.cpp)
 
 add_executable(OrbitalProspector ${SRC_FILES})
 target_link_libraries(OrbitalProspector PRIVATE sfml-graphics)
 target_link_libraries(OrbitalProspector PRIVATE sfml-audio)
+target_link_libraries(OrbitalProspector PRIVATE libphysfs)
 target_compile_features(OrbitalProspector PRIVATE cxx_std_17)
 target_sources(OrbitalProspector PRIVATE "dev_resources/icon_data.rc")
 

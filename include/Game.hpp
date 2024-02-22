@@ -10,6 +10,7 @@
 #define GAME_HPP
 
 #include <SFML/Graphics.hpp>
+#include <PhysFsStream.hpp>
 #include <json.hpp>
 #include <magic_enum.hpp>
 #include <fstream>

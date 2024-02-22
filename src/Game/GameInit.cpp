@@ -21,12 +21,20 @@ bool Game::initialise()
 
     window.setFramerateLimit(240);
 
-    if (!iconImage.loadFromFile(ICON_PATH))
+    PhysFsStream iconTextureStream;
+    if (!iconTextureStream.open(ICON_PATH))
+    {
+        std::cout << "ERROR: Cannot load window icon" << std::endl;
+        return false;
+    }
+
+    if (!iconImage.loadFromStream(iconTextureStream))
     {
         std::cout << "ERROR: Cannot load window icon" << std::endl;
         return false;
     }
     window.setIcon(iconImage.getSize(), iconImage.getPixelsPtr());
+
 
     window.setView(view);
 
@@ -45,19 +53,21 @@ bool Game::initialise()
     }
 
     auto end = std::chrono::system_clock::now();
-    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);;
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << "Loaded textures in " << elapsed.count() << "ms" << '\n';
 
     start = std::chrono::system_clock::now();
-
+    
     if (!SoundManager::loadSounds(window))
     {
         std::cout << "ERROR: Sounds have not been loaded correctly" << std::endl;
         return false;
     }
 
+
+
     end = std::chrono::system_clock::now();
-    elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);;
+    elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << "Loaded sounds in " << elapsed.count() << "ms" << '\n';
 
 

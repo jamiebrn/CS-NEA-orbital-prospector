@@ -118,8 +118,15 @@ bool TextureManager::loadTextures(sf::RenderWindow& window)
         TextureType textureType = texturePair.first;
         std::string texturePath = texturePair.second;
 
+        PhysFsStream textureStream;
+        if (!textureStream.open(texturePath.c_str()))
+        {
+            loadedTextures = false;
+            break;
+        }
+
         sf::Texture texture;
-        if (!texture.loadFromFile(texturePath))
+        if (!texture.loadFromStream(textureStream))
         {
             loadedTextures = false;
             break;

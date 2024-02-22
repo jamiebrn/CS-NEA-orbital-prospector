@@ -4,6 +4,7 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
+#include <PhysFsStream.hpp>
 
 struct TextDrawData
 {
@@ -30,6 +31,8 @@ public:
     static void drawText(sf::RenderWindow& window, TextDrawData drawData);
 
 private:
+    static PhysFsStream fontStream;
+
     static sf::Font font;
     static sf::Text text;
 
