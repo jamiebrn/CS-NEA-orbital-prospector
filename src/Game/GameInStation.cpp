@@ -24,6 +24,11 @@ void Game::inStationLoop()
             }
         }
 
+        if (event.type == sf::Event::MouseWheelScrolled)
+        {
+            uiScrollCount = std::max(uiScrollCount - event.mouseWheelScroll.delta, 0.0f);
+        }
+
         if (event.type == sf::Event::MouseButtonPressed)
         {
             if (event.mouseButton.button == sf::Mouse::Left)
@@ -87,14 +92,17 @@ void Game::inStationMainSubloop(sf::Vector2f mousePos, bool leftMousePressed)
     {
         if (stationMenuButtons.isButtonPressed("upgrades"))
         {
+            uiScrollCount = 0;
             stationMenuState = StationMenuState::Upgrades;
         }
         else if (stationMenuButtons.isButtonPressed("market"))
         {
+            uiScrollCount = 0;
             stationMenuState = StationMenuState::Market;
         }
         else if (stationMenuButtons.isButtonPressed("forge"))
         {
+            uiScrollCount = 0;
             stationMenuState = StationMenuState::Forge;
         }
         else if (stationMenuButtons.isButtonPressed("missions"))
@@ -145,6 +153,7 @@ void Game::inStationUpgradesSubloop(sf::Vector2f mousePos, bool leftMousePressed
     std::vector<UITradeItemBar> upgradeBars;
 
     int yOffset = 0;
+    int itemCount = 0;
     for (Recipes::UpgradeData upgradeData : Recipes::upgrades)
     {
 
@@ -177,6 +186,10 @@ void Game::inStationUpgradesSubloop(sf::Vector2f mousePos, bool leftMousePressed
         }
 
         if (!hasRequiredItems)
+            continue;
+        
+        itemCount++;
+        if (itemCount < uiScrollCount)
             continue;
 
         upgradeBar.setPosition(sf::Vector2f(400, 300 + yOffset));
@@ -212,7 +225,7 @@ void Game::inStationUpgradesSubloop(sf::Vector2f mousePos, bool leftMousePressed
         upgradeBar.draw(window);
     }
 
-    if (upgradeBars.size() <= 0)
+    if (itemCount <= 0)
     {
         TextRenderer::drawText(window, {"No upgrades available", sf::Vector2f(400, 500), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3, false, true});
     }
@@ -248,6 +261,7 @@ void Game::inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed)
     std::vector<UITradeItemBar> tradeItemBars;
 
     int yOffset = 0;
+    int itemCount = 0;
     for (std::pair<ItemPickupType, TextureType> itemTexturePair : itemTextureMap)
     {
 
@@ -255,7 +269,11 @@ void Game::inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed)
 
         if (InventoryManager::getItemCount(itemType) <= 0)
             continue;
-
+        
+        itemCount++;
+        if (itemCount < uiScrollCount)
+            continue;
+        
         UITradeItemBar tradeItemBar;
 
         tradeItemBar.setTradeActionText("Sell");
@@ -303,7 +321,7 @@ void Game::inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed)
         tradeItemBar.draw(window);
     }
 
-    if (tradeItemBars.size() <= 0)
+    if (itemCount <= 0)
     {
         TextRenderer::drawText(window, {"You have no items to sell", sf::Vector2f(400, 500), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3, false, true});
     }
@@ -328,6 +346,7 @@ void Game::inStationForgeSubloop(sf::Vector2f mousePos, bool leftMousePressed)
     std::vector<UITradeItemBar> smeltItemBars;
 
     int yOffset = 0;
+    int itemCount = 0;
     for (Recipes::SmeltData smeltData : Recipes::smelting)
     {
 
@@ -354,6 +373,10 @@ void Game::inStationForgeSubloop(sf::Vector2f mousePos, bool leftMousePressed)
         }
 
         if (!hasRequiredItems)
+            continue;
+        
+        itemCount++;
+        if (itemCount < uiScrollCount)
             continue;
 
         smeltItemBar.setPosition(sf::Vector2f(400, 300 + yOffset));
@@ -389,7 +412,7 @@ void Game::inStationForgeSubloop(sf::Vector2f mousePos, bool leftMousePressed)
         smeltItemBar.draw(window);
     }
 
-    if (smeltItemBars.size() <= 0)
+    if (itemCount <= 0)
     {
         TextRenderer::drawText(window, {"No items are available to be forged", sf::Vector2f(400, 500), sf::Color(255, 255, 255), 60, sf::Color(0, 0, 0), 3, false, true});
     }

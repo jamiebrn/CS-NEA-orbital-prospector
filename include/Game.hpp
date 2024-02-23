@@ -147,6 +147,7 @@ private:
     UIButtonGroup stationTravelButtons;
 
     int selectedMission;
+    int uiScrollCount;
 
     static constexpr float STATION_MAX_RANGE = 320;
     bool inStationRange;
