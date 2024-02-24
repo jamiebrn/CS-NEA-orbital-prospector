@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-void Game::inMainMenuLoop()
+void Game::inMainMenuLoop(float deltaTime)
 {
 
     sf::Vector2i screenMousePosition = sf::Mouse::getPosition(window);
@@ -52,8 +52,6 @@ void Game::inMainMenuLoop()
         }
 
     }
-
-    float deltaTime = clock.restart().asSeconds();
     
     titlePlanetRenderer.update(deltaTime);
 
@@ -62,7 +60,7 @@ void Game::inMainMenuLoop()
     TextureDrawData backgroundData = {TextureType::EarthBackground, sf::Vector2f(0, 0), sf::degrees(0), 3, false};
     TextureManager::drawSubTexture(window, backgroundData, sf::IntRect(titleBackgroundSubRectPos, sf::Vector2i(WINDOW_WIDTH, WINDOW_HEIGHT)));
 
-    titlePlanetRenderer.draw(window);
+    titlePlanetRenderer.draw(window, false);
 
     std::string text = "Orbital Prospector";
     TextRenderer::drawText(window, {text, sf::Vector2f(WINDOW_WIDTH / 2, 150), sf::Color(255, 255, 255), 130, sf::Color(0, 0, 0), 4, true});
@@ -98,8 +96,6 @@ void Game::inMainMenuLoop()
 
     }
 
-    window.display();
-
 }
 
 void Game::newGame()
@@ -119,11 +115,11 @@ void Game::newGame()
         AsteroidManager::createAsteroid(position);
     }
 
-    EnemyShipManager::addShip(EnemyShip(sf::Vector2f(5000, 4000)));
+    //EnemyShipManager::addShip(EnemyShip(sf::Vector2f(5000, 4000)));
 
     MissionManager::rerollAllMissions();
 
-    changeState(GameState::InSpace);
+    targetGameState = GameState::InSpace;
 
 }
 
@@ -141,7 +137,7 @@ void Game::loadGame()
         return;
     }
 
-    changeState(GameState::InSpace);
+    targetGameState = GameState::InSpace;
 
 }
 

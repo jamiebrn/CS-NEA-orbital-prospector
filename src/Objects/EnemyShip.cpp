@@ -9,7 +9,8 @@ EnemyShip::EnemyShip(sf::Vector2f position)
     velocity = sf::Vector2f(0, 0);
     rotation = sf::degrees(0);
 
-    behaviourState = EnemyShipBehaviour::Idle;
+    behaviourState = EnemyShipBehaviourState::Patrol;
+    randomisePatrolTarget();
 
     id = std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1);
 
@@ -74,12 +75,24 @@ void EnemyShip::update(const PlayerShip& playerShip, const std::vector<EnemyShip
 
         switch (behaviourState)
         {
-            case EnemyShipBehaviour::Idle:
-                updateIdle(playerShip, deltaTime);
+            case EnemyShipBehaviourState::Patrol:
+                updatePatrol(playerShip, deltaTime);
                 break;
             
-            case EnemyShipBehaviour::Attack:
-                updateAttack(playerShip, ships, deltaTime);
+            case EnemyShipBehaviourState::TargetItem:
+                updateTargetItem(playerShip, deltaTime);
+                break;
+            
+            case EnemyShipBehaviourState::TargetPlayer:
+                updateTargetPlayer(playerShip, deltaTime);
+                break;
+            
+            case EnemyShipBehaviourState::AttackPlayer:
+                updateAttackPlayer(playerShip, deltaTime);
+                break;
+            
+            case EnemyShipBehaviourState::FleePlayer:
+                updateFleePlayer(playerShip, deltaTime);
                 break;
         }
 
@@ -117,6 +130,7 @@ void EnemyShip::update(const PlayerShip& playerShip, const std::vector<EnemyShip
         }
     }
 
+    avoidOtherShips(ships);
     
     // Update variables
 
@@ -131,69 +145,44 @@ void EnemyShip::update(const PlayerShip& playerShip, const std::vector<EnemyShip
 
 }
 
-
-void EnemyShip::updateIdle(const PlayerShip& playerShip, float deltaTime)
+void EnemyShip::updatePatrol(const PlayerShip& playerShip, float deltaTime)
 {
+    sf::Angle destRotation = (position - patrolTarget).angle() + sf::degrees(90);
+    rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * deltaTime);
 
-    // Attack state condition
-    sf::Vector2f size = sf::Vector2f(32, 32) * SCALE;
-    if (Camera::isInView(position - size / 2.0f, size) && playerShip.isAlive())
-    {
-        behaviourState = EnemyShipBehaviour::Attack;
-    }
-
-    velocity.x = Helper::lerp(velocity.x, 0, DECELERATION * deltaTime);
-    velocity.y = Helper::lerp(velocity.y, 0, DECELERATION * deltaTime);
-
-    engineActive = false;
-
-};
-
-
-void EnemyShip::updateAttack(const PlayerShip& playerShip, const std::vector<EnemyShip>& ships, float deltaTime)
-{
+    velocity = sf::Vector2f(1, 0).rotatedBy(rotation) * SPEED;
 
     engineActive = true;
+}
 
-    // Idle state condition
-    sf::Vector2f size = sf::Vector2f(32, 32) * SCALE;
-    if (!Camera::isInView(position - size / 2.0f, size) || !playerShip.isAlive())
-    {
-        behaviourState = EnemyShipBehaviour::Idle;
-    }
+void EnemyShip::randomisePatrolTarget()
+{
+    patrolTarget.x = rand() % static_cast<int>(WORLD_WIDTH);
+    patrolTarget.y = rand() % static_cast<int>(WORLD_HEIGHT);
+}
 
-    // Rotation
+void EnemyShip::updateTargetItem(const PlayerShip& playerShip, float deltaTime)
+{
 
-    if (velocity.lengthSq() > 0)
-        destRotation = (position - playerShip.getPosition()).angle() - sf::degrees(90);
+}
 
+void EnemyShip::updateTargetPlayer(const PlayerShip& playerShip, float deltaTime)
+{
 
-    // Move towards player
+}
 
-    float distanceSq = (position - playerShip.getPosition()).lengthSq();
+void EnemyShip::updateAttackPlayer(const PlayerShip& playerShip, float deltaTime)
+{
 
-    float inverseDist = (distanceSq / (PLAYER_SPEED_RADIUS * PLAYER_SPEED_RADIUS * SCALE));
-    float currentSpeed = SPEED * std::max(1.0f, (1 - inverseDist) * 7);
+}
 
-    float rotationLerp = ROTATION_LERP_WEIGHT * std::clamp((inverseDist) * 1.1f, 0.3f, 1.0f);
-    rotation = Helper::lerpAngle(rotation, destRotation, rotationLerp * deltaTime);
+void EnemyShip::updateFleePlayer(const PlayerShip& playerShip, float deltaTime)
+{
 
-    sf::Vector2f directionVector = sf::Vector2f(0, -1).rotatedBy(rotation);
+}
 
-    velocity.x = Helper::lerp(velocity.x, directionVector.x * currentSpeed, ACCELERATION * deltaTime);
-    velocity.y = Helper::lerp(velocity.y, directionVector.y * currentSpeed, ACCELERATION * deltaTime);
-
-
-    // Shoot player
-
-    shootCooldown += deltaTime;
-
-    if (distanceSq <= PLAYER_SHOOT_RADIUS * PLAYER_SHOOT_RADIUS * SCALE && shootCooldown >= SHOOT_COOLDOWN)
-    {
-        shootCooldown = 0;
-        shoot();
-    }
-
+void EnemyShip::avoidOtherShips(const std::vector<EnemyShip>& ships)
+{
 
     // Move away from other closeby ships
 

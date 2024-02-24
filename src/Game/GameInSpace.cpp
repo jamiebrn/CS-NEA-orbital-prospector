@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-void Game::inSpaceLoop()
+void Game::inSpaceLoop(float deltaTime)
 {
 
     sf::Vector2i screenMousePosition = sf::Mouse::getPosition(window);
@@ -29,7 +29,7 @@ void Game::inSpaceLoop()
             if (event.key.code == sf::Keyboard::E)
             {
                 if (inStationRange)
-                    changeState(GameState::InStation);
+                    targetGameState = GameState::InStation;
             }
 
             if (event.key.code == sf::Keyboard::H)
@@ -65,14 +65,13 @@ void Game::inSpaceLoop()
         }
         else if (pauseMenuButtons.isButtonPressed("quit"))
         {
-            changeState(GameState::MainMenu);
+            targetGameState = GameState::MainMenu;
         }
     }
     
 
     // Logic
-
-    float deltaTime = clock.restart().asSeconds();
+    
     sf::Vector2f drawOffset = Camera::getDrawOffset();
 
     if (!paused)
@@ -222,8 +221,6 @@ void Game::inSpaceLoop()
 
     }
 
-    window.display();
-
 }
 
 void Game::drawMissionProgress(float deltaTime)
@@ -309,6 +306,6 @@ void Game::travelToPlanet(PlanetType planet)
 
     travelTime = TRAVEL_TIME;
 
-    changeState(GameState::Travelling);
+    targetGameState = GameState::Travelling;
 
 }

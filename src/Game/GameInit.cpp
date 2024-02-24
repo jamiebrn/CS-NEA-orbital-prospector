@@ -73,6 +73,9 @@ bool Game::initialise()
 
     initUI();
 
+    targetGameState = GameState::MainMenu;
+    gameStateTransitionTimer = 0.0f;
+
     changeState(GameState::MainMenu);
 
     titleBackgroundSubRectPos = sf::Vector2i(rand() % static_cast<int>(WORLD_WIDTH), rand() % static_cast<int>(WORLD_HEIGHT));

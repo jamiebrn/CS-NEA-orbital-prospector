@@ -42,7 +42,7 @@ public:
 
     void update(float deltaTime);
 
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window, bool addCameraOffset = true);
 
     void setPlanetType(PlanetType newType);
     void setPosition(sf::Vector2f newPosition);

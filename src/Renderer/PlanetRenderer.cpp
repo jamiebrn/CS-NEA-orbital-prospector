@@ -36,7 +36,7 @@ void PlanetRenderer::update(float deltaTime)
     }
 }
 
-void PlanetRenderer::draw(sf::RenderWindow& window)
+void PlanetRenderer::draw(sf::RenderWindow& window, bool addCameraOffset)
 {
 
     PlanetSheetData sheetData = planetTextureMap.at(type);
@@ -44,10 +44,13 @@ void PlanetRenderer::draw(sf::RenderWindow& window)
 
     TextureDrawData drawData = {
         textureType,
-        position + Camera::getDrawOffset() / PLANET_DEPTH_DIVIDE,
+        position,
         sf::degrees(0),
         scale
     };
+
+    if (addCameraOffset)
+        drawData.position += Camera::getDrawOffset() / PLANET_DEPTH_DIVIDE;
 
     sf::Vector2u frameSize = TextureManager::getTextureSize(textureType);
     frameSize.x /= sheetData.xFrames;

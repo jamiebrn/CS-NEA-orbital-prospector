@@ -86,10 +86,10 @@ public:
 private:
     void initUI();
 
-    void inMainMenuLoop();
-    void inSpaceLoop();
+    void inMainMenuLoop(float deltaTime);
+    void inSpaceLoop(float deltaTime);
 
-    void inStationLoop();
+    void inStationLoop(float deltaTime);
     void inStationMainSubloop(sf::Vector2f mousePos, bool leftMousePressed);
     void inStationUpgradesSubloop(sf::Vector2f mousePos, bool leftMousePressed);
     void inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed);
@@ -98,7 +98,9 @@ private:
     void inStationLevelSubloop(sf::Vector2f mousePos, bool leftMousePressed);
     void inStationTravelSubloop(sf::Vector2f mousePos, bool leftMousePressed);
 
-    void travellingLoop();
+    void travellingLoop(float deltaTime);
+
+    void drawGameStateTransition(float deltaTime);
 
     void changeState(GameState newState);
 
@@ -121,6 +123,9 @@ private:
     sf::View view;
 
     GameState gameState;
+    GameState targetGameState;
+    float gameStateTransitionTimer;
+
     StationMenuState stationMenuState;
     
     sf::Vector2i titleBackgroundSubRectPos;

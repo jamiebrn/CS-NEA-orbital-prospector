@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "DrawableObject.hpp"
+#include "Constants.hpp"
 #include "Camera.hpp"
 #include "Helper.hpp"
 #include "Manager/TextureManager.hpp"
@@ -17,10 +18,21 @@
 #include "Objects/HealthBar.hpp"
 #include "Objects/PlayerShip.hpp"
 
-enum class EnemyShipBehaviour
+enum class EnemyShipBehaviourState
 {
-    Idle,
-    Attack,
+    Patrol,
+    TargetItem,
+    TargetPlayer,
+    AttackPlayer,
+    FleePlayer
+};
+
+struct EnemyShipPersonality
+{
+    float curiosity;
+    float courage;
+    float enthusiasm;
+    float greed;
 };
 
 struct EnemyShipData
@@ -29,8 +41,8 @@ struct EnemyShipData
     float velx, vely;
     float rot;
     int hp;
-    unsigned long long id;
-    EnemyShipBehaviour behaviourState;
+    uint64_t id;
+    EnemyShipBehaviourState behaviourState;
 
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(
         EnemyShipData,
@@ -68,8 +80,15 @@ public:
     unsigned long long getID() const;
 
 private:
-    void updateIdle(const PlayerShip& playerShip, float deltaTime);
-    void updateAttack(const PlayerShip& playerShip, const std::vector<EnemyShip>& ships, float deltaTime);
+    void updatePatrol(const PlayerShip& playerShip, float deltaTime);
+    void updateTargetItem(const PlayerShip& playerShip, float deltaTime);
+    void updateTargetPlayer(const PlayerShip& playerShip, float deltaTime);
+    void updateAttackPlayer(const PlayerShip& playerShip, float deltaTime);
+    void updateFleePlayer(const PlayerShip& playerShip, float deltaTime);
+
+    void avoidOtherShips(const std::vector<EnemyShip>& ships);
+
+    void randomisePatrolTarget();
 
     void damage(int amount);
 
@@ -105,13 +124,15 @@ private:
 
     static constexpr float MAX_FLASH_TIME = 0.2;
 
-    unsigned long long id;
+    uint64_t id;
 
     sf::Vector2f position, velocity;
     sf::Angle rotation;
     sf::Angle destRotation;
 
-    EnemyShipBehaviour behaviourState;
+    EnemyShipBehaviourState behaviourState;
+    EnemyShipPersonality personality;
+    sf::Vector2f patrolTarget;
 
     int health;
     HealthBar healthBar;

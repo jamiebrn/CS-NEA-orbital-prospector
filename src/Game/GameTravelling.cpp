@@ -1,14 +1,12 @@
 #include "Game.hpp"
 
-void Game::travellingLoop()
+void Game::travellingLoop(float deltaTime)
 {
-
-    float deltaTime = clock.restart().asSeconds();
 
     travelTime -= deltaTime;
 
     if (travelTime <= 0)
-        changeState(GameState::InSpace);
+        targetGameState = GameState::InSpace;
     
     window.clear();
 
@@ -23,7 +21,5 @@ void Game::travellingLoop()
         true,
         true
     });
-
-    window.display();
 
 }

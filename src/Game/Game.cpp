@@ -6,26 +6,32 @@ void Game::mainLoop()
     while (window.isOpen())
     {
 
+        float deltaTime = clock.restart().asSeconds();
+
         switch (gameState)
         {
 
 		case GameState::MainMenu:
-			inMainMenuLoop();
+			inMainMenuLoop(deltaTime);
 			break;
 		
 		case GameState::InSpace:
-			inSpaceLoop();
+			inSpaceLoop(deltaTime);
 			break;
 		
 		case GameState::InStation:
-			inStationLoop();
+			inStationLoop(deltaTime);
 			break;
 
         case GameState::Travelling:
-            travellingLoop();
+            travellingLoop(deltaTime);
             break;
 
         }
+
+        drawGameStateTransition(deltaTime);
+
+        window.display();
 
     }
 
@@ -49,6 +55,33 @@ void Game::changeState(GameState newState)
     }
 
     gameState = newState;
+
+}
+
+void Game::drawGameStateTransition(float deltaTime)
+{
+
+    sf::RectangleShape fadeRect(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+
+    fadeRect.setPosition(sf::Vector2f(0, 0));
+    fadeRect.setFillColor(sf::Color(0, 0, 0, (gameStateTransitionTimer / GAME_STATE_TRANSITION_TIME) * 255));
+
+    if (gameStateTransitionTimer > 0)
+        window.draw(fadeRect);
+    
+    if (targetGameState != gameState)
+    {
+        gameStateTransitionTimer += deltaTime;
+
+        if (gameStateTransitionTimer >= GAME_STATE_TRANSITION_TIME)
+        {
+            changeState(targetGameState);
+        }
+
+        return;
+    }
+    
+    gameStateTransitionTimer = std::max(gameStateTransitionTimer - deltaTime, 0.0f);
 
 }
 

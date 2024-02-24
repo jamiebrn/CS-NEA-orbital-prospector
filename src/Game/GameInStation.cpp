@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-void Game::inStationLoop()
+void Game::inStationLoop(float deltaTime)
 {
 
     // UI
@@ -39,9 +39,6 @@ void Game::inStationLoop()
 
     }
 
-
-    float deltaTime = clock.restart().asSeconds();
-
     window.clear();
 
     switch (stationMenuState)
@@ -78,8 +75,6 @@ void Game::inStationLoop()
     }
 
     TextRenderer::drawText(window, {"Space Station", sf::Vector2f(WINDOW_WIDTH / 2, 10), sf::Color(255, 255, 255), 100, sf::Color(0, 0, 0), 4, true});
-
-    window.display();
 
 }
 
@@ -128,7 +123,7 @@ void Game::inStationMainSubloop(sf::Vector2f mousePos, bool leftMousePressed)
         }
         else if (stationMenuButtons.isButtonPressed("return"))
         {
-            changeState(GameState::InSpace);
+            targetGameState = GameState::InSpace;
         }
     }
 
