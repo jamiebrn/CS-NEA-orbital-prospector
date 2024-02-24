@@ -12,6 +12,7 @@
 #include "Helper.hpp"
 #include "Manager/TextureManager.hpp"
 #include "Manager/InventoryManager.hpp"
+#include "Manager/ItemPickupManager.hpp"
 #include "Manager/BulletManager.hpp"
 #include "Manager/SoundManager.hpp"
 #include "Manager/MissionManager.hpp"
@@ -134,7 +135,7 @@ private:
     EnemyShipPersonality personality;
     sf::Vector2f patrolTarget;
 
-    int health;
+    float health;
     HealthBar healthBar;
 
     float shootCooldown;

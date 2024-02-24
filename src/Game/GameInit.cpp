@@ -19,7 +19,8 @@ bool Game::initialise()
     sf::Vector2u monitorRes = sf::VideoMode::getDesktopMode().size;
     window.create(sf::VideoMode(monitorRes), WINDOW_TITLE, sf::Style::Fullscreen);
 
-    window.setFramerateLimit(240);
+    window.setVerticalSyncEnabled(true);
+    //window.setFramerateLimit(240);
 
     PhysFsStream iconTextureStream;
     if (!iconTextureStream.open(ICON_PATH))

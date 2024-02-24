@@ -147,10 +147,32 @@ void EnemyShip::update(const PlayerShip& playerShip, const std::vector<EnemyShip
 
 void EnemyShip::updatePatrol(const PlayerShip& playerShip, float deltaTime)
 {
+
+    // State switching
+    if (static_cast<float>(health) / MAX_HEALTH < 0.2)
+        behaviourState = EnemyShipBehaviourState::FleePlayer;
+    
+    for (ItemPickup item : ItemPickupManager::getPickups())
+    {
+        if ((item.getPosition() - position).lengthSq() <= 1500 * 1500)
+        {
+            patrolTarget = item.getPosition();
+            behaviourState = EnemyShipBehaviourState::TargetItem;
+        }
+    }
+
+    if ((position - playerShip.getPosition()).lengthSq() <= 800 * 800)
+    {
+        behaviourState = EnemyShipBehaviourState::TargetPlayer;
+    }
+
     sf::Angle destRotation = (position - patrolTarget).angle();
     rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * deltaTime);
 
-    velocity = sf::Vector2f(0, -1).rotatedBy(rotation) * SPEED;
+    velocity = sf::Vector2f(-1, 0).rotatedBy(rotation) * SPEED;
+
+    if ((position - patrolTarget).lengthSq() < 100)
+        randomisePatrolTarget();
 
     engineActive = true;
 }
@@ -163,11 +185,41 @@ void EnemyShip::randomisePatrolTarget()
 
 void EnemyShip::updateTargetItem(const PlayerShip& playerShip, float deltaTime)
 {
+    sf::Angle destRotation = (position - patrolTarget).angle();
+    rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * deltaTime);
 
+    velocity = sf::Vector2f(-1, 0).rotatedBy(rotation) * SPEED;
+
+    if (static_cast<float>(health) / MAX_HEALTH < 0.2)
+        behaviourState = EnemyShipBehaviourState::FleePlayer;
+
+    if ((position - patrolTarget).lengthSq() < 100)
+    {
+        behaviourState = EnemyShipBehaviourState::Patrol;
+        randomisePatrolTarget();
+    }
+
+    ItemPickupManager::testCollectedPickups(position, 20);
+
+    engineActive = true;
 }
 
 void EnemyShip::updateTargetPlayer(const PlayerShip& playerShip, float deltaTime)
 {
+
+    if (static_cast<float>(health) / MAX_HEALTH < 0.2)
+        behaviourState = EnemyShipBehaviourState::FleePlayer;
+
+    if ((position - playerShip.getPosition()).lengthSq() > 800 * 800)
+    {
+        behaviourState = EnemyShipBehaviourState::Patrol;
+        randomisePatrolTarget();
+    }
+
+    sf::Angle destRotation = (position - playerShip.getPosition()).angle();
+    rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * deltaTime);
+
+    velocity = sf::Vector2f(-1, 0).rotatedBy(rotation) * SPEED;
 
 }
 
@@ -178,7 +230,19 @@ void EnemyShip::updateAttackPlayer(const PlayerShip& playerShip, float deltaTime
 
 void EnemyShip::updateFleePlayer(const PlayerShip& playerShip, float deltaTime)
 {
+    sf::Angle destRotation = (playerShip.getPosition() - position).angle();
+    rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * deltaTime);
 
+    velocity = sf::Vector2f(-1, 0).rotatedBy(rotation) * SPEED * 1.5f;
+
+    if (static_cast<float>(health) / MAX_HEALTH >= 0.5)
+    {
+        randomisePatrolTarget();
+        behaviourState = EnemyShipBehaviourState::Patrol;
+    }
+
+    health = std::min(health + deltaTime, static_cast<float>(MAX_HEALTH));
+    healthBar.updateValue(health);
 }
 
 void EnemyShip::avoidOtherShips(const std::vector<EnemyShip>& ships)
@@ -328,11 +392,19 @@ void EnemyShip::draw(sf::RenderWindow& window)
         drawDestroyed(window);
     }
 
+    sf::Vector2f drawOffset = Camera::getDrawOffset();
+
+    sf::Vertex line[] = {sf::Vertex(position + drawOffset), sf::Vertex(patrolTarget + drawOffset)};
+    window.draw(line, 2, sf::PrimitiveType::Lines);
+
 }
 
 
 void EnemyShip::drawAlive(sf::RenderWindow& window)
 {
+
+    if (!Camera::isInView(position, sf::Vector2f(150, 150)))
+        return;
 
     sf::Vector2f drawOffset = Camera::getDrawOffset();
 
@@ -341,7 +413,7 @@ void EnemyShip::drawAlive(sf::RenderWindow& window)
         TextureDrawData engineDrawData = {
             TextureType::EnemyShipEngine,
             position + drawOffset,
-            rotation,
+            rotation - sf::degrees(90),
             SCALE
         };
 
@@ -353,7 +425,7 @@ void EnemyShip::drawAlive(sf::RenderWindow& window)
     TextureDrawData drawData = {
         TextureType::EnemyShip,
         position + drawOffset,
-        rotation,
+        rotation - sf::degrees(90),
         SCALE
     };
 
@@ -366,7 +438,7 @@ void EnemyShip::drawAlive(sf::RenderWindow& window)
         drawData = {
             TextureType::EnemyShipFlash,
             position + drawOffset,
-            rotation,
+            rotation - sf::degrees(90),
             SCALE,
             true,
             sf::Color(255, 255, 255, flashAlpha)
@@ -389,7 +461,7 @@ void EnemyShip::drawDestroyed(sf::RenderWindow& window)
     TextureDrawData destroyedDrawData = {
         TextureType::EnemyShipDestroyed,
         position + drawOffset,
-        rotation,
+        rotation - sf::degrees(90),
         SCALE
     };
 
