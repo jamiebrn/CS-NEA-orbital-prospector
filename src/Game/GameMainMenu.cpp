@@ -115,7 +115,7 @@ void Game::newGame()
         AsteroidManager::createAsteroid(position);
     }
 
-    //EnemyShipManager::addShip(EnemyShip(sf::Vector2f(5000, 4000)));
+    EnemyShipManager::addShip(EnemyShip(sf::Vector2f(5000, 4000)));
 
     MissionManager::rerollAllMissions();
 

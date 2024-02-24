@@ -103,6 +103,16 @@ bool SoundManager::loadSounds(sf::RenderWindow& window)
     return true;
 }
 
+void SoundManager::unloadSounds()
+{
+    loadedSounds = false;
+
+    soundMap.clear();
+    soundBufferMap.clear();
+    musicMap.clear();
+    musicStreamMap.clear();
+}
+
 void SoundManager::playSound(SoundType type)
 {
     if (!loadedSounds)

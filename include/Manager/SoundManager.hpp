@@ -36,6 +36,7 @@ private:
 
 public:
     static bool loadSounds(sf::RenderWindow& window);
+    static void unloadSounds();
 
     static void playSound(SoundType type);
 

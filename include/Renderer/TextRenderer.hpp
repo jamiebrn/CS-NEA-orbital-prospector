@@ -27,12 +27,14 @@ private:
 
 public:
     static bool loadFont(std::string path);
+    static void unloadFont();
 
     static void drawText(sf::RenderWindow& window, TextDrawData drawData);
 
 private:
     static PhysFsStream fontStream;
 
+    static bool loadedFont;
     static sf::Font font;
     static sf::Text text;
 

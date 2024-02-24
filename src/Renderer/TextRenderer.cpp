@@ -1,26 +1,45 @@
 #include "Renderer/TextRenderer.hpp"
 
 PhysFsStream TextRenderer::fontStream;
+bool TextRenderer::loadedFont = false;
 sf::Font TextRenderer::font;
 sf::Text TextRenderer::text;
 
 bool TextRenderer::loadFont(std::string path)
 {
 
+    loadedFont = false;
+
     if (!fontStream.open(path.c_str()))
     {
         return false;
     }   
 
-    bool successful = font.loadFromStream(fontStream);
+    if (!font.loadFromStream(fontStream))
+    {
+        return false;
+    }
+
+    loadedFont = true;
+
     font.setSmooth(false);
     text.setFont(font);
-    return successful;
+    return true;
     
 }
 
-void TextRenderer::drawText(sf::RenderWindow& window, TextDrawData drawData) {
-    
+void TextRenderer::unloadFont()
+{
+    loadedFont = false;
+    fontStream.close();
+}
+
+void TextRenderer::drawText(sf::RenderWindow& window, TextDrawData drawData)
+{
+
+    if (!loadedFont)
+        return;
+
     text.setString(drawData.text);
     text.setPosition(drawData.position);
     text.setFillColor(drawData.colour);

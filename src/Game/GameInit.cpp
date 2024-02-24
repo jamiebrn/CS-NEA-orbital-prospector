@@ -102,6 +102,14 @@ bool Game::initialise()
 
 }
 
+void Game::deinitialise()
+{
+
+    TextRenderer::unloadFont();
+    SoundManager::unloadSounds();
+
+}
+
 void Game::initUI()
 {
 

@@ -17,6 +17,8 @@ int main(int argc, char* argv[])
 
     game.mainLoop();
 
+    game.deinitialise();
+
     PHYSFS_deinit();
 
     return 0;

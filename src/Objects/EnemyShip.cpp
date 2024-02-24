@@ -147,10 +147,10 @@ void EnemyShip::update(const PlayerShip& playerShip, const std::vector<EnemyShip
 
 void EnemyShip::updatePatrol(const PlayerShip& playerShip, float deltaTime)
 {
-    sf::Angle destRotation = (position - patrolTarget).angle() + sf::degrees(90);
+    sf::Angle destRotation = (position - patrolTarget).angle();
     rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * deltaTime);
 
-    velocity = sf::Vector2f(1, 0).rotatedBy(rotation) * SPEED;
+    velocity = sf::Vector2f(0, -1).rotatedBy(rotation) * SPEED;
 
     engineActive = true;
 }

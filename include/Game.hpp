@@ -83,6 +83,8 @@ public:
 
     void mainLoop();
 
+    void deinitialise();
+
 private:
     void initUI();
 
