@@ -20,6 +20,7 @@ void AsteroidManager::updateAsteroids(PlanetType currentPlanet, float deltaTime)
 
     lastSpawn += deltaTime;
 
+
     if (lastSpawn >= SPAWN_COOLDOWN)
     {
         lastSpawn = 0;
@@ -38,7 +39,8 @@ void AsteroidManager::updateAsteroids(PlanetType currentPlanet, float deltaTime)
             if (position.x > minX && position.y > minY && position.x < maxX && position.y < maxY)
                 continue;
             
-            AsteroidManager::createAsteroid(position);
+            createAsteroid(position);
+            sortAsteroids();
         }
     }
 
@@ -52,6 +54,7 @@ void AsteroidManager::updateAsteroids(PlanetType currentPlanet, float deltaTime)
         if (!asteroidIter->get()->isAlive())
         {
             asteroidIter = asteroids.erase(asteroidIter);
+            sortAsteroids();
         }
         else
         {
@@ -59,13 +62,18 @@ void AsteroidManager::updateAsteroids(PlanetType currentPlanet, float deltaTime)
         }
     }
 
-    std::sort(asteroids.begin(), asteroids.end(),
+
+}
+
+void AsteroidManager::sortAsteroids()
+{
+
+    std::stable_sort(asteroids.begin(), asteroids.end(),
         [](std::unique_ptr<Asteroid> const& asteroid, std::unique_ptr<Asteroid> const& asteroid2)
         {
             return asteroid->getDepth() > asteroid2->getDepth();
         }
     );
-
 
 }
 

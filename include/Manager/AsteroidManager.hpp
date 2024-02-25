@@ -22,6 +22,8 @@ public:
 
     static void updateAsteroids(PlanetType currentPlanet, float deltaTime);
 
+    static void sortAsteroids();
+    
     static void drawAsteroids(sf::RenderWindow& window);
 
     static void reset();

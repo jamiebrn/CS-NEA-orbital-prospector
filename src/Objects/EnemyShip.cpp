@@ -114,7 +114,7 @@ void EnemyShip::update(const PlayerShip& playerShip, const std::vector<EnemyShip
             sf::Vector2f bulletPos = bullet.getPosition();
             if (isBulletColliding(bulletPos))
             {
-                damage(1);
+                damage(1, playerShip);
                 bullet.kill();
             }
         }
@@ -140,6 +140,7 @@ void EnemyShip::update(const PlayerShip& playerShip, const std::vector<EnemyShip
     hitboxPosition = position + hitboxOffset;
 
     flashTime = std::max(flashTime - deltaTime, 0.0f);
+    shootCooldown = std::max(shootCooldown - deltaTime, 0.0f);
 
     healthBar.update(deltaTime);
 
@@ -161,7 +162,7 @@ void EnemyShip::updatePatrol(const PlayerShip& playerShip, float deltaTime)
         }
     }
 
-    if ((position - playerShip.getPosition()).lengthSq() <= 800 * 800)
+    if (playerShip.isAlive() && (position - playerShip.getPosition()).lengthSq() <= 800 * 800)
     {
         behaviourState = EnemyShipBehaviourState::TargetPlayer;
     }
@@ -193,6 +194,11 @@ void EnemyShip::updateTargetItem(const PlayerShip& playerShip, float deltaTime)
     if (static_cast<float>(health) / MAX_HEALTH < 0.2)
         behaviourState = EnemyShipBehaviourState::FleePlayer;
 
+    if ((position - playerShip.getPosition()).lengthSq() <= 800 * 800)
+    {
+        behaviourState = EnemyShipBehaviourState::TargetPlayer;
+    }
+
     if ((position - patrolTarget).lengthSq() < 100)
     {
         behaviourState = EnemyShipBehaviourState::Patrol;
@@ -210,11 +216,21 @@ void EnemyShip::updateTargetPlayer(const PlayerShip& playerShip, float deltaTime
     if (static_cast<float>(health) / MAX_HEALTH < 0.2)
         behaviourState = EnemyShipBehaviourState::FleePlayer;
 
-    if ((position - playerShip.getPosition()).lengthSq() > 800 * 800)
+    float playerDistSq = (position - playerShip.getPosition()).lengthSq();
+
+    if (playerDistSq > 800 * 800)
     {
         behaviourState = EnemyShipBehaviourState::Patrol;
         randomisePatrolTarget();
     }
+
+    if (playerDistSq <= 600 * 600)
+    {
+        behaviourState = EnemyShipBehaviourState::AttackPlayer;
+    }
+
+    if (!playerShip.isAlive())
+        behaviourState = EnemyShipBehaviourState::Patrol;
 
     sf::Angle destRotation = (position - playerShip.getPosition()).angle();
     rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * deltaTime);
@@ -226,6 +242,28 @@ void EnemyShip::updateTargetPlayer(const PlayerShip& playerShip, float deltaTime
 void EnemyShip::updateAttackPlayer(const PlayerShip& playerShip, float deltaTime)
 {
 
+    if (static_cast<float>(health) / MAX_HEALTH < 0.2)
+        behaviourState = EnemyShipBehaviourState::FleePlayer;
+
+    if ((position - playerShip.getPosition()).lengthSq() > 600 * 600)
+    {
+        behaviourState = EnemyShipBehaviourState::TargetPlayer;
+    }
+
+    if (!playerShip.isAlive())
+        behaviourState = EnemyShipBehaviourState::Patrol;
+
+    sf::Angle destRotation = (position - playerShip.getPosition()).angle();
+    rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * 1.2f * deltaTime);
+
+    velocity = sf::Vector2f(-1, 0).rotatedBy(rotation) * SPEED * 1.4f;
+
+    if (shootCooldown <= 0)
+    {
+        shootCooldown = SHOOT_COOLDOWN;
+        shoot();
+    }
+
 }
 
 void EnemyShip::updateFleePlayer(const PlayerShip& playerShip, float deltaTime)
@@ -233,7 +271,7 @@ void EnemyShip::updateFleePlayer(const PlayerShip& playerShip, float deltaTime)
     sf::Angle destRotation = (playerShip.getPosition() - position).angle();
     rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * deltaTime);
 
-    velocity = sf::Vector2f(-1, 0).rotatedBy(rotation) * SPEED * 1.5f;
+    velocity = sf::Vector2f(-1, 0).rotatedBy(rotation) * SPEED * 2.0f;
 
     if (static_cast<float>(health) / MAX_HEALTH >= 0.5)
     {
@@ -317,14 +355,14 @@ bool EnemyShip::isBulletColliding(sf::Vector2f bulletPos)
 
 void EnemyShip::shoot()
 {
-    sf::Vector2f offset = sf::Vector2f(0, -6 * SCALE).rotatedBy(rotation);
-    BulletManager::createEnemyBullet(position + offset, rotation);
+    sf::Vector2f offset = sf::Vector2f(-6 * SCALE, 0).rotatedBy(rotation);
+    BulletManager::createEnemyBullet(position + offset, rotation - sf::degrees(90));
 
     SoundManager::playSound(SoundType::EnemyShoot);
 }
 
 
-void EnemyShip::damage(int amount)
+void EnemyShip::damage(int amount, const PlayerShip& playerShip)
 {
 
     if (!isAlive())
@@ -333,6 +371,8 @@ void EnemyShip::damage(int amount)
     flashTime = MAX_FLASH_TIME;
 
     health -= amount;
+
+    patrolTarget = playerShip.getPosition();
 
     if (isAlive())
         healthBar.updateValue(health);

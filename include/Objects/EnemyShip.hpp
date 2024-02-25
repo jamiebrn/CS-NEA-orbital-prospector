@@ -91,7 +91,7 @@ private:
 
     void randomisePatrolTarget();
 
-    void damage(int amount);
+    void damage(int amount, const PlayerShip& playerShip);
 
     void shoot();
 

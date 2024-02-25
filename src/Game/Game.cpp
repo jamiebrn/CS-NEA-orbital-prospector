@@ -132,6 +132,8 @@ LoadDataSuccess Game::loadData()
             AsteroidManager::insertAsteroid(std::move(asteroid));
         }
 
+        AsteroidManager::sortAsteroids();
+
         std::vector<EnemyShipData> enemyShipDatas = saveData.at("enemyShips");
         for (EnemyShipData data : enemyShipDatas)
         {
