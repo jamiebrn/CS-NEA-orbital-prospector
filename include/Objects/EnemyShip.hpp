@@ -28,14 +28,6 @@ enum class EnemyShipBehaviourState
     FleePlayer
 };
 
-struct EnemyShipPersonality
-{
-    float curiosity;
-    float courage;
-    float enthusiasm;
-    float greed;
-};
-
 struct EnemyShipData
 {
     float x, y;
@@ -132,7 +124,6 @@ private:
     sf::Angle destRotation;
 
     EnemyShipBehaviourState behaviourState;
-    EnemyShipPersonality personality;
     sf::Vector2f patrolTarget;
 
     float health;

@@ -119,6 +119,8 @@ LoadDataSuccess Game::loadData()
         InventoryManager::setLevelExp(saveData.at("level").at("progress"));
         InventoryManager::setMaxLevelExp(saveData.at("level").at("max"));
 
+        spaceStation.setOrbitAngle(saveData.at("stationOrbitAngle"));
+
         for (int i = 0; i < 3; i++)
         {
             MissionManager::setMissionData(i, saveData.at("missions").at(i));
@@ -199,6 +201,8 @@ void Game::saveData()
     saveData["level"]["value"] = InventoryManager::getCurrentLevel();
     saveData["level"]["progress"] = InventoryManager::getLevelExp();
     saveData["level"]["max"] = InventoryManager::getMaxLevelExp();
+
+    saveData["stationOrbitAngle"] = spaceStation.getOrbitAngle();
 
     for (int i = 0; i < 3; i++)
     {

@@ -22,6 +22,9 @@ public:
 
     void orbitBody(sf::Vector2f centre, float radius, float speed, float deltaTime);
 
+    void setOrbitAngle(float angle);
+    float getOrbitAngle();
+
     void draw(sf::RenderWindow& window) override;
 
 private:

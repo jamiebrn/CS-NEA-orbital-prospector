@@ -431,11 +431,12 @@ void EnemyShip::draw(sf::RenderWindow& window)
     {
         drawDestroyed(window);
     }
-
+/*
     sf::Vector2f drawOffset = Camera::getDrawOffset();
 
     sf::Vertex line[] = {sf::Vertex(position + drawOffset), sf::Vertex(patrolTarget + drawOffset)};
     window.draw(line, 2, sf::PrimitiveType::Lines);
+*/
 
 }
 
@@ -487,8 +488,11 @@ void EnemyShip::drawAlive(sf::RenderWindow& window)
         TextureManager::drawTexture(window, drawData);
     }
 
-    healthBar.setDrawPosition(sf::Vector2f(position.x - 50, position.y - 50) + drawOffset);
-    healthBar.draw(window);
+    if (health < MAX_HEALTH)
+    {
+        healthBar.setDrawPosition(sf::Vector2f(position.x - 50, position.y - 50) + drawOffset);
+        healthBar.draw(window);
+    }
 
 }
 

@@ -109,6 +109,9 @@ void Game::newGame()
 
     Camera::setOffset(sf::Vector2f(4500, 4000));
 
+    currentPlanet = PlanetType::Earth;
+    mainPlanetRenderer.setPlanetType(currentPlanet);
+
     for (int i = 0; i < ASTEROID_MAX; i++)
     {
         sf::Vector2f position(rand() % static_cast<int>(WORLD_WIDTH), rand() % static_cast<int>(WORLD_HEIGHT));

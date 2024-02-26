@@ -44,6 +44,16 @@ void SpaceStation::orbitBody(sf::Vector2f centre, float radius, float speed, flo
 
 }
 
+void SpaceStation::setOrbitAngle(float angle)
+{
+    orbitAngle = angle;
+}
+
+float SpaceStation::getOrbitAngle()
+{
+    return orbitAngle;
+}
+
 void SpaceStation::draw(sf::RenderWindow& window)
 {
 

@@ -26,7 +26,7 @@ void EnemyShipManager::updateShips(const PlayerShip& playerShip, float deltaTime
     }
 
     lastSpawn += deltaTime;
-    if (lastSpawn >= SPAWN_COOLDOWN)
+    if (lastSpawn >= SPAWN_COOLDOWN && enemyShips.size() < MAX_SHIPS)
     {
         lastSpawn = 0;
 

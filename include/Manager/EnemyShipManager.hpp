@@ -29,7 +29,9 @@ public:
 private:
     static std::vector<EnemyShip> enemyShips;
 
-    static constexpr float SPAWN_COOLDOWN = 10;
+    static constexpr int MAX_SHIPS = 200;
+
+    static constexpr float SPAWN_COOLDOWN = 20;
 
     static float lastSpawn;
 

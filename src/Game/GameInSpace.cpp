@@ -204,6 +204,9 @@ void Game::inSpaceLoop(float deltaTime)
 
     text = std::to_string(AsteroidManager::getAsteroids().size()) + " Asteroids";
     TextRenderer::drawText(window, {text, sf::Vector2f(20, 195), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
+
+    text = std::to_string(EnemyShipManager::getShips().size()) + " enemy ships";
+    TextRenderer::drawText(window, {text, sf::Vector2f(20, 215), sf::Color(255, 255, 255), 25, sf::Color(0, 0, 0), 1});
     
 
     // Pause menu
@@ -293,6 +296,8 @@ void Game::travelToPlanet(PlanetType planet)
     playerShip.setPosition(sf::Vector2f(5000, 5000));
     Camera::setOffset(sf::Vector2f(5000, 5000));
 
+    spaceStation.setOrbitAngle(rand() % 360);
+
     AsteroidManager::reset();
     BulletManager::reset();
     ItemPickupManager::reset();
@@ -303,6 +308,8 @@ void Game::travelToPlanet(PlanetType planet)
         sf::Vector2f position(rand() % static_cast<int>(WORLD_WIDTH), rand() % static_cast<int>(WORLD_HEIGHT));
         AsteroidManager::createAsteroid(position);
     }
+
+    AsteroidManager::sortAsteroids();
 
     travelTime = TRAVEL_TIME;
 
