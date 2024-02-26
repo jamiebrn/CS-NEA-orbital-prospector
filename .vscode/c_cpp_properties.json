@@ -6,8 +6,7 @@
                 "${default}",
                 "${workspaceFolder}/include",
                 "${workspaceFolder}/build/_deps/sfml-src/include",
-                "${workspaceFolder}/build/_deps/sfml-src/include",
-                "C:/Users/jamzp/Dev/physfs-release-3.2.0/src"
+                "${workspaceFolder}/build/_deps/physfs-src/src"
             ],
             "defines": [
                 "_DEBUG",

@@ -1,17 +1,15 @@
-//
 // TextureManager.hpp
-// 
-// Static class containing all loaded texture data, functions to load the texture data, and draw the textures to the screen.
-//
 
 #ifndef TEXTURE_MANAGER_HPP
 #define TEXTURE_MANAGER_HPP
 
+// Include libraries
 #include <SFML/Graphics.hpp>
 #include <PhysFsStream.hpp>
 #include <unordered_map>
 #include <string>
 
+// Include headers
 #include "Renderer/TextRenderer.hpp"
 #include "Constants.hpp"
 
@@ -75,11 +73,17 @@ enum class TextureType
 // Struct containing data required to draw texture
 struct TextureDrawData
 {
+    // Type of texture
     TextureType type;
+    // Draw position on screen
     sf::Vector2f position;
+    // Rotation
     sf::Angle rotation;
+    // Scale
     float scale;
+    // Whether texture should be drawn centred about its position
     bool centered = true;
+    // The base colour the texture should be drawn in (white in most cases)
     sf::Color colour = sf::Color(255, 255, 255);
 };
 
@@ -94,28 +98,35 @@ private:
 
 // Public functions
 public:
+    // Load all textures into memory
     static bool loadTextures(sf::RenderWindow& window);
 
+    // Draw texture using draw data
     static void drawTexture(sf::RenderWindow& window, TextureDrawData drawData);
 
+    // Draw a section of a texture using draw data
     static void drawSubTexture(sf::RenderWindow& window, TextureDrawData drawData, sf::IntRect boundRect);
 
+    // Get the size of a specific texture (width x height)
     inline static sf::Vector2u getTextureSize(TextureType type) {return textureMap.at(type).getSize();}
 
 // Private functions
 private:
+    // Apply draw data before drawing a texture
     static void applyTextureData(TextureDrawData drawData);
 
 // Private member variables
 private:
+    // Stores whether textures have been loaded
     static bool loadedTextures;
 
     // Stores loaded textures
     static std::unordered_map<TextureType, sf::Texture> textureMap;
 
+    // Stores sprites, which provide an interface over the textures
     static std::unordered_map<TextureType, sf::Sprite> spriteMap;
 
-    // Stores relative path to each texture, so each texture can be loaded
+    // Stores file path to each texture, so each texture can be loaded
     static const std::unordered_map<TextureType, std::string> texturePaths;
 
 };
