@@ -1,6 +1,8 @@
+// PlayerShip.cpp
+
 #include "Objects/PlayerShip.hpp"
 
-// Initialise player ship object
+// Constructor taking in position as parameter
 PlayerShip::PlayerShip(sf::Vector2f position)
 {
 
@@ -125,6 +127,7 @@ void PlayerShip::update(float deltaTime, sf::Vector2f mouse_position)
 
 }
 
+// Respawn
 void PlayerShip::respawn()
 {
 
@@ -133,6 +136,7 @@ void PlayerShip::respawn()
 
 }
 
+// Damage player ship by amount
 void PlayerShip::damage(int amount)
 {
 
@@ -150,6 +154,7 @@ void PlayerShip::damage(int amount)
 
 }
 
+// Shoot bullets
 void PlayerShip::shootBullets()
 {
 
@@ -164,7 +169,7 @@ void PlayerShip::shootBullets()
 
 }
 
-// Draw player ship object at position and rotation through texture manager
+// Draw player ship
 void PlayerShip::draw(sf::RenderWindow& window)
 {
 

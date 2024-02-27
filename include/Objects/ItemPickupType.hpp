@@ -1,11 +1,16 @@
+// ItemPickupType.hpp
+
 #ifndef ITEM_PICKUP_TYPE_HPP
 #define ITEM_PICKUP_TYPE_HPP
 
+// Include libraries
 #include <map>
 #include <json.hpp>
 
+// Include headers
 #include "Manager/TextureManager.hpp"
 
+// Enum containing all possible items types
 enum ItemPickupType
 {
     Rock,
@@ -22,6 +27,7 @@ enum ItemPickupType
     NONE
 };
 
+// Constant hash map, which maps each item pickup type to its corresponding texture
 const std::map<ItemPickupType, TextureType> itemTextureMap = {
     {ItemPickupType::Rock, TextureType::PickupRock},
     {ItemPickupType::CopperChunk, TextureType::PickupCopperChunk},
