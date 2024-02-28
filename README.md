@@ -1,6 +1,8 @@
 # Orbital Prospector
 Game made for A-Level Computer Science NEA.
 
+Build with CMake using Ninja build system
+
 ### Libraries used
  - [SFML](https://github.com/SFML/SFML)
  - [Nlohmann's JSON](https://github.com/nlohmann/json)
