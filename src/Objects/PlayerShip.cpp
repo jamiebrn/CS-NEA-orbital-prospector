@@ -45,7 +45,7 @@ void PlayerShip::update(float deltaTime, sf::Vector2f mouse_position)
     float toMouseAngle = std::atan2(mouse_position.y - position.y - drawOffset.y, mouse_position.x - position.x - drawOffset.x);
 
     // Calculate rotation
-    sf::Angle destination_direction = sf::radians(toMouseAngle + PI / 2);
+    sf::Angle destination_direction = sf::radians(toMouseAngle) + sf::degrees(90);
     sf::Angle current_direction = Helper::lerpAngle(sf::radians(direction), destination_direction, ROTATION_LERP_WEIGHT * deltaTime);
 
     // Update rotation

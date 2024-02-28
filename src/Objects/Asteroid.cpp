@@ -302,7 +302,7 @@ sf::Vector2f Asteroid::getNormalisedPosition()
     sf::Vector2f drawOffset = Camera::getDrawOffset();
 
     // Calculate depth normalised position by utilising the unproject depth function
-    sf::Vector2f normalisedPosition = position + drawOffset * Helper::unprojectDepthMultipier(depth, 1);
+    sf::Vector2f normalisedPosition = position + drawOffset * Helper::unprojectDepthMultiplier(depth, 1);
 
     // Return the calculated normalise position
     return normalisedPosition;

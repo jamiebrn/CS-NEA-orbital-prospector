@@ -43,7 +43,6 @@
 #include "Manager/MissionManager.hpp"
 
 #include "UI/UIButton.hpp"
-#include "UI/UISellItemBar.hpp"
 #include "UI/UITradeItemBar.hpp"
 #include "UI/UIButtonGroup.hpp"
 

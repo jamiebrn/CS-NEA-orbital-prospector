@@ -86,7 +86,7 @@ void Game::inSpaceLoop(float deltaTime)
 
         AsteroidManager::updateAsteroids(currentPlanet, deltaTime);
 
-        float unprojectMult = Helper::unprojectDepthMultipier(PLANET_DEPTH_DIVIDE, SPACE_STATION_DEPTH_DIVIDE);
+        float unprojectMult = Helper::unprojectDepthMultiplier(PLANET_DEPTH_DIVIDE, SPACE_STATION_DEPTH_DIVIDE);
         sf::Vector2f planetCentre = mainPlanetRenderer.getPosition();
         planetCentre += drawOffset * unprojectMult;
 
@@ -96,7 +96,7 @@ void Game::inSpaceLoop(float deltaTime)
 
         mainPlanetRenderer.update(deltaTime);
 
-        unprojectMult = Helper::unprojectDepthMultipier(SPACE_STATION_DEPTH_DIVIDE, 1);
+        unprojectMult = Helper::unprojectDepthMultiplier(SPACE_STATION_DEPTH_DIVIDE, 1);
         sf::Vector2f spaceStationPos = spaceStation.getPosition() + drawOffset * unprojectMult;
 
         UIRingManager::update(spaceStationPos, EnemyShipManager::getShips());
@@ -276,7 +276,7 @@ float Game::distanceSqToStation()
 {
 
     sf::Vector2f drawOffset = Camera::getDrawOffset();
-    float unprojStation = Helper::unprojectDepthMultipier(SPACE_STATION_DEPTH_DIVIDE, 1);
+    float unprojStation = Helper::unprojectDepthMultiplier(SPACE_STATION_DEPTH_DIVIDE, 1);
 
     sf::Vector2f stationPos = spaceStation.getPosition();
     stationPos += drawOffset * unprojStation;
