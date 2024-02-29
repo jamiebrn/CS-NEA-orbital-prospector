@@ -1,12 +1,15 @@
+// GameInStation.cpp
+
 #include "Game.hpp"
 
+// Game loop for in space station game state
 void Game::inStationLoop(float deltaTime)
 {
-
-    // UI
+    // Get mouse position
     sf::Vector2i screenMousePosition = sf::Mouse::getPosition(window);
     sf::Vector2f mousePosition = window.mapPixelToCoords(screenMousePosition);
 
+    // Set left mouse pressed to false by default
     bool leftMousePressed = false;
 
     sf::Event event;

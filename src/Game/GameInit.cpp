@@ -1,5 +1,9 @@
+// GameInit.cpp
+
 #include "Game.hpp"
 
+// Constructor
+// Initialise all member variables with non-default constructor
 Game::Game()
     : playerShip(sf::Vector2f(0, 0)),
     spaceStation(sf::Vector2f(700, 1200), sf::degrees(0)),
@@ -11,110 +15,151 @@ Game::Game()
     view(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT))
 {}
 
+// Initialise game, loading all assets into memory and initialising variables
 bool Game::initialise()
 {
-
+    // Set seed for random number generation to current time
     srand((unsigned)time(0));
 
+    // Get resolution of monitor
     sf::Vector2u monitorRes = sf::VideoMode::getDesktopMode().size;
+
+    // Create fullscreen window with same resolution as monitor
     window.create(sf::VideoMode(monitorRes), WINDOW_TITLE, sf::Style::Fullscreen);
 
+    // Enable vsync
     window.setVerticalSyncEnabled(true);
-    //window.setFramerateLimit(240);
 
+    // Create data stream for window icon
     PhysFsStream iconTextureStream;
+    // Attempt to load icon data from path
     if (!iconTextureStream.open(ICON_PATH))
     {
+        // Output error and return false if unsuccessful
         std::cout << "ERROR: Cannot load window icon" << std::endl;
         return false;
     }
 
+    // Attempt to load icon from icon data stream
     if (!iconImage.loadFromStream(iconTextureStream))
     {
+        // Output error and return false if unsuccessful
         std::cout << "ERROR: Cannot load window icon" << std::endl;
         return false;
     }
+
+    // Set window icon to loaded icon image
     window.setIcon(iconImage.getSize(), iconImage.getPixelsPtr());
 
-
+    // Set window view to view created in constructor
     window.setView(view);
-
+    
+    // Attempt to load font from font path
     if (!TextRenderer::loadFont(FONT_PATH))
     {
+        // Output error and return false if unsuccessful
         std::cout << "ERROR: Font has not been loaded correctly" << std::endl;
         return false;
     }
 
+    // Get starting time before loading textures
     auto start = std::chrono::system_clock::now();
 
+    // Attempt to load all textures
     if (!TextureManager::loadTextures(window))
     {
+        // Output error and return false if unsuccessful
         std::cout << "ERROR: Textures have not been loaded correctly" << std::endl;
         return false;
     }
 
+    // Get end time after loading textures
     auto end = std::chrono::system_clock::now();
+
+    // Calculate time taken to load textures and output
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << "Loaded textures in " << elapsed.count() << "ms" << '\n';
 
+    // Get starting time before loading sounds
     start = std::chrono::system_clock::now();
     
+    // Attempt to load all sounds
     if (!SoundManager::loadSounds(window))
     {
+        // Output error and return false if unsuccessful
         std::cout << "ERROR: Sounds have not been loaded correctly" << std::endl;
         return false;
     }
 
-
-
+    // Get end time after loading sounds
     end = std::chrono::system_clock::now();
+
+    // Calculate time taken to load sounds and output
     elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << "Loaded sounds in " << elapsed.count() << "ms" << '\n';
 
-
+    // Initialise all game UI
     initUI();
 
+    // Initialise game state transition
     targetGameState = GameState::MainMenu;
     gameStateTransitionTimer = 0.0f;
 
+    // Initialise game state
     changeState(GameState::MainMenu);
 
+    // Randomise background texture rectangle area to give random background
     titleBackgroundSubRectPos = sf::Vector2i(rand() % static_cast<int>(WORLD_WIDTH), rand() % static_cast<int>(WORLD_HEIGHT));
 
+    // Set title planet renderer data
     titlePlanetRenderer.setPosition(sf::Vector2f(WINDOW_WIDTH * 0.8, WINDOW_HEIGHT * 0.85));
     titlePlanetRenderer.setScale(7);
 
+    // Set main planet renderer data
     mainPlanetRenderer.setPosition(sf::Vector2f(1700, 1700));
     mainPlanetRenderer.setScale(7);
 
+    // Set level bar fill colour
     levelBar.setFillColour(sf::Color(255, 239, 1));
+
+    // Set mission progress bar fill colour
     missionProgress.setFillColour(sf::Color(14, 166, 221));
 
+    // Initialise in space station range to false
     inStationRange = false;
 
+    // Initialise travel timer
     travelTime = 0;
 
+    // Initialise show UI ring variable to true
     showUIRing = true;
+
+    // Initialise pause variable to false
     paused = false;
 
+    // Initialise load data error to false
     loadDataError = false;
 
+    // Return true by default (successful initialisation)
     return true;
 
 }
 
+// Deinitialise game, by freeing all assets from memory
 void Game::deinitialise()
 {
-
+    // Unload font from memory
     TextRenderer::unloadFont();
-    SoundManager::unloadSounds();
 
+    // Unload sounds from memory
+    SoundManager::unloadSounds();
 }
 
+// Initialise all UI elements
 void Game::initUI()
 {
 
-    // Title screen buttons
+    // Define title screen buttons
 
     titleButtons.addButton("new", {
         sf::Vector2f(WINDOW_WIDTH / 2 - 100, 700), sf::Vector2f(200, 70),
@@ -131,7 +176,7 @@ void Game::initUI()
         "Quit", sf::Color(190, 15, 15), sf::Color(220, 20, 20)
     });
 
-    // Pause menu buttons
+    // Define pause menu buttons
 
     pauseMenuButtons.addButton("resume", {
         sf::Vector2f(WINDOW_WIDTH / 2 - 100, 400), sf::Vector2f(200, 70),
@@ -148,7 +193,7 @@ void Game::initUI()
         "Quit", sf::Color(190, 15, 15), sf::Color(220, 20, 20)
     });
 
-    // Space station menu buttons
+    // Define space station menu buttons
 
     stationMenuButtons.addButton("upgrades", {
         sf::Vector2f(128, 208), sf::Vector2f(820, 100),
@@ -185,9 +230,7 @@ void Game::initUI()
         "Return to space", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
-    // Space station upgrade buttons
-
-    // Space station market buttons
+    // Define space station market buttons
 
     stationMarketButtons.addButton("sell1", {
         sf::Vector2f(400, 200), sf::Vector2f(100, 50),
@@ -216,7 +259,7 @@ void Game::initUI()
 
     stationMarketButtons.generalData["sellAmount"] = 0;
 
-    // Space station mission buttons
+    // Define space station mission buttons
 
     stationMissionButtons.addButton("mission1", {
         sf::Vector2f(80, 330), sf::Vector2f(450, 140),
@@ -236,7 +279,7 @@ void Game::initUI()
         50
     });
 
-    // Space station level buttons
+    // Define space station level buttons
 
     stationLevelButtons.addButton("levelUp", {
         sf::Vector2f(200, 800), sf::Vector2f(200, 70),
