@@ -1,12 +1,17 @@
+// PlanetAsteroidDrops.hpp
+
 #ifndef PLANET_ASTEROID_DROPS_HPP
 #define PLANET_ASTEROID_DROPS_HPP
 
+// Include libraries
 #include <unordered_map>
 #include <vector>
 
+// Include headers
 #include "Objects/ItemPickupType.hpp"
 #include "Renderer/PlanetRenderer.hpp"
 
+// Constant map containing each planet type, mapped to a vector containing all possible asteroid item drops and their probabilities
 static const std::unordered_map<PlanetType, std::vector<std::pair<ItemPickupType, float>>> asteroidDropRates =
 {
     {PlanetType::Mercury, {{ItemPickupType::CopperChunk, 0.2}, {ItemPickupType::CopperBar, 0.3}, {ItemPickupType::IronChunk, 0.2}, {ItemPickupType::IronBar, 0.3}}},

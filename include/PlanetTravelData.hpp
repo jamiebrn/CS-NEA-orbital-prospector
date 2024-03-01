@@ -1,11 +1,16 @@
+// PlanetTravelData.hpp
+
 #ifndef PLANET_TRAVEL_DATA_HPP
 #define PLANET_TRAVEL_DATA_HPP
 
+// Include libraries
 #include <map>
 
+// Include headers
 #include "Manager/UpgradeManager.hpp"
 #include "Renderer/PlanetRenderer.hpp"
 
+// Struct containing the requirements to travel to a planet
 struct PlanetTravelData
 {
     PlanetType planetType;
@@ -13,6 +18,7 @@ struct PlanetTravelData
     PlanetType prerequisitePlanet = PlanetType::NONE;
 };
 
+// Constant map storing the name of a planet, mapped to its planet travel data
 static const std::map<std::string, PlanetTravelData> planetTravelDataMap = {
     {"Moon", {PlanetType::Moon, UpgradeType::PrototypeEngine, PlanetType::Earth}},
     {"Mercury", {PlanetType::Mercury, UpgradeType::ShipCoolingSystem}},

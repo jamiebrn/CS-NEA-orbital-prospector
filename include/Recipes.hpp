@@ -1,15 +1,21 @@
+// Recipes.hpp
+
 #ifndef RECIPES_HPP
 #define RECIPES_HPP
 
+// Include libraries
 #include <map>
 #include <vector>
 
+// Include headers
 #include "Objects/ItemPickupType.hpp"
 #include "Manager/UpgradeManager.hpp"
 
+// Namespace recipes, containing all recipe data
 namespace Recipes
 {
 
+// Struct containing all data related to a smelting recipe
 struct SmeltData
 {
     ItemPickupType product;
@@ -17,6 +23,7 @@ struct SmeltData
     int requiredCoins;
 };
 
+// Struct containing all data related to an upgrade recipe
 struct UpgradeData
 {
     std::map<ItemPickupType, int> requiredItems;
@@ -26,6 +33,7 @@ struct UpgradeData
     UpgradeType prerequisiteUpgrade = UpgradeType::NONE;
 };
 
+// Constant map, mapping an item type to its smelting recipe
 inline const std::vector<SmeltData> smelting =
 {
     {ItemPickupType::CopperBar, {{ItemPickupType::CopperChunk, 2}}, 1},
@@ -35,6 +43,7 @@ inline const std::vector<SmeltData> smelting =
     {ItemPickupType::AluminiumBar, {{ItemPickupType::AluminiumChunk, 2}}, 9}    
 };
 
+// Constant vector, contaning all upgrade recipe data
 inline const std::vector<UpgradeData> upgrades =
 {
     {{{ItemPickupType::CopperBar, 9}, {ItemPickupType::IronBar, 6}}, 60, UpgradeType::PrototypeEngine},
