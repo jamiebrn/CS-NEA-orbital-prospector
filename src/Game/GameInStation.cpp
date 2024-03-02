@@ -72,7 +72,7 @@ void Game::inStationLoop(float deltaTime)
         inStationForgeSubloop(mousePosition, leftMousePressed);
         break;
     
-    case StationMenuState::Missons:
+    case StationMenuState::Missions:
         inStationMissionsSubloop(mousePosition, leftMousePressed);
         break;
     
@@ -135,7 +135,7 @@ void Game::inStationMainSubloop(sf::Vector2f mousePos, bool leftMousePressed)
             }
 
             // Switch state to space station missions state
-            stationMenuState = StationMenuState::Missons;
+            stationMenuState = StationMenuState::Missions;
         }
         // If level button is pressed, switch to level state
         else if (stationMenuButtons.isButtonPressed("level"))

@@ -58,7 +58,7 @@ enum class StationMenuState
     Upgrades,
     Market,
     Forge,
-    Missons,
+    Missions,
     Level,
     Travel
 };
