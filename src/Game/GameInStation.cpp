@@ -361,13 +361,14 @@ void Game::inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed)
 
         // Get amount of items to sell based on amount of item player has and
         // percentage of items to sell
-        int itemCount = std::max(1, static_cast<int>(InventoryManager::getItemCount(itemType) * (static_cast<float>(stationMarketButtons.generalData["sellAmount"]) / 100)));
-        if (stationMarketButtons.generalData["sellAmount"] == 0) itemCount = 1;
+        int sellItemCount = std::max(1, static_cast<int>(InventoryManager::getItemCount(itemType) * (static_cast<float>(stationMarketButtons.generalData["sellAmount"]) / 100)));
+        // If sell amount is set to 0, only sell 1 item
+        if (stationMarketButtons.generalData["sellAmount"] == 0) sellItemCount = 1;
 
         // Add item as a requirement for trade
-        tradeItemBar.addRequiredItems(itemType, itemCount);
+        tradeItemBar.addRequiredItems(itemType, sellItemCount);
         // Set amount of coins item will sell for
-        tradeItemBar.setOfferCoins(InventoryManager::itemPrice(itemType) * itemCount);
+        tradeItemBar.setOfferCoins(InventoryManager::itemPrice(itemType) * sellItemCount);
 
         // Set position of trade item bar and update it
         tradeItemBar.setPosition(sf::Vector2f(400, 300 + yOffset));

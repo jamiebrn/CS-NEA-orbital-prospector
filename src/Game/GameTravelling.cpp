@@ -17,6 +17,7 @@ void Game::travellingLoop(float deltaTime)
 
     // Draw travelling progress
     TextRenderer::drawText(window, {
+        // Calculate string using planet name (from enum), and percentage travel time completed
         "Travelling to \"" + static_cast<std::string>(magic_enum::enum_name(currentPlanet)) + 
         "\" (" + std::to_string(std::min(static_cast<int>(((TRAVEL_TIME - travelTime) / TRAVEL_TIME) * 100), 100)) + "%)",
         sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2),
