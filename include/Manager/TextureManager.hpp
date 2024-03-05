@@ -70,7 +70,8 @@ enum class TextureType
     SymbolEnemyMarker,
 
     SpaceStationMenuBackground,
-    SpaceStationSubmenuBackground
+    SpaceStationSubmenuBackground,
+    RecipeSheet
 };
 
 // Struct containing data required to draw texture

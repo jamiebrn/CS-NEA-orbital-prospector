@@ -136,6 +136,8 @@ bool Game::initialise()
 
     // Initialise pause variable to false
     paused = false;
+    // Initialise showing recipes variable to false
+    showingRecipes = false;
 
     // Initialise load data error to false
     loadDataError = false;
@@ -179,17 +181,22 @@ void Game::initUI()
     // Define pause menu buttons
 
     pauseMenuButtons.addButton("resume", {
-        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 400), sf::Vector2f(200, 70),
+        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 350), sf::Vector2f(200, 70),
         "Resume", sf::Color(43, 46, 212), sf::Color(53, 56, 222)
     });
 
     pauseMenuButtons.addButton("save", {
-        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 500), sf::Vector2f(200, 70),
+        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 450), sf::Vector2f(200, 70),
         "Save", sf::Color(245, 175, 15), sf::Color(250, 185, 25)
     });
 
+    pauseMenuButtons.addButton("recipes", {
+        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 550), sf::Vector2f(200, 70),
+        "Recipes", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
+    });
+
     pauseMenuButtons.addButton("quit", {
-        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 600), sf::Vector2f(200, 70),
+        sf::Vector2f(WINDOW_WIDTH / 2 - 100, 650), sf::Vector2f(200, 70),
         "Quit", sf::Color(190, 15, 15), sf::Color(220, 20, 20)
     });
 

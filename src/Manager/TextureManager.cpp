@@ -86,7 +86,8 @@ const std::unordered_map<TextureType, std::string> TextureManager::texturePaths 
     {TextureType::SymbolEnemyMarker, "UI/EnemyMarkerSymbol.png"},
 
     {TextureType::SpaceStationMenuBackground, "UI/SpaceStationBackground.png"},
-    {TextureType::SpaceStationSubmenuBackground, "UI/SpaceStationSubmenuBackground.png"}
+    {TextureType::SpaceStationSubmenuBackground, "UI/SpaceStationSubmenuBackground.png"},
+    {TextureType::RecipeSheet, "UI/RecipeSheet.png"}
 };
 
 // Loads all textures from paths specified into texture map

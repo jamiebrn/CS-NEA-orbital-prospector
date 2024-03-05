@@ -56,7 +56,7 @@ inline const std::vector<UpgradeData> upgrades =
 
     {{{ItemPickupType::CopperBar, 5}, {ItemPickupType::IronBar, 2}}, 40, UpgradeType::SpeedIncrease},
     {{{ItemPickupType::IronBar, 4}, {ItemPickupType::TungstenBar, 2}}, 50, UpgradeType::DamageIncrease},
-    {{{ItemPickupType::CopperBar, 3}, {ItemPickupType::CopperBar, 2}}, 45, UpgradeType::HealthIncrease}
+    {{{ItemPickupType::CopronBar, 3}, {ItemPickupType::CopperBar, 2}}, 45, UpgradeType::HealthIncrease}
 };
 
 }

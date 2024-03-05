@@ -31,8 +31,15 @@ void Game::inSpaceLoop(float deltaTime)
             // If key press is escape key, toggle pause menu
             if (event.key.code == sf::Keyboard::Escape)
             {
-                paused = !paused;
-                pauseMenuButtons.setButtonText("save", "Save");
+                if (showingRecipes)
+                {
+                    showingRecipes = false;
+                }
+                else
+                {
+                    paused = !paused;
+                    pauseMenuButtons.setButtonText("save", "Save");
+                }
             }
 
             // If key press is E key
@@ -82,6 +89,11 @@ void Game::inSpaceLoop(float deltaTime)
             saveData();
             // Set save button text to "Saved!"
             pauseMenuButtons.setButtonText("save", "Saved!");
+        }
+        // If recipe button is pressed, show recipe sheet
+        else if (pauseMenuButtons.isButtonPressed("recipes"))
+        {
+            showingRecipes = true;
         }
         // If quit button is pressed, transition to main menu state
         else if (pauseMenuButtons.isButtonPressed("quit"))
@@ -148,10 +160,11 @@ void Game::inSpaceLoop(float deltaTime)
         // Update camera with player ship position
         Camera::update(playerShip.getPosition(), deltaTime);
     }
-    // If paused, update pause menu buttons
+    // If paused and not showing recipes, update pause menu buttons
     else
     {
-        pauseMenuButtons.update(mousePosition);
+        if (!showingRecipes)
+            pauseMenuButtons.update(mousePosition);
     }
 
 
@@ -253,14 +266,34 @@ void Game::inSpaceLoop(float deltaTime)
     if (paused)
     {
         // Draw pause background
-        sf::RectangleShape background(sf::Vector2f(300, 400));
-        background.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 150, WINDOW_HEIGHT / 2 - 200));
+        sf::RectangleShape background(sf::Vector2f(300, 500));
+        background.setPosition(sf::Vector2f(WINDOW_WIDTH / 2 - 150, WINDOW_HEIGHT / 2 - 250));
         background.setFillColor(sf::Color(20, 20, 20, 150));
 
         window.draw(background);
 
         // Draw pause menu buttons
         pauseMenuButtons.draw(window);
+
+        if (showingRecipes)
+        {
+            // Draw darken background
+            sf::RectangleShape background(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+            background.setPosition(sf::Vector2f(0, 0));
+            background.setFillColor(sf::Color(20, 20, 20, 150));
+
+            window.draw(background);
+
+            // Create draw data for recipe sheet
+            TextureDrawData recipeDrawData = {
+                TextureType::RecipeSheet,
+                sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2),
+                sf::degrees(0),
+                1
+            };
+
+            TextureManager::drawTexture(window, recipeDrawData);
+        }
     }
 
 }

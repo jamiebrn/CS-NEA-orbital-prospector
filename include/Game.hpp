@@ -220,6 +220,8 @@ private:
     bool showUIRing;
     // Variable storing whether the game is paused or not
     bool paused;
+    // Variable storing whether the game is displaying the recipe sheet
+    bool showingRecipes;
 
     // Variable storing whether an error has occured when attempting the load save data
     bool loadDataError;
