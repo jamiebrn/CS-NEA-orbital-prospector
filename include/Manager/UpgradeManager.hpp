@@ -45,6 +45,9 @@ public:
     // Unlock a specific upgrade
     static void unlockUpgrade(UpgradeType upgrade);
 
+    // Get the current best engine upgrade
+    static UpgradeType getBestEngineUpgrade();
+
     // Delete all upgrades
     static inline void reset() {upgrades.clear();}
 

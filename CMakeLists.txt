@@ -47,12 +47,6 @@ if(WIN32)
         VERBATIM)
 endif()
 
-#file(ARCHIVE_CREATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/data.bin
- #   PATHS ${CMAKE_CURRENT_SOURCE_DIR}/dev_resources/Data
- #   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dev_resources/Data
- #   FORMAT zip
-#)
-
 ADD_CUSTOM_COMMAND(
     TARGET OrbitalProspector
     PRE_BUILD

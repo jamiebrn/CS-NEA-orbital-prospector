@@ -50,7 +50,7 @@ void Game::inStationLoop(float deltaTime)
     }
 
     // Clear window
-    window.clear();
+    window.clear(sf::Color(251, 185, 84));
 
     // Switch update loop depending on the current space station UI state
     switch (stationMenuState)
@@ -168,6 +168,74 @@ void Game::inStationMainSubloop(sf::Vector2f mousePos, bool leftMousePressed)
     };
 
     TextureManager::drawTexture(window, backgroundData);
+
+    // Draw player ship upgrade status
+
+    // Draw engine upgrades
+    TextDrawData textData = {
+        "Engine upgrades:",
+        sf::Vector2f(1140, 250),
+        sf::Color(255, 255, 255),
+        48,
+        sf::Color(0, 0, 0),
+        4
+    };
+
+    TextRenderer::drawText(window, textData);
+
+    // Get the best engine upgrade
+    UpgradeType bestEngineUpgrade = UpgradeManager::getBestEngineUpgrade();
+    if (bestEngineUpgrade != UpgradeType::NONE)
+    {
+        TextureDrawData engineDrawData = {
+            upgradeTextureMap.at(bestEngineUpgrade),
+            sf::Vector2f(1600, 250),
+            sf::degrees(0),
+            6,
+            false
+        };
+
+        TextureManager::drawTexture(window, engineDrawData);
+    }
+
+    // Draw the ship cooling system upgrade if the player has unlocked it
+    if (UpgradeManager::hasUpgrade(UpgradeType::ShipCoolingSystem))
+    {
+        TextureDrawData upgradeDrawData = {
+            upgradeTextureMap.at(UpgradeType::ShipCoolingSystem),
+            sf::Vector2f(1700, 250),
+            sf::degrees(0),
+            6,
+            false
+        };
+
+        TextureManager::drawTexture(window, upgradeDrawData);
+    }
+
+    // Display current damage amount
+    textData = {
+        "Damage: " + std::to_string(UpgradeManager::getDamageAmount()),
+        sf::Vector2f(1140, 450),
+        sf::Color(255, 255, 255),
+        48,
+        sf::Color(0, 0, 0),
+        4
+    };
+
+    TextRenderer::drawText(window, textData);
+
+    // Display current speed value
+    textData = {
+        "Speed: " + std::to_string(UpgradeManager::getSpeedAmount()),
+        sf::Vector2f(1140, 650),
+        sf::Color(255, 255, 255),
+        48,
+        sf::Color(0, 0, 0),
+        4
+    };
+
+    TextRenderer::drawText(window, textData);
+
 
     // Draw buttons
     stationMenuButtons.draw(window);

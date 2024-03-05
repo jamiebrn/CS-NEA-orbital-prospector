@@ -50,3 +50,18 @@ void UpgradeManager::unlockUpgrade(UpgradeType upgrade)
             break;
     }
 }
+
+// Get the current best engine upgrade
+UpgradeType UpgradeManager::getBestEngineUpgrade()
+{
+    // Slightly messy code, but only a few cases so not worth making a separate system for
+    // Implementation such as using an array with descending order of engine "value" and iterating over it would use more memory and is less readable
+    if (hasUpgrade(UpgradeType::UltimateInterplanetaryEngine)) return UpgradeType::UltimateInterplanetaryEngine;
+    if (hasUpgrade(UpgradeType::InterplanetaryEngine3)) return UpgradeType::InterplanetaryEngine3;
+    if (hasUpgrade(UpgradeType::InterplanetaryEngine2)) return UpgradeType::InterplanetaryEngine2;
+    if (hasUpgrade(UpgradeType::InterplanetaryEngine)) return UpgradeType::InterplanetaryEngine;
+    if (hasUpgrade(UpgradeType::PrototypeEngine)) return UpgradeType::PrototypeEngine;
+ 
+    // When no engine upgrade has been unlocked
+    return UpgradeType::NONE;
+}
