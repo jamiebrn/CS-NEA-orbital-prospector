@@ -124,7 +124,10 @@ void Game::newGame()
     // Reset player ship stats
     playerShip.setPosition(sf::Vector2f(5000, 5000));
     playerShip.setHealth(STARTING_MAX_HEALTH);
-    playerShip.setMaxHealth(STARTING_MAX_HEALTH);
+
+    UpgradeManager::setSpeedAmount(1.0f);
+    UpgradeManager::setDamageAmount(1.0f);
+    UpgradeManager::setHealthAmount(STARTING_MAX_HEALTH);
 
     // Reset camera position
     Camera::setOffset(sf::Vector2f(4500, 4000));

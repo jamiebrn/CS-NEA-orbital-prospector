@@ -10,6 +10,7 @@
 
 // Include headers
 #include "Manager/TextureManager.hpp"
+#include "Constants.hpp"
 
 // Enum containing all upgrades
 enum class UpgradeType
@@ -50,10 +51,23 @@ public:
     // Get a reference to the upgrades vector
     static inline const std::vector<UpgradeType>& getUpgrades() {return upgrades;}
 
+    // Get and set functions for player ship upgrade data
+    static inline float getSpeedAmount() {return speedAmount;}
+    static inline float getDamageAmount() {return damageAmount;}
+    static inline int getHealthAmount() {return healthAmount;}
+    static inline void setSpeedAmount(float amount) {speedAmount = amount;}
+    static inline void setDamageAmount(float amount) {damageAmount = amount;}
+    static inline void setHealthAmount(int amount) {healthAmount = amount;}
+
 // Private member variables
 private:
     // Vector containing all unlocked upgrades
     static std::vector<UpgradeType> upgrades;
+
+    // Variables storing player ship upgrade data
+    static float speedAmount;
+    static float damageAmount;
+    static int healthAmount;
 
 };
 
@@ -66,7 +80,11 @@ inline const std::unordered_map<UpgradeType, TextureType> upgradeTextureMap =
     {UpgradeType::InterplanetaryEngine3, TextureType::InterplanetaryEngine3},
     {UpgradeType::UltimateInterplanetaryEngine, TextureType::UltimateInterplanetaryEngine},
 
-    {UpgradeType::ShipCoolingSystem, TextureType::ShipCoolingSystem}
+    {UpgradeType::ShipCoolingSystem, TextureType::ShipCoolingSystem},
+
+    {UpgradeType::SpeedIncrease, TextureType::SpeedIncrease},
+    {UpgradeType::DamageIncrease, TextureType::DamageIncrease},
+    {UpgradeType::HealthIncrease, TextureType::HealthIncrease}
 };
 
 #endif

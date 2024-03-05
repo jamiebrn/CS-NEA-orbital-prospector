@@ -13,6 +13,7 @@
 #include "Camera.hpp"
 #include "Manager/TextureManager.hpp"
 #include "Manager/ItemPickupManager.hpp"
+#include "Manager/UpgradeManager.hpp"
 #include "Manager/SoundManager.hpp"
 #include "Manager/BulletManager.hpp"
 #include "Objects/ItemPickupType.hpp"
@@ -75,7 +76,7 @@ public:
 // Private class functions
 private:
     // Damage asteroid by amount
-    void damage(int amount);
+    void damage(float amount);
 
     // Draw asteroid in standard alive state
     void drawAsteroid(sf::RenderWindow& window);
@@ -115,7 +116,7 @@ private:
     float flashTime;
 
     // Variable storing health remaining
-    int health;
+    float health;
 
     // Variable storing whether the asteroid is current exploding or not
     bool exploding;

@@ -78,6 +78,9 @@ const std::unordered_map<TextureType, std::string> TextureManager::texturePaths 
     {TextureType::InterplanetaryEngine3, "Upgrades/InterplanetaryEngine3.png"},
     {TextureType::UltimateInterplanetaryEngine, "Upgrades/UltimateInterplanetaryEngine.png"},
     {TextureType::ShipCoolingSystem, "Upgrades/CoolingSystem.png"},
+    {TextureType::SpeedIncrease, "Upgrades/SpeedIncrease.png"},
+    {TextureType::DamageIncrease, "Upgrades/DamageIncrease.png"},
+    {TextureType::HealthIncrease, "Upgrades/HealthIncrease.png"},
 
     {TextureType::SymbolSpaceStation, "UI/SpaceStationSymbol.png"},
     {TextureType::SymbolEnemyMarker, "UI/EnemyMarkerSymbol.png"},

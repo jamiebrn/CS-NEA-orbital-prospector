@@ -62,6 +62,9 @@ enum class TextureType
     InterplanetaryEngine3,
     UltimateInterplanetaryEngine,
     ShipCoolingSystem,
+    SpeedIncrease,
+    DamageIncrease,
+    HealthIncrease,
 
     SymbolSpaceStation,
     SymbolEnemyMarker,

@@ -47,8 +47,8 @@ void Asteroid::update(PlanetType currentPlanet, float deltaTime)
             // Test collision with bullet
             if (isColliding(bulletPos))
             {
-                // If colliding, damage asteroid by 1
-                damage(1);
+                // If colliding, damage asteroid by player ship damage amount
+                damage(UpgradeManager::getDamageAmount());
                 // Kill the bullet
                 bullet.kill();
             }
@@ -176,7 +176,7 @@ bool Asteroid::isColliding(sf::Vector2f bulletTip)
 }
 
 // Damage asteroid by amount
-void Asteroid::damage(int amount)
+void Asteroid::damage(float amount)
 {
     // Set flash time value to maximum flash time, as asteroid has just been damaged
     flashTime = FLASH_TIME;

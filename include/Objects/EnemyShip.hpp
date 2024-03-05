@@ -16,6 +16,7 @@
 #include "Helper.hpp"
 #include "Manager/TextureManager.hpp"
 #include "Manager/InventoryManager.hpp"
+#include "Manager/UpgradeManager.hpp"
 #include "Manager/ItemPickupManager.hpp"
 #include "Manager/BulletManager.hpp"
 #include "Manager/SoundManager.hpp"
@@ -118,7 +119,7 @@ private:
     void randomisePatrolTarget();
 
     // Damage enemy ship by amount
-    void damage(int amount, const PlayerShip& playerShip);
+    void damage(float amount, const PlayerShip& playerShip);
 
     // Shoot bullet
     void shoot();

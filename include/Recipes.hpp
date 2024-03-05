@@ -43,7 +43,7 @@ inline const std::vector<SmeltData> smelting =
     {ItemPickupType::AluminiumBar, {{ItemPickupType::AluminiumChunk, 2}}, 9}
 };
 
-// Constant vector, contaning all upgrade recipe data
+// Constant vector, containing all upgrade recipe data
 inline const std::vector<UpgradeData> upgrades =
 {
     {{{ItemPickupType::CopperBar, 3}, {ItemPickupType::IronBar, 2}}, 30, UpgradeType::PrototypeEngine},
@@ -52,7 +52,11 @@ inline const std::vector<UpgradeData> upgrades =
     {{{ItemPickupType::TungstenBar, 4}, {ItemPickupType::AluminiumBar, 3}}, 110, UpgradeType::InterplanetaryEngine3, UpgradeType::InterplanetaryEngine2},
     {{{ItemPickupType::TungstenBar, 6}, {ItemPickupType::AluminiumBar, 5}, {ItemPickupType::CopronBar, 4}}, 150, UpgradeType::UltimateInterplanetaryEngine, UpgradeType::InterplanetaryEngine3},
 
-    {{{ItemPickupType::CopperBar, 7}, {ItemPickupType::IronBar, 5}}, 70, UpgradeType::ShipCoolingSystem}
+    {{{ItemPickupType::CopperBar, 7}, {ItemPickupType::IronBar, 5}}, 70, UpgradeType::ShipCoolingSystem},
+
+    {{{ItemPickupType::CopperBar, 5}, {ItemPickupType::IronBar, 2}}, 40, UpgradeType::SpeedIncrease},
+    {{{ItemPickupType::IronBar, 4}, {ItemPickupType::TungstenBar, 2}}, 50, UpgradeType::DamageIncrease},
+    {{{ItemPickupType::CopperBar, 3}, {ItemPickupType::CopperBar, 2}}, 45, UpgradeType::HealthIncrease}
 };
 
 }

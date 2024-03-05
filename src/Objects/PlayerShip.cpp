@@ -12,9 +12,8 @@ PlayerShip::PlayerShip(sf::Vector2f position)
     velocity = sf::Vector2f(0, 0);
     direction = 0;
 
-    // Initialise health
-    maxHealth = STARTING_MAX_HEALTH;
-    health = maxHealth;
+    // Initialise health to max
+    health = UpgradeManager::getHealthAmount();
 
     // Initialise shooting variables
     shootCooldown = 0;
@@ -59,8 +58,8 @@ void PlayerShip::update(float deltaTime, sf::Vector2f mouse_position)
         directionVector = directionVector.rotatedBy(sf::radians(direction));
 
         // Accelerate towards max velocity
-        velocity.x = Helper::lerp(velocity.x, directionVector.x * MAX_VELOCITY, ACCELERATION * deltaTime);
-        velocity.y = Helper::lerp(velocity.y, directionVector.y * MAX_VELOCITY, ACCELERATION * deltaTime);
+        velocity.x = Helper::lerp(velocity.x, directionVector.x * MAX_VELOCITY * UpgradeManager::getSpeedAmount(), ACCELERATION * deltaTime);
+        velocity.y = Helper::lerp(velocity.y, directionVector.y * MAX_VELOCITY * UpgradeManager::getSpeedAmount(), ACCELERATION * deltaTime);
 
         // Set engine active to true, as ship is accelerating
         engineActive = true;
@@ -81,6 +80,9 @@ void PlayerShip::update(float deltaTime, sf::Vector2f mouse_position)
     {
         // Update position using calculated velocity
         position += velocity * deltaTime;
+
+        // Regenerate health if required
+        health = std::min(health + deltaTime, static_cast<float>(UpgradeManager::getHealthAmount()));
 
         // Enemy bullet collision
         // Iterate over all enemy bullets and check for collision
@@ -172,8 +174,8 @@ void PlayerShip::respawn()
 {
     // Reset position
     position = sf::Vector2f(5000, 5000);
-    // Reset health
-    health = maxHealth;
+    // Reset health to max
+    health = UpgradeManager::getHealthAmount();
 }
 
 // Damage player ship by amount

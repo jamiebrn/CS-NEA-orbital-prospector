@@ -192,7 +192,10 @@ LoadDataSuccess Game::loadData()
         // Set player ship data from save file
         playerShip.setPosition(sf::Vector2f(saveData.at("pos").at("x"), saveData.at("pos").at("y")));
         playerShip.setHealth(saveData.at("health"));
-        playerShip.setMaxHealth(saveData.at("maxHealth"));
+        // Player ship upgrades
+        UpgradeManager::setSpeedAmount(saveData.at("speed"));
+        UpgradeManager::setDamageAmount(saveData.at("damage"));
+        UpgradeManager::setHealthAmount(saveData.at("maxHealth"));
 
         // Set camera offset from save file
         Camera::setOffset(sf::Vector2f(saveData.at("cam").at("x"), saveData.at("cam").at("y")));
@@ -244,7 +247,10 @@ void Game::saveData()
 	saveData["pos"]["x"] = playerShip.getPosition().x;
 	saveData["pos"]["y"] = playerShip.getPosition().y;
     saveData["health"] = playerShip.getHealth();
-    saveData["maxHealth"] = playerShip.getMaxHealth();
+    // Upgrades
+    saveData["speed"] = UpgradeManager::getSpeedAmount();
+    saveData["damage"] = UpgradeManager::getDamageAmount();
+    saveData["maxHealth"] = UpgradeManager::getHealthAmount();
 
     // Store camera offset in json object
     saveData["cam"]["x"] = -Camera::getDrawOffset().x;

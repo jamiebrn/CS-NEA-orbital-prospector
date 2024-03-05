@@ -17,6 +17,7 @@
 #include "Manager/BulletManager.hpp"
 #include "Manager/ItemPickupManager.hpp"
 #include "Manager/InventoryManager.hpp"
+#include "Manager/UpgradeManager.hpp"
 #include "Manager/MissionManager.hpp"
 #include "Manager/SoundManager.hpp"
 
@@ -44,17 +45,11 @@ public:
     // Get player ship position
     sf::Vector2f getPosition() const;
 
-    // Get player shipmax health
-    inline int getMaxHealth() const {return maxHealth;}
-
     // Get player ship health
-    inline int getHealth() const {return health;}
-
-    // Set player ship max health
-    inline void setMaxHealth(int health) {maxHealth = health;}
+    inline float getHealth() const {return health;}
 
     // Set player ship health
-    inline void setHealth(int health) {this->health = health;}
+    inline void setHealth(float health) {this->health = health;}
 
     // Returns whether player ship is alive
     inline bool isAlive() const {return health > 0;}
@@ -104,8 +99,7 @@ private:
     float direction;
 
     // Variables storing player ship health data
-    int maxHealth;
-    int health;
+    float health;
 
     // Variable storing time until player can respawn
     float respawnCount;

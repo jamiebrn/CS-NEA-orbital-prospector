@@ -135,8 +135,8 @@ void Game::inSpaceLoop(float deltaTime)
         UIRingManager::update(spaceStationPos, EnemyShipManager::getShips());
 
         // Update player health bar with data
-        playerHealthBar.setMaxValue(playerShip.getMaxHealth());
-        playerHealthBar.setWidth(playerShip.getMaxHealth() * 9);
+        playerHealthBar.setMaxValue(UpgradeManager::getHealthAmount());
+        playerHealthBar.setWidth(UpgradeManager::getHealthAmount() * 9);
         playerHealthBar.updateValue(playerShip.getHealth());
         playerHealthBar.update(deltaTime);
 
@@ -197,7 +197,7 @@ void Game::inSpaceLoop(float deltaTime)
         playerHealthBar.draw(window);
 
         // Draw text on player health bar, showing remaining health
-        std::string text = std::to_string(playerShip.getHealth()) + " / " + std::to_string(playerShip.getMaxHealth()) + " HP";
+        std::string text = std::to_string(static_cast<int>(playerShip.getHealth())) + " / " + std::to_string(UpgradeManager::getHealthAmount()) + " HP";
         TextRenderer::drawText(window, {
             text, sf::Vector2f(50, 55),
             sf::Color(255, 255, 255), 32, sf::Color(0, 0, 0), 3,

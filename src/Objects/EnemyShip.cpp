@@ -143,8 +143,8 @@ void EnemyShip::update(const PlayerShip& playerShip, const std::vector<EnemyShip
             // If bullet is colliding with enemy ship
             if (isBulletColliding(bulletPos))
             {
-                // Damage enemy ship
-                damage(1, playerShip);
+                // Damage enemy ship by player ship upgraded damage amount
+                damage(UpgradeManager::getDamageAmount(), playerShip);
                 // Destroy bullet
                 bullet.kill();
             }
@@ -489,7 +489,7 @@ void EnemyShip::shoot()
 }
 
 // Damage enemy ship by amount
-void EnemyShip::damage(int amount, const PlayerShip& playerShip)
+void EnemyShip::damage(float amount, const PlayerShip& playerShip)
 {
     // If ship is not alive, do not attempt to damage it
     if (!isAlive())
