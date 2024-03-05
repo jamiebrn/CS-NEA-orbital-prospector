@@ -21,8 +21,8 @@ static const std::unordered_map<PlanetType, std::vector<std::pair<ItemPickupType
     {PlanetType::Mars, {{ItemPickupType::Rock, 0.2}, {ItemPickupType::CopperChunk, 0.3}, {ItemPickupType::IronChunk, 0.3}, {ItemPickupType::TungstenChunk, 0.2}}},
     {PlanetType::Jupiter, {{ItemPickupType::CopperChunk, 0.2}, {ItemPickupType::IronChunk, 0.2}, {ItemPickupType::TungstenChunk, 0.3}, {ItemPickupType::AluminiumChunk, 0.3}}},
     {PlanetType::Saturn, {{ItemPickupType::Rock, 0.3}, {ItemPickupType::TungstenChunk, 0.3}, {ItemPickupType::IronChunk, 0.4}}},
-    {PlanetType::Uranus, {{ItemPickupType::Rock, 0.3}, {ItemPickupType::CopperChunk, 0.3}, {ItemPickupType::IronChunk, 0.2}}},
-    {PlanetType::Neptune, {{ItemPickupType::Rock, 0.3}, {ItemPickupType::CopperChunk, 0.3}, {ItemPickupType::IronChunk, 0.2}}}
+    {PlanetType::Uranus, {{ItemPickupType::Rock, 0.2}, {ItemPickupType::TungstenChunk, 0.4}, {ItemPickupType::AluminiumChunk, 0.4}}},
+    {PlanetType::Neptune, {{ItemPickupType::TungstenChunk, 0.5}, {ItemPickupType::AluminiumChunk, 0.5}}}
 };
 
 #endif

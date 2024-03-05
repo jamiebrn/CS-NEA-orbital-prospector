@@ -21,6 +21,10 @@ enum class UpgradeType
     InterplanetaryEngine3,
     UltimateInterplanetaryEngine,
 
+    SpeedIncrease,
+    DamageIncrease,
+    HealthIncrease,
+
     NONE
 };
 
