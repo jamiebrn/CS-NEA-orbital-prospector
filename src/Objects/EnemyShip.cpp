@@ -220,7 +220,7 @@ void EnemyShip::updatePatrol(const PlayerShip& playerShip, float deltaTime)
 
     // Calculate rotation of enemy ship to face towards patrol target
     sf::Angle destRotation = (position - patrolTarget).angle();
-    // Update rotation to point towards calulcated rotation
+    // Update rotation to point towards calculated rotation
     rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * deltaTime);
 
     // Calculate velocity based on speed and rotation
@@ -270,7 +270,7 @@ void EnemyShip::updateTargetItem(const PlayerShip& playerShip, float deltaTime)
 
     // Calculate rotation of enemy ship to face towards patrol target
     sf::Angle destRotation = (position - patrolTarget).angle();
-    // Update rotation to point towards calulcated rotation
+    // Update rotation to point towards calculated rotation
     rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * deltaTime);
 
     // Calculate velocity based on speed and rotation
@@ -313,9 +313,9 @@ void EnemyShip::updateTargetPlayer(const PlayerShip& playerShip, float deltaTime
     
     // Target player state updating
     
-    // Calculate rotation of enemy ship to face towards patrol target
+    // Calculate rotation of enemy ship to face towards player ship
     sf::Angle destRotation = (position - playerShip.getPosition()).angle();
-    // Update rotation to point towards calulcated rotation
+    // Update rotation to point towards calculated rotation
     rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * deltaTime);
 
     // Calculate velocity based on speed and rotation
@@ -343,10 +343,10 @@ void EnemyShip::updateAttackPlayer(const PlayerShip& playerShip, float deltaTime
     
     // Attack player state updating
 
-    // Calculate rotation of enemy ship to face towards patrol target
+    // Calculate rotation of enemy ship to face towards player ship
     sf::Angle destRotation = (position - playerShip.getPosition()).angle();
-    // Update rotation to point towards calulcated rotation
-    rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * 1.2f * deltaTime);
+    // Update rotation to point towards calculated rotation
+    rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * 1.1f * deltaTime);
 
     // Calculate velocity based on speed and rotation
     velocity = sf::Vector2f(-1, 0).rotatedBy(rotation) * SPEED * 1.4f;
@@ -374,9 +374,9 @@ void EnemyShip::updateFleePlayer(const PlayerShip& playerShip, float deltaTime)
 
     // Flee player state updating
 
-    // Calculate rotation of enemy ship to face towards patrol target
+    // Calculate rotation of enemy ship to face away from player ship
     sf::Angle destRotation = (playerShip.getPosition() - position).angle();
-    // Update rotation to point towards calulcated rotation
+    // Update rotation to point towards calculated rotation
     rotation = Helper::lerpAngle(rotation, destRotation, ROTATION_LERP_WEIGHT * deltaTime);
 
     // Calculate velocity based on speed and rotation

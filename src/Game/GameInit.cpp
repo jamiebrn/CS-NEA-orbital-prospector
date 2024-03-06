@@ -222,18 +222,13 @@ void Game::initUI()
         "Missions", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
-    stationMenuButtons.addButton("level", {
-        sf::Vector2f(128, 648), sf::Vector2f(820, 100),
-        "Level", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
-    });
-
     stationMenuButtons.addButton("travel", {
-        sf::Vector2f(128, 758), sf::Vector2f(820, 100),
+        sf::Vector2f(128, 648), sf::Vector2f(820, 100),
         "Travel", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
     stationMenuButtons.addButton("return", {
-        sf::Vector2f(128, 868), sf::Vector2f(820, 100),
+        sf::Vector2f(128, 758), sf::Vector2f(820, 100),
         "Return to space", sf::Color(15, 190, 15), sf::Color(20, 220, 20)
     });
 
@@ -269,19 +264,19 @@ void Game::initUI()
     // Define space station mission buttons
 
     stationMissionButtons.addButton("mission1", {
-        sf::Vector2f(80, 330), sf::Vector2f(450, 140),
+        sf::Vector2f(180, 330), sf::Vector2f(450, 140),
         "Mission 1", sf::Color(15, 190, 15), sf::Color(20, 220, 20),
         50
     });
 
     stationMissionButtons.addButton("mission2", {
-        sf::Vector2f(80, 538), sf::Vector2f(450, 140),
+        sf::Vector2f(180, 538), sf::Vector2f(450, 140),
         "Mission 2", sf::Color(15, 190, 15), sf::Color(20, 220, 20),
         50
     });
 
     stationMissionButtons.addButton("mission3", {
-        sf::Vector2f(80, 746), sf::Vector2f(450, 140),
+        sf::Vector2f(180, 746), sf::Vector2f(450, 140),
         "Mission 3", sf::Color(15, 190, 15), sf::Color(20, 220, 20),
         50
     });

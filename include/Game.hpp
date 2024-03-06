@@ -59,7 +59,6 @@ enum class StationMenuState
     Market,
     Forge,
     Missions,
-    Level,
     Travel
 };
 
@@ -111,7 +110,6 @@ private:
     void inStationMarketSubloop(sf::Vector2f mousePos, bool leftMousePressed);
     void inStationForgeSubloop(sf::Vector2f mousePos, bool leftMousePressed);
     void inStationMissionsSubloop(sf::Vector2f mousePos, bool leftMousePressed);
-    void inStationLevelSubloop(sf::Vector2f mousePos, bool leftMousePressed);
     void inStationTravelSubloop(sf::Vector2f mousePos, bool leftMousePressed);
 
     // Game loop for travelling game state

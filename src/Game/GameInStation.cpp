@@ -76,10 +76,6 @@ void Game::inStationLoop(float deltaTime)
         inStationMissionsSubloop(mousePosition, leftMousePressed);
         break;
     
-    case StationMenuState::Level:
-        inStationLevelSubloop(mousePosition, leftMousePressed);
-        break;
-    
     case StationMenuState::Travel:
         inStationTravelSubloop(mousePosition, leftMousePressed);
         break;
@@ -136,11 +132,6 @@ void Game::inStationMainSubloop(sf::Vector2f mousePos, bool leftMousePressed)
 
             // Switch state to space station missions state
             stationMenuState = StationMenuState::Missions;
-        }
-        // If level button is pressed, switch to level state
-        else if (stationMenuButtons.isButtonPressed("level"))
-        {
-            stationMenuState = StationMenuState::Level;
         }
         // If travel button is pressed, switch to travel state
         else if (stationMenuButtons.isButtonPressed("travel"))
@@ -627,8 +618,8 @@ void Game::inStationMissionsSubloop(sf::Vector2f mousePos, bool leftMousePressed
     stationMissionButtons.update(mousePos);
 
     // Set data of accept/complete mission button
-    acceptCompleteMissionButton.setPosition(sf::Vector2f(1125, 850));
-    acceptCompleteMissionButton.setSize(sf::Vector2f(200, 70));
+    acceptCompleteMissionButton.setPosition(sf::Vector2f(1025, 820));
+    acceptCompleteMissionButton.setSize(sf::Vector2f(400, 100));
     acceptCompleteMissionButton.setText("Accept mission");
 
     // If a mission has been completed, set the text to "Complete mission"
@@ -692,12 +683,6 @@ void Game::inStationMissionsSubloop(sf::Vector2f mousePos, bool leftMousePressed
     // Draw mission buttons
     stationMissionButtons.draw(window);
 
-    // Draw border background
-    sf::RectangleShape missionBg(sf::Vector2f(1260, 800));
-    missionBg.setPosition(sf::Vector2f(595, 220));
-    missionBg.setFillColor(sf::Color(40, 40, 40, 130));
-    window.draw(missionBg);
-
     // Draw mission titles
     std::string missionTitle = "Mission Info";
     std::string missionDesc = "Select mission for more info";
@@ -738,27 +723,6 @@ void Game::inStationMissionsSubloop(sf::Vector2f mousePos, bool leftMousePressed
     if ((selectedMission != -1 && !MissionManager::hasAcceptedMission()) ||
         (MissionManager::missionCompleted() && selectedMission == MissionManager::getAcceptedMissionId()))
         acceptCompleteMissionButton.draw(window);
-}
-
-// Space station level update loop
-void Game::inStationLevelSubloop(sf::Vector2f mousePos, bool leftMousePressed)
-{
-    // Update level buttons
-    stationLevelButtons.update(mousePos);
-
-    // Draw background
-    TextureDrawData backgroundData = {
-        TextureType::SpaceStationSubmenuBackground,
-        sf::Vector2f(0, 0),
-        sf::degrees(0),
-        1,
-        false
-    };
-
-    TextureManager::drawTexture(window, backgroundData);
-
-    // Draw level buttons
-    stationLevelButtons.draw(window);
 }
 
 // Space station travel update loop

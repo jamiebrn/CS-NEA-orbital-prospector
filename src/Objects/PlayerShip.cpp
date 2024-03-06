@@ -176,6 +176,9 @@ void PlayerShip::respawn()
     position = sf::Vector2f(5000, 5000);
     // Reset health to max
     health = UpgradeManager::getHealthAmount();
+
+    // Half inventory as a consequence of dying
+    InventoryManager::halfInventoryAmount();
 }
 
 // Damage player ship by amount

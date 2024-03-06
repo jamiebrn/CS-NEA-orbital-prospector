@@ -135,7 +135,7 @@ private:
     static constexpr float SCALE = 6;
 
     // Constant storing enemy ship base speed
-    static constexpr float SPEED = 100;
+    static constexpr float SPEED = 150;
 
     // Constant storing enemy ship max health
     static constexpr int MAX_HEALTH = 20;

@@ -10,7 +10,6 @@ void Game::inSpaceLoop(float deltaTime)
     sf::Vector2i screenMousePosition = sf::Mouse::getPosition(window);
     sf::Vector2f mousePosition = window.mapPixelToCoords(screenMousePosition);
 
-
     // Event handling
 
     // Variable storing whether left mouse button was pressed, default to false
@@ -148,7 +147,7 @@ void Game::inSpaceLoop(float deltaTime)
 
         // Update player health bar with data
         playerHealthBar.setMaxValue(UpgradeManager::getHealthAmount());
-        playerHealthBar.setWidth(UpgradeManager::getHealthAmount() * 9);
+        playerHealthBar.setWidth(std::min(UpgradeManager::getHealthAmount(), 50) * 9);
         playerHealthBar.updateValue(playerShip.getHealth());
         playerHealthBar.update(deltaTime);
 
@@ -255,8 +254,19 @@ void Game::inSpaceLoop(float deltaTime)
     {
         std::string text = "You died";
         TextRenderer::drawText(window, {
-            text, sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2),
+            text, sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 200),
             sf::Color(255, 255, 255), 72, sf::Color(0, 0, 0), 4,
+            true, true
+        });
+
+        // Get half of inventory amount (amount of items lost due to death)
+        std::pair<int, int> inventoryHalf = InventoryManager::getHalfInventoryAmount();
+
+        // Draw text telling player how many items they lost
+        text = std::to_string(inventoryHalf.first) + " items and " + std::to_string(inventoryHalf.second) + " coins lost";
+        TextRenderer::drawText(window, {
+            text, sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 200),
+            sf::Color(255, 255, 255), 48, sf::Color(0, 0, 0), 4,
             true, true
         });
     }

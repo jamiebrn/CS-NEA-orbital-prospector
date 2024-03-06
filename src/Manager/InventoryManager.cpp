@@ -95,6 +95,52 @@ void InventoryManager::reset()
 
 }
 
+// Halves the player's inventory, used for when the player dies
+void InventoryManager::halfInventoryAmount()
+{
+    // Iterate over all inventory items and subtract half of item amount
+    for (auto itemPair : itemsCount)
+    {
+        // Get amount of item
+        int amount = itemPair.second;
+        // Calculate half of amount of item, rounding up
+        int halfAmount = static_cast<int>(std::ceil(static_cast<float>(amount) / 2.0f));
+        // Subtract half amount from inventory
+        itemsCount[itemPair.first] = std::max(itemsCount[itemPair.first] - halfAmount, 0);
+    }
+
+    // Calculate half of player's coins and subtract
+    silverCoins = std::max(silverCoins - static_cast<int>(std::ceil(static_cast<float>(silverCoins) / 2.0f)), 0);
+}
+
+// Returns two integers, representing half of the amount of items in the player's inventory,
+// the other representing half of the player's coins.
+std::pair<int, int> InventoryManager::getHalfInventoryAmount()
+{
+    // Create pair object storing count of half of inventory
+    std::pair<int, int> inventoryHalfAmount;
+
+    // Initialise first value (storing half amount of items) to 0
+    inventoryHalfAmount.first = 0;
+
+    // Iterate over all inventory items and add half of amount
+    for (auto itemPair : itemsCount)
+    {
+        // Get amount of item
+        int amount = itemPair.second;
+        // Calculate half of amount of item, rounding up
+        int halfAmount = static_cast<int>(std::ceil(static_cast<float>(amount) / 2.0f));
+        // Add half amount to pair object
+        inventoryHalfAmount.first += halfAmount;
+    }
+
+    // Calculate half of player's coins and store in pair object
+    inventoryHalfAmount.second = static_cast<int>(std::ceil(static_cast<float>(silverCoins) / 2.0f));
+
+    // Return pair object storing half of inventory amount
+    return inventoryHalfAmount;
+}
+
 // Initialise specific item type in inventory
 void InventoryManager::initTypeTest(ItemPickupType type)
 {

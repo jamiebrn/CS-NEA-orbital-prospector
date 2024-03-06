@@ -37,7 +37,7 @@ void UpgradeManager::unlockUpgrade(UpgradeType upgrade)
             break;
         // Add to damage modifier if damage increase upgrade
         case UpgradeType::DamageIncrease:
-            damageAmount += 0.1f;
+            damageAmount += 0.5f;
             break;
         // Add to health value if health increase upgrade
         case UpgradeType::HealthIncrease:

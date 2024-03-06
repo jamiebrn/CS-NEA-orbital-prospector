@@ -32,6 +32,13 @@ public:
     // Reset whole inventory, to contain nothing
     static void reset();
 
+    // Halves the player's inventory, used for when the player dies
+    static void halfInventoryAmount();
+
+    // Returns two integers, representing half of the amount of items in the player's inventory,
+    // the other representing half of the player's coins.
+    static std::pair<int, int> getHalfInventoryAmount();
+
     // Reset silver coins
     inline static void resetSilverCoins() {silverCoins = 0;}
 
