@@ -18,5 +18,5 @@ Build with CMake using Ninja build system
 
 #### Sounds
  - [Bfxr](https://www.bfxr.net/)
- - [Luke West - Mystery](https://www.youtube.com/watch?v=rpMvf4Gdn-4)
+ - [Luke West - The Last Frontier](https://soundcloud.com/lukewestcomposer/the-last-frontier)
  - [Arthur Vynke - A few jumps away](https://soundcloud.com/arthurvost/a-few-jumps-away)
